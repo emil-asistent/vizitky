@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Martin Kroupa – Finanční poradce</title>
+<meta name="description" content="Martin Kroupa – finanční poradce money2u v Brně. Hypotéky, investice, pojištění. Sjednejte konzultaci zdarma.">
+<meta property="og:title" content="Martin Kroupa – Finanční poradce">
+<meta property="og:description" content="Finanční poradce money2u. Bezplatná konzultace v Brně.">
+<meta property="og:url" content="https://martinkroupa.djai.cz">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0D1F3A;
+  --navy2: #162849;
+  --teal: #99C6C3;
+  --teal2: #6AAAA7;
+  --teal3: #C8E8E6;
+  --off: #F2F7F7;
+  --text: #0D1F3A;
+  --muted: rgba(13,31,58,0.52);
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { font-family:'Space Grotesk',sans-serif; background:#fff; color:var(--text); overflow-x:hidden; }
+
+/* ═══════════════ NAV ═══════════════ */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  padding:0 40px;
+  background:rgba(13,31,58,0.96);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(153,198,195,0.12);
+}
+.ni { max-width:1200px; margin:0 auto; height:66px; display:flex; align-items:center; justify-content:space-between; }
+.nl { font-family:'Space Mono',monospace; font-weight:700; font-size:16px; color:#fff; text-decoration:none; letter-spacing:-.01em; }
+.nl span { color:var(--teal); }
+.nlinks { display:flex; gap:32px; align-items:center; }
+.nlinks a { color:rgba(255,255,255,.65); font-size:14px; font-weight:500; text-decoration:none; transition:color .2s; }
+.nlinks a:hover { color:var(--teal); }
+.nbtn { background:var(--teal) !important; color:var(--navy) !important; padding:9px 22px !important; border-radius:6px !important; font-weight:700 !important; font-size:13px !important; letter-spacing:.02em !important; transition:all .2s !important; }
+.nbtn:hover { background:var(--teal3) !important; }
+.ham { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:6px; }
+.ham span { width:22px; height:2px; background:#fff; border-radius:2px; }
+.mmenu { display:none; position:fixed; inset:0; z-index:99; background:var(--navy); flex-direction:column; align-items:center; justify-content:center; gap:28px; }
+.mmenu.open { display:flex; }
+.mmenu a { font-family:'Space Mono',monospace; font-size:24px; font-weight:700; color:#fff; text-decoration:none; }
+.mmenu a:hover { color:var(--teal); }
+.mmx { position:absolute; top:24px; right:24px; background:none; border:none; color:#fff; font-size:28px; cursor:pointer; }
+
+/* ═══════════════ HERO — centered big name ═══════════════ */
+#hero {
+  min-height:100vh;
+  background:var(--navy);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  position:relative; overflow:hidden;
+  padding:100px 32px 60px;
+  text-align:center;
+}
+/* Teal radial glow */
+#hero::before {
+  content:''; position:absolute;
+  top:30%; left:50%; transform:translateX(-50%);
+  width:600px; height:600px; border-radius:50%;
+  background:radial-gradient(circle, rgba(153,198,195,.14) 0%, transparent 65%);
+  pointer-events:none;
+}
+/* Horizontal line decoration */
+#hero::after {
+  content:''; position:absolute;
+  bottom:0; left:0; right:0; height:1px;
+  background:linear-gradient(to right, transparent, var(--teal), transparent);
+}
+.hero-label {
+  font-family:'Space Mono',monospace;
+  font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--teal); margin-bottom:32px;
+  display:flex; align-items:center; gap:12px;
+}
+.hero-label::before, .hero-label::after { content:''; width:32px; height:1px; background:var(--teal); opacity:.5; }
+.hero-name {
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(56px,9vw,120px); font-weight:700;
+  color:#fff; line-height:.95; letter-spacing:-.03em;
+  margin-bottom:0;
+}
+.hero-name .last { display:block; color:var(--teal); }
+.hero-photo-wrap {
+  width:min(85vw, 320px); height:min(85vw, 320px);
+  border-radius:50%; overflow:hidden;
+  border:3px solid rgba(153,198,195,.3);
+  box-shadow:0 0 0 8px rgba(153,198,195,.06), 0 24px 64px rgba(0,0,0,.4);
+  margin:36px auto;
+  flex-shrink:0;
+}
+.hero-photo-wrap img { width:100%; height:100%; object-fit:cover; object-position:55% 5%; }
+.hero-tagline {
+  font-size:clamp(15px,2vw,20px); color:rgba(255,255,255,.55);
+  font-weight:400; max-width:480px; line-height:1.65;
+  margin:0 auto 40px;
+}
+.hero-tagline strong { color:rgba(255,255,255,.85); font-weight:600; }
+.hero-actions { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+.btn-primary { background:var(--teal); color:var(--navy); padding:14px 34px; border-radius:8px; font-weight:700; font-size:15px; text-decoration:none; transition:all .25s; font-family:'Space Grotesk',sans-serif; border:none; cursor:pointer; }
+.btn-primary:hover { background:var(--teal3); transform:translateY(-2px); box-shadow:0 8px 24px rgba(153,198,195,.3); }
+.btn-outline { background:transparent; color:#fff; padding:14px 34px; border-radius:8px; font-weight:500; font-size:15px; text-decoration:none; transition:all .25s; border:1.5px solid rgba(255,255,255,.2); }
+.btn-outline:hover { border-color:rgba(153,198,195,.5); background:rgba(153,198,195,.06); }
+/* scroll indicator */
+.scroll-ind {
+  position:absolute; bottom:32px; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  color:rgba(255,255,255,.3); font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+  font-family:'Space Mono',monospace;
+}
+.scroll-ind::before {
+  content:''; width:1px; height:32px;
+  background:linear-gradient(to bottom, transparent, rgba(153,198,195,.5));
+  animation:scrollPulse 1.8s ease-in-out infinite;
+}
+@keyframes scrollPulse { 0%,100%{opacity:.3; transform:scaleY(0.7);} 50%{opacity:1; transform:scaleY(1);} }
+
+/* ═══════════════ BENTO GRID — services ═══════════════ */
+#services { background:var(--off); padding:96px 32px; }
+.sh { max-width:1100px; margin:0 auto 56px; }
+.tag { display:inline-block; font-family:'Space Mono',monospace; font-size:11px; font-weight:400; letter-spacing:.18em; text-transform:uppercase; color:var(--teal2); background:rgba(153,198,195,.15); padding:6px 14px; border-radius:4px; margin-bottom:18px; }
+.stitle { font-size:clamp(28px,3.5vw,44px); font-weight:700; color:var(--navy); line-height:1.1; margin-bottom:14px; letter-spacing:-.02em; }
+.stitle.light { color:#fff; }
+.ssub { font-size:16px; color:var(--muted); line-height:1.7; max-width:500px; }
+.bento { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(4, 1fr); grid-template-rows:auto; gap:16px; }
+.bc { background:#fff; border-radius:20px; padding:36px 28px; border:1.5px solid rgba(13,31,58,.07); transition:all .3s; position:relative; overflow:hidden; }
+.bc::before { content:''; position:absolute; top:0; right:0; width:80px; height:80px; background:radial-gradient(circle at top right, rgba(153,198,195,.2) 0%, transparent 70%); }
+.bc:hover { transform:translateY(-4px); box-shadow:0 20px 48px rgba(13,31,58,.1); border-color:rgba(153,198,195,.4); }
+.bc.big { grid-column:span 2; background:var(--navy); border-color:transparent; }
+.bc.big::before { background:radial-gradient(circle at top right, rgba(153,198,195,.15) 0%, transparent 70%); }
+.bc.tall { grid-row:span 2; }
+.bc-num { font-family:'Space Mono',monospace; font-size:11px; color:var(--teal2); letter-spacing:.1em; margin-bottom:20px; }
+.bc.big .bc-num { color:rgba(153,198,195,.6); }
+.bc h3 { font-size:20px; font-weight:700; color:var(--navy); margin-bottom:10px; letter-spacing:-.01em; }
+.bc.big h3 { color:#fff; font-size:22px; }
+.bc p { font-size:14px; color:var(--muted); line-height:1.7; }
+.bc.big p { color:rgba(255,255,255,.55); }
+.bc-line { width:32px; height:2px; background:var(--teal); border-radius:2px; margin-top:20px; }
+.bc-list { list-style:none; margin-top:14px; display:flex; flex-direction:column; gap:8px; }
+.bc-list li { font-size:13px; color:var(--muted); display:flex; align-items:flex-start; gap:8px; }
+.bc.big .bc-list li { color:rgba(255,255,255,.55); }
+.bc-list li::before { content:'—'; font-family:'Space Mono',monospace; font-size:11px; color:var(--teal); flex-shrink:0; margin-top:1px; }
+
+/* ═══════════════ ABOUT ═══════════════ */
+#about { background:#fff; padding:96px 32px; }
+.about-grid { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; }
+.about-visual { position:relative; }
+.about-img { width:100%; border-radius:20px; object-fit:cover; height:580px; object-position:center 15%; display:block; filter:grayscale(15%); }
+/* Teal accent block */
+.about-accent {
+  position:absolute; bottom:-12px; left:-12px;
+  width:120px; height:120px; border-radius:16px;
+  background:var(--teal);
+  z-index:-1;
+}
+.about-badge {
+  position:absolute; top:24px; right:-16px;
+  background:var(--navy); color:#fff;
+  padding:16px 20px; border-radius:14px;
+  font-family:'Space Mono',monospace; font-size:13px; font-weight:700;
+  line-height:1.3;
+  box-shadow:0 12px 32px rgba(13,31,58,.25);
+}
+.about-badge span { display:block; font-size:11px; font-weight:400; color:var(--teal); }
+.about-content .tag { margin-bottom:14px; }
+.about-content h2 { font-size:clamp(28px,3.5vw,42px); font-weight:700; color:var(--navy); margin-bottom:6px; letter-spacing:-.02em; }
+.about-sub { font-size:15px; color:var(--teal2); font-weight:600; margin-bottom:28px; }
+.about-content p { font-size:15px; color:var(--muted); line-height:1.8; margin-bottom:14px; }
+.about-hl { background:var(--off); border-left:3px solid var(--teal); padding:16px 20px; border-radius:0 12px 12px 0; font-size:14px; color:var(--navy); font-weight:500; line-height:1.65; margin:24px 0 32px; }
+/* Mono stats row */
+.about-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-bottom:32px; }
+.ast { text-align:center; }
+.ast-n { font-family:'Space Mono',monospace; font-size:28px; font-weight:700; color:var(--navy); }
+.ast-l { font-size:12px; color:var(--muted); margin-top:4px; }
+
+/* ═══════════════ PROCESS — zigzag timeline ═══════════════ */
+#process { background:var(--navy); padding:96px 32px; }
+.proc-grid { max-width:900px; margin:64px auto 0; display:flex; flex-direction:column; gap:0; }
+.pstep {
+  display:grid; grid-template-columns:72px 1fr; gap:32px;
+  padding:32px 0; border-bottom:1px solid rgba(153,198,195,.1);
+  position:relative;
+}
+.pstep:last-child { border-bottom:none; }
+.pn {
+  width:56px; height:56px; border-radius:50%;
+  background:rgba(153,198,195,.12); border:1.5px solid rgba(153,198,195,.3);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Space Mono',monospace; font-size:13px; font-weight:700; color:var(--teal);
+  flex-shrink:0; position:relative; z-index:1;
+}
+.pstep::before {
+  content:''; position:absolute; left:27px; top:88px; bottom:-32px; width:1px;
+  background:linear-gradient(to bottom, rgba(153,198,195,.3), rgba(153,198,195,.05));
+}
+.pstep:last-child::before { display:none; }
+.pc h3 { font-size:20px; font-weight:700; color:#fff; margin-bottom:8px; letter-spacing:-.01em; }
+.pc p { font-size:14px; color:rgba(255,255,255,.45); line-height:1.7; }
+.pc-tag { display:inline-block; font-family:'Space Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--teal); background:rgba(153,198,195,.1); padding:4px 10px; border-radius:4px; margin-bottom:10px; }
+
+/* ═══════════════ CONTACT ═══════════════ */
+#contact { background:var(--off); padding:96px 32px; }
+.ct-grid { max-width:960px; margin:0 auto; display:grid; grid-template-columns:1fr 1.1fr; gap:64px; align-items:start; }
+.ct-info h2 { font-size:clamp(26px,3.5vw,40px); font-weight:700; color:var(--navy); margin-bottom:12px; letter-spacing:-.02em; }
+.ct-info p { font-size:15px; color:var(--muted); line-height:1.7; margin-bottom:32px; }
+.ci { display:flex; align-items:center; gap:14px; margin-bottom:16px; }
+.cii { width:44px; height:44px; border-radius:10px; background:var(--navy); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.cii svg { stroke:#fff; }
+.cil { font-family:'Space Mono',monospace; font-size:10px; color:var(--muted); font-weight:400; text-transform:uppercase; letter-spacing:.07em; margin-bottom:2px; }
+.civ a { font-size:15px; font-weight:600; color:var(--navy); text-decoration:none; }
+.civ a:hover { color:var(--teal2); }
+.cf { background:#fff; border-radius:20px; padding:36px; box-shadow:0 8px 48px rgba(13,31,58,.07); }
+.fg { margin-bottom:16px; }
+.fg label { display:block; font-family:'Space Mono',monospace; font-size:10px; font-weight:400; color:var(--muted); text-transform:uppercase; letter-spacing:.1em; margin-bottom:7px; }
+.fg input,.fg textarea {
+  width:100%; padding:13px 16px; border-radius:10px;
+  border:1.5px solid rgba(13,31,58,.1); font-family:'Space Grotesk',sans-serif;
+  font-size:15px; color:var(--navy); background:var(--off); outline:none; transition:border-color .2s;
+}
+.fg input:focus,.fg textarea:focus { border-color:var(--teal2); background:#fff; }
+.fg textarea { resize:none; height:110px; }
+#fmsg { margin-top:12px; font-size:13px; color:var(--teal2); display:none; text-align:center; font-family:'Space Mono',monospace; }
+
+/* ═══════════════ FOOTER ═══════════════ */
+footer { background:var(--navy); padding:44px 32px 28px; text-align:center; border-top:1px solid rgba(153,198,195,.1); }
+.flogo { font-family:'Space Mono',monospace; font-size:15px; font-weight:700; color:#fff; }
+.flogo span { color:var(--teal); }
+footer p { color:rgba(255,255,255,.25); font-size:12px; margin-top:12px; letter-spacing:.02em; }
+
+/* ═══════════════ REVEAL ═══════════════ */
+.rv { opacity:0; transform:translateY(24px); transition:opacity .7s, transform .7s; }
+.rv.on { opacity:1; transform:none; }
+.rv2 { opacity:0; transform:translateX(-16px); transition:opacity .7s, transform .7s; }
+.rv2.on { opacity:1; transform:none; }
+
+/* ═══════════════ RESPONSIVE ═══════════════ */
+@media(max-width:960px) {
+  .bento { grid-template-columns:1fr 1fr; }
+  .bc.big { grid-column:span 2; }
+  .about-grid { grid-template-columns:1fr; gap:48px; }
+  .about-img { height:380px; }
+  .about-accent { display:none; }
+  .about-badge { right:0; }
+  .ct-grid { grid-template-columns:1fr; gap:40px; }
+  nav { padding:0 20px; }
+  .nlinks { display:none; }
+  .ham { display:flex; }
+}
+@media(max-width:640px) {
+  .bento { grid-template-columns:1fr; }
+  .bc.big { grid-column:span 1; }
+  #hero { padding:90px 24px 56px; }
+  .hero-name { font-size:clamp(52px,14vw,80px); }
+  .about-stats { grid-template-columns:repeat(3,1fr); }
+  .pstep { grid-template-columns:56px 1fr; gap:16px; }
+  .pstep::before { left:27px; }
+  section { padding:72px 20px; }
+  #services, #about, #process, #contact { padding:72px 20px; }
+  .cf { padding:24px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="ni">
+    <a href="#" class="nl">Martin <span>Kroupa</span></a>
+    <div class="nlinks">
+      <a href="#services">Služby</a>
+      <a href="#about">O mně</a>
+      <a href="#process">Průběh</a>
+      <a href="#contact" class="nbtn">Pojďme se potkat</a>
+    </div>
+    <div class="ham" onclick="tm()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+<div class="mmenu" id="mm">
+  <button class="mmx" onclick="tm()">✕</button>
+  <a href="#services" onclick="tm()">Služby</a>
+  <a href="#about" onclick="tm()">O mně</a>
+  <a href="#process" onclick="tm()">Průběh</a>
+  <a href="#contact" onclick="tm()" style="color:var(--teal)">Pojďme se potkat</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-label">Finanční poradce · money2u</div>
+  <h1 class="hero-name">Martin<span class="last">Kroupa</span></h1>
+  <div class="hero-photo-wrap">
+    <img src="assets/martin_photo.jpg" alt="Martin Kroupa">
+  </div>
+  <p class="hero-tagline">Když slova <strong>důvěra, spolehlivost</strong> a nejlepší řešení nejsou jen fráze.<br>Provedu vás bezpečně světem financí.</p>
+  <div class="hero-actions">
+    <a href="#contact" class="btn-primary">Pojďme se potkat</a>
+    <a href="#services" class="btn-outline">Moje služby</a>
+  </div>
+  <div class="scroll-ind">scroll</div>
+</section>
+
+<!-- SERVICES — Bento Grid -->
+<section id="services">
+  <div class="sh rv">
+    <div class="tag">// Služby</div>
+    <h2 class="stitle">Co pro vás udělám</h2>
+    <p class="ssub">Komplexní pohled na Vaše finance — nejen jeden produkt, ale celý systém, který funguje.</p>
+  </div>
+  <div class="bento">
+    <div class="bc big rv">
+      <div class="bc-num">01 —</div>
+      <h3>Kompletní péče a servis</h3>
+      <p>Vaše smlouvy pod kontrolou. Aktualizuji podmínky, řeším pojistné události, dívám se na váš finanční svět jako celek.</p>
+      <ul class="bc-list">
+        <li>Pravidelné přehledy a revize</li>
+        <li>Rychlá pomoc při pojistné události</li>
+        <li>Dlouhodobá péče a dostupnost</li>
+      </ul>
+    </div>
+    <div class="bc rv">
+      <div class="bc-num">02 —</div>
+      <h3>My Plann App</h3>
+      <p>Všechny smlouvy přehledně v telefonu. Přímé spojení se mnou kdykoliv potřebujete.</p>
+      <div class="bc-line"></div>
+    </div>
+    <div class="bc rv">
+      <div class="bc-num">03 —</div>
+      <h3>Finanční produkty</h3>
+      <p>Pojištění, investice, hypotéky, penze — výběr z celého trhu, objektivně.</p>
+      <ul class="bc-list">
+        <li>Životní pojištění</li>
+        <li>Investice & spoření</li>
+        <li>Hypotéky & penze</li>
+      </ul>
+    </div>
+    <div class="bc big rv">
+      <div class="bc-num">04 —</div>
+      <h3>Realitní služby</h3>
+      <p>Jako součást Reality2U vám pomůžu nejen s financováním, ale i samotnou koupí nebo prodejem nemovitosti.</p>
+      <ul class="bc-list">
+        <li>Koupě a prodej nemovitostí</li>
+        <li>Financování hypotékou</li>
+        <li>Developerské projekty</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-visual rv2">
+      <img src="assets/martin_about.jpg" alt="Martin Kroupa" class="about-img">
+      <div class="about-accent"></div>
+      <div class="about-badge">money2u<span>od roku 2012</span></div>
+    </div>
+    <div class="about-content rv">
+      <div class="tag">// O mně</div>
+      <h2>Martin Kroupa</h2>
+      <p class="about-sub">Finanční poradce, realitní expert</p>
+      <div class="about-stats">
+        <div class="ast"><div class="ast-n" data-count="200">0</div><div class="ast-l">klientů</div></div>
+        <div class="ast"><div class="ast-n">20+</div><div class="ast-l">let praxe</div></div>
+        <div class="ast"><div class="ast-n">100%</div><div class="ast-l">férově</div></div>
+      </div>
+      <p>Ve financích se pohybuji přes 20 let. Každý klient je pro mě příběh, ne číslo — hledám řešení, která dávají smysl právě pro vaši situaci.</p>
+      <p>Jsem součástí sítě money2u, která mi dává přístup k produktům celého trhu bez závislosti na jedné pojišťovně nebo bance.</p>
+      <div class="about-hl">Jsem také součástí týmu Reality2U — mohu vám pomoci nejen s financemi, ale i s celým procesem koupě nebo prodeje nemovitosti.</div>
+      <a href="#contact" class="btn-primary">Pojďme se potkat</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS — Timeline -->
+<section id="process">
+  <div style="max-width:900px;margin:0 auto">
+    <div class="rv">
+      <div class="tag" style="background:rgba(153,198,195,.12)">// Průběh spolupráce</div>
+      <h2 class="stitle light">Jak to funguje</h2>
+      <p class="ssub" style="color:rgba(255,255,255,.4)">Jasný postup, žádné překvapení.</p>
+    </div>
+  </div>
+  <div class="proc-grid">
+    <div class="pstep rv">
+      <div class="pn">01</div>
+      <div class="pc">
+        <div class="pc-tag">Zdarma</div>
+        <h3>Konzultace</h3>
+        <p>Nezávazné setkání — seznámím se s vaší situací, cíli a tím, co vás trápí. Žádné závazky.</p>
+      </div>
+    </div>
+    <div class="pstep rv">
+      <div class="pn">02</div>
+      <div class="pc">
+        <div class="pc-tag">Hloubková analýza</div>
+        <h3>Analýza a revize</h3>
+        <p>Projdu vaše stávající smlouvy a finanční situaci. Zjistím, co funguje a co ne.</p>
+      </div>
+    </div>
+    <div class="pstep rv">
+      <div class="pn">03</div>
+      <div class="pc">
+        <div class="pc-tag">Na míru</div>
+        <h3>Plán a realizace</h3>
+        <p>Navrhnu konkrétní kroky a produkty přesně pro váš případ. Po odsouhlasení realizuji.</p>
+      </div>
+    </div>
+    <div class="pstep rv">
+      <div class="pn">04</div>
+      <div class="pc">
+        <div class="pc-tag">Dlouhodobě</div>
+        <h3>Pravidelná péče</h3>
+        <p>Nejsem jednorázový poradce. Pravidelně sledujeme výsledky a reagujeme na změny ve vašem životě.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="ct-grid">
+    <div class="ct-info rv">
+      <div class="tag">// Kontakt</div>
+      <h2>Začněme spolu</h2>
+      <p>Napište nebo zavolejte. Rád se s vámi sejdu — online i osobně v Brně.</p>
+      <div class="ci">
+        <div class="cii"><svg width="18" height="18" fill="none" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+        <div><div class="cil">Telefon</div><div class="civ"><a href="tel:+420">Doplňte číslo</a></div></div>
+      </div>
+      <div class="ci">
+        <div class="cii"><svg width="18" height="18" fill="none" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+        <div><div class="cil">E-mail</div><div class="civ"><a href="mailto:m.kroupa@money2u.cz">m.kroupa@money2u.cz</a></div></div>
+      </div>
+    </div>
+    <form id="cf" class="cf rv">
+      <div class="fg"><label>Jméno *</label><input type="text" name="name" placeholder="Jan Novák" required></div>
+      <div class="fg"><label>E-mail *</label><input type="email" name="email" placeholder="jan@example.cz" required></div>
+      <div class="fg"><label>Telefon *</label><input type="tel" name="phone" placeholder="+420 XXX XXX XXX" required></div>
+      <div class="fg"><label>Zpráva *</label><textarea name="message" placeholder="S čím vám mohu pomoci?" required></textarea></div>
+      <button type="submit" class="btn-primary" style="width:100%">Pojďme se potkat</button>
+      <p id="fmsg">✓ Zpráva odeslána.</p>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="flogo">Martin <span>Kroupa</span></div>
+  <p>© 2026 Martin Kroupa · martinkroupa.cz · money2u</p>
+</footer>
+
+<script>
+function tm() {
+  const m = document.getElementById('mm');
+  m.classList.toggle('open');
+  document.body.style.overflow = m.classList.contains('open') ? 'hidden' : '';
+}
+
+// Reveal on scroll
+const rvEls = document.querySelectorAll('.rv, .rv2');
+const ro = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) { setTimeout(() => e.target.classList.add('on'), i * 80); ro.unobserve(e.target); }
+  });
+}, { threshold: 0.1 });
+rvEls.forEach(el => ro.observe(el));
+
+// CountUp
+const cEl = document.querySelector('[data-count]');
+if (cEl) {
+  new IntersectionObserver(entries => {
+    if (!entries[0].isIntersecting) return;
+    let s = 0;
+    const t = parseInt(cEl.dataset.count);
+    const step = ts => { if (!s) s = ts; const p = Math.min((ts - s) / 1600, 1); const e2 = 1 - Math.pow(1 - p, 3); cEl.textContent = Math.floor(e2 * t) + (p === 1 ? '+' : ''); if (p < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }, { threshold: .3 }).observe(cEl);
+}
+
+// Form
+document.getElementById('cf').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = this.querySelector('button');
+  btn.textContent = 'Odesílám...'; btn.disabled = true;
+  try {
+    await fetch('https://formsubmit.co/m.kroupa@money2u.cz', { method: 'POST', body: new FormData(this), headers: { 'Accept': 'application/json' } });
+    document.getElementById('fmsg').style.display = 'block';
+    this.reset();
+  } catch {}
+  btn.disabled = false; btn.textContent = 'Pojďme se potkat';
+});
+</script>
+</body>
+</html>

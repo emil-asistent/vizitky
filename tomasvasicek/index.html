@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tomáš Vašíček – Specialista na Vaše finance</title>
+<meta name="description" content="Tomáš Vašíček – finanční specialista money2u v Brně. Hypotéky, investice, pojištění. Bezplatná konzultace.">
+<meta property="og:title" content="Tomáš Vašíček – Specialista na Vaše finance">
+<meta property="og:description" content="Finanční specialista money2u. Bezplatná konzultace v Brně.">
+<meta property="og:url" content="https://tomasvasicek.djai.cz">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@300;400;500&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal: #3A9188;
+  --teal2: #5BBDB4;
+  --navy: #1B2B4B;
+  --navy2: #0f1e36;
+  --cream: #F6F9F8;
+  --text: #1B2B4B;
+  --muted: #6B7A99;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { font-family:'Inter',sans-serif; color:var(--text); background:#fff; }
+/* Outfit for all Sora headings */
+.hero-name, .nav-logo, .sec-title, .svc-front h3, .svc-back h3, .proc-num, .proc-step h3, .about-text h2, .ci h2, .about-card, .stat-n, .f-logo { font-family:'Outfit',sans-serif !important; }
+
+/* ─── NAV ─── */
+nav { position:fixed; top:0; left:0; right:0; z-index:100; padding:0 40px; background:rgba(27,43,75,0.95); backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,255,255,0.06); }
+.nav-in { max-width:1140px; margin:0 auto; height:68px; display:flex; align-items:center; justify-content:space-between; }
+.nav-logo { font-family:'Sora',sans-serif; font-weight:800; font-size:17px; color:#fff; text-decoration:none; text-transform:uppercase; letter-spacing:.06em; }
+.nav-logo span { color:var(--teal2); }
+.nav-links { display:flex; gap:36px; align-items:center; }
+.nav-links a { color:rgba(255,255,255,.7); font-size:14px; font-weight:500; text-decoration:none; transition:color .2s; }
+.nav-links a:hover { color:var(--teal2); }
+.nav-btn { background:var(--teal) !important; color:#fff !important; padding:10px 22px !important; border-radius:8px !important; font-weight:600 !important; font-size:13px !important; transition:background .2s !important; }
+.nav-btn:hover { background:var(--teal2) !important; }
+.ham { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:6px; }
+.ham span { width:22px; height:2px; background:#fff; border-radius:2px; }
+.mob { display:none; position:fixed; inset:0; z-index:99; background:var(--navy2); flex-direction:column; align-items:center; justify-content:center; gap:32px; }
+.mob.open { display:flex; }
+.mob a { font-family:'Sora',sans-serif; font-size:28px; font-weight:700; color:#fff; text-decoration:none; }
+.mob a:hover { color:var(--teal2); }
+.mob-x { position:absolute; top:28px; right:28px; background:none; border:none; color:#fff; font-size:28px; cursor:pointer; }
+
+/* ─── HERO ─── */
+#hero { min-height:100vh; display:grid; grid-template-columns:1fr 1fr; }
+
+.hero-l {
+  background:var(--navy2);
+  display:flex; flex-direction:column; justify-content:center;
+  padding:120px 64px 80px 80px;
+  position:relative; overflow:hidden;
+  z-index:2;
+}
+.hero-l::before {
+  content:''; position:absolute; top:-80px; right:-80px;
+  width:360px; height:360px; border-radius:50%;
+  background:radial-gradient(circle, rgba(58,145,136,.18) 0%, transparent 70%);
+  pointer-events:none;
+}
+.hero-eyebrow { font-size:11px; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:var(--teal2); margin-bottom:24px; }
+.hero-name { font-family:'Sora',sans-serif; font-size:clamp(48px,5.5vw,72px); font-weight:800; color:#fff; line-height:1.05; margin-bottom:16px; }
+.hero-name span { color:var(--teal2); }
+.hero-tagline { font-family:'Sora',sans-serif; font-size:clamp(16px,2vw,22px); font-weight:600; color:rgba(255,255,255,.45); margin-bottom:36px; line-height:1.4; }
+.hero-desc { font-size:16px; color:rgba(255,255,255,.55); line-height:1.75; margin-bottom:48px; max-width:420px; }
+.hero-btns { display:flex; gap:14px; flex-wrap:wrap; }
+.btn-teal { background:var(--teal); color:#fff; padding:15px 34px; border-radius:10px; font-weight:600; font-size:15px; text-decoration:none; transition:all .25s; border:none; cursor:pointer; font-family:'Inter',sans-serif; }
+.btn-teal:hover { background:var(--teal2); transform:translateY(-2px); box-shadow:0 8px 24px rgba(58,145,136,.35); }
+.btn-ghost { background:transparent; color:#fff; padding:15px 34px; border-radius:10px; font-weight:500; font-size:15px; text-decoration:none; transition:all .25s; border:1.5px solid rgba(255,255,255,.2); }
+.btn-ghost:hover { border-color:rgba(255,255,255,.5); background:rgba(255,255,255,.05); }
+
+.hero-r { position:relative; overflow:hidden; background:#0d1825; }
+.hero-r img { width:100%; height:100%; object-fit:cover; object-position:top center; display:block; filter:none; }
+.hero-r::after { content:''; position:absolute; inset:0; background:linear-gradient(to right, var(--navy2) 0%, transparent 25%); }
+
+/* ─── STATS ─── */
+#stats { background:var(--teal); }
+.stats-row { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(3,1fr); }
+.stat { padding:36px 28px; text-align:center; border-right:1px solid rgba(255,255,255,.18); }
+.stat:last-child { border-right:none; }
+.stat-n { font-family:'Sora',sans-serif; font-size:clamp(36px,4vw,54px); font-weight:800; color:#fff; line-height:1; }
+.stat-l { color:rgba(255,255,255,.75); font-size:13px; margin-top:6px; font-weight:400; }
+
+/* ─── SECTION HELPERS ─── */
+section { padding:96px 32px; }
+.tag { display:inline-block; font-size:11px; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:var(--teal); background:rgba(58,145,136,.1); padding:6px 14px; border-radius:50px; margin-bottom:18px; }
+.sec-title { font-family:'Outfit',sans-serif; font-size:clamp(28px,3.5vw,44px); font-weight:800; color:var(--navy); line-height:1.15; margin-bottom:16px; }
+.sec-title.w { color:#fff; }
+.sec-title span { position:relative; display:inline-block; }
+.sec-title span::after { content:''; position:absolute; left:0; bottom:-4px; width:100%; height:3px; background:var(--teal2); border-radius:2px; }
+.sec-sub { font-size:17px; color:var(--muted); line-height:1.7; max-width:540px; }
+
+/* ─── SERVICES ─── */
+#services { background:var(--cream); }
+.svc-head { max-width:1100px; margin:0 auto 56px; }
+.svc-grid { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px; }
+.svc { height:280px; perspective:1000px; cursor:pointer; }
+.svc-inner { position:relative; width:100%; height:100%; transition:transform .65s cubic-bezier(.4,0,.2,1); transform-style:preserve-3d; -webkit-transform-style:preserve-3d; }
+.svc:hover .svc-inner, .svc.flipped .svc-inner { transform:rotateY(180deg); -webkit-transform:rotateY(180deg); }
+.svc-front, .svc-back { position:absolute; inset:0; border-radius:20px; backface-visibility:hidden; -webkit-backface-visibility:hidden; display:flex; flex-direction:column; justify-content:center; padding:36px 28px; }
+.svc-front { background:var(--navy); border:1px solid rgba(91,189,180,.18); }
+.svc-back { background:var(--teal); transform:rotateY(180deg); -webkit-transform:rotateY(180deg); }
+.svc-front h3 { font-family:'Sora',sans-serif; font-size:20px; font-weight:700; color:#fff; margin-bottom:12px; }
+.svc-front p { font-size:14px; color:rgba(255,255,255,.5); line-height:1.7; }
+.svc-back h3 { font-family:'Sora',sans-serif; font-size:17px; font-weight:700; color:#fff; margin-bottom:16px; }
+.svc-back ul { list-style:none; display:flex; flex-direction:column; gap:9px; }
+.svc-back ul li { color:rgba(255,255,255,.9); font-size:13px; font-weight:500; display:flex; align-items:center; gap:8px; }
+.svc-back ul li::before { content:'→'; font-size:11px; opacity:.7; }
+
+/* ─── ABOUT ─── */
+#about { background:#fff; }
+.about-grid { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:480px 1fr; gap:80px; align-items:center; }
+.about-photo { position:relative; }
+.about-photo img { width:100%; height:560px; object-fit:cover; object-position:top center; border-radius:20px; display:block; }
+.about-card { position:absolute; bottom:-16px; right:-20px; background:var(--navy); color:#fff; padding:18px 24px; border-radius:16px; font-family:'Sora',sans-serif; font-weight:700; font-size:14px; box-shadow:0 16px 32px rgba(27,43,75,.25); }
+.about-card span { display:block; font-size:11px; font-weight:400; color:var(--teal2); margin-top:2px; }
+.about-text .tag { margin-bottom:14px; }
+.about-text h2 { font-family:'Sora',sans-serif; font-size:clamp(26px,3vw,40px); font-weight:800; color:var(--navy); margin-bottom:6px; }
+.about-quote { font-family:'Sora',sans-serif; font-size:16px; font-weight:600; color:var(--teal); margin-bottom:24px; }
+.about-text p { font-size:15px; color:var(--muted); line-height:1.8; margin-bottom:14px; }
+.about-note { background:var(--cream); border-left:3px solid var(--teal); padding:14px 18px; border-radius:0 10px 10px 0; font-size:14px; color:var(--navy); font-weight:500; line-height:1.65; margin:20px 0 28px; }
+
+/* ─── PROCESS ─── */
+#process { background:var(--navy2); }
+.proc-in { max-width:1000px; margin:0 auto; }
+.proc-head { margin-bottom:64px; }
+.proc-steps { display:grid; grid-template-columns:repeat(4,1fr); gap:40px; position:relative; }
+.proc-steps::before { content:''; position:absolute; top:24px; left:12%; right:12%; height:1px; background:rgba(91,189,180,.2); }
+.proc-step { text-align:center; position:relative; }
+.proc-num { width:48px; height:48px; border-radius:50%; background:var(--teal); display:flex; align-items:center; justify-content:center; margin:0 auto 20px; font-family:'Outfit',sans-serif; font-weight:800; font-size:16px; color:#fff; position:relative; z-index:1; flex-shrink:0; }
+.proc-step h3 { font-family:'Outfit',sans-serif; font-size:15px; font-weight:700; color:#fff; margin-bottom:10px; }
+.proc-step p { font-size:13px; color:rgba(255,255,255,.45); line-height:1.65; }
+.step-content { }
+
+/* ─── CONTACT ─── */
+#contact { background:var(--cream); }
+.contact-in { max-width:960px; margin:0 auto; display:grid; grid-template-columns:1fr 1.2fr; gap:64px; align-items:start; }
+.ci h2 { font-family:'Sora',sans-serif; font-size:clamp(26px,3.5vw,40px); font-weight:800; color:var(--navy); margin-bottom:12px; }
+.ci p { font-size:15px; color:var(--muted); line-height:1.7; margin-bottom:32px; }
+.ci-row { display:flex; align-items:center; gap:14px; margin-bottom:16px; }
+.ci-icon { width:44px; height:44px; border-radius:10px; background:var(--teal); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.ci-icon svg { stroke:#fff; }
+.ci-label { font-size:11px; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:.07em; margin-bottom:2px; }
+.ci-val a { font-size:15px; font-weight:600; color:var(--navy); text-decoration:none; }
+.ci-val a:hover { color:var(--teal); }
+.cf { background:#fff; border-radius:20px; padding:36px; box-shadow:0 8px 40px rgba(27,43,75,.07); }
+.fg { margin-bottom:16px; }
+.fg label { display:block; font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; margin-bottom:7px; }
+.fg input,.fg textarea { width:100%; padding:13px 16px; border-radius:10px; border:1.5px solid rgba(27,43,75,.1); font-family:'Inter',sans-serif; font-size:15px; color:var(--navy); background:var(--cream); outline:none; transition:border-color .2s; }
+.fg input:focus,.fg textarea:focus { border-color:var(--teal); background:#fff; }
+.fg textarea { resize:none; height:110px; }
+#fmsg { margin-top:12px; font-size:13px; color:var(--teal); display:none; text-align:center; }
+
+/* ─── FOOTER ─── */
+footer { background:var(--navy2); padding:40px 32px 28px; text-align:center; }
+.f-logo { font-family:'Sora',sans-serif; font-size:16px; font-weight:800; color:#fff; text-transform:uppercase; letter-spacing:.06em; }
+.f-logo span { color:var(--teal2); }
+footer p { color:rgba(255,255,255,.3); font-size:13px; margin-top:12px; }
+
+/* ─── REVEAL ─── */
+.rv { opacity:0; transform:translateY(28px); transition:opacity .7s, transform .7s; }
+.rv.on { opacity:1; transform:none; }
+
+/* ─── RESPONSIVE ─── */
+/* ─── HERO MOBILE OVERRIDE ─── */
+@media(max-width:960px) {
+  .nav-links { display:none; }
+  .ham { display:flex; }
+  nav { padding:0 20px; }
+  .about-grid { grid-template-columns:1fr; gap:40px; }
+  .about-photo img { height:380px; }
+  .about-card { right:0; }
+  .contact-in { grid-template-columns:1fr; gap:40px; }
+  .proc-steps { grid-template-columns:repeat(4,1fr); }
+}
+
+/* ═══ MOBILE — Tomáš Vašíček — jedinečný styl ═══ */
+@media(max-width:640px) {
+  section { padding:60px 20px; }
+
+  /* ── HERO: full photo + glass overlay panel ── */
+  #hero {
+    display:block;
+    position:relative;
+    min-height:100svh;
+    padding:0;
+  }
+  .hero-r {
+    position:absolute; inset:0;
+    height:100%;
+    display:block;
+  }
+  .hero-r img {
+    width:100%; height:100%;
+    object-fit:cover;
+    object-position:50% 12%; /* obličej nahoře */
+  }
+  /* tmavý gradient jen v dolní třetině */
+  .hero-r::after {
+    background:linear-gradient(to bottom,
+      transparent 35%,
+      rgba(13,20,40,0.55) 60%,
+      rgba(13,20,40,0.95) 100%);
+  }
+  /* glass panel přilepen ke spodku */
+  .hero-l {
+    position:absolute; bottom:0; left:0; right:0;
+    background:rgba(13,20,40,0.72);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    border-top:1px solid rgba(91,189,180,.18);
+    border-radius:24px 24px 0 0;
+    padding:28px 24px 48px;
+    text-align:left;
+    align-items:flex-start;
+  }
+  .hero-l::before { display:none; }
+  .hero-l::after { display:none; }
+  .hero-eyebrow {
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:10px; letter-spacing:.18em; color:var(--teal2);
+    margin-bottom:14px;
+    background:rgba(91,189,180,.1);
+    border:1px solid rgba(91,189,180,.2);
+    padding:5px 12px; border-radius:50px;
+  }
+  .hero-name {
+    font-size:clamp(36px,10vw,50px); color:#fff;
+    line-height:1; margin-bottom:10px;
+  }
+  .hero-name span { color:var(--teal2); display:inline; }
+  .hero-tagline { color:rgba(255,255,255,.6); font-size:14px; margin-bottom:6px; font-weight:600; }
+  .hero-desc { display:none; } /* mobil — skrýt, panel je malý */
+  .hero-btns {
+    flex-direction:row; gap:10px; margin-top:20px; flex-wrap:nowrap;
+  }
+  .btn-teal {
+    flex:1; text-align:center; padding:14px 10px;
+    font-size:14px; border-radius:12px;
+  }
+  .btn-ghost {
+    flex:1; text-align:center; padding:13px 10px;
+    border-color:rgba(255,255,255,.2); color:rgba(255,255,255,.75);
+    font-size:14px; border-radius:12px;
+  }
+
+  /* ── STATS: horizontálně scrollovatelné pill karty ── */
+  #stats { overflow-x:auto; scrollbar-width:none; }
+  #stats::-webkit-scrollbar { display:none; }
+  .stats-row {
+    grid-template-columns:repeat(3, minmax(140px,1fr));
+    gap:12px; padding:20px 20px;
+    width:max-content; min-width:100%;
+  }
+  .stat {
+    border-right:none;
+    background:rgba(255,255,255,.12);
+    border-radius:16px;
+    padding:18px 20px;
+    backdrop-filter:blur(8px);
+    display:flex; flex-direction:column; align-items:center;
+  }
+  .stat-n { font-size:32px; }
+  .stat-l { font-size:12px; font-weight:500; text-align:center; }
+
+  /* ── SLUŽBY: 1 sloupec, tap-to-reveal accordion ── */
+  .svc-grid { grid-template-columns:1fr; gap:12px; }
+  .svc { height:auto; perspective:none; }
+  .svc-inner { transform:none !important; transform-style:flat; transition:none; }
+  .svc-front, .svc-back { position:relative; transform:none !important; backface-visibility:visible; -webkit-backface-visibility:visible; }
+  .svc-back { display:none; }
+  .svc-front {
+    display:flex; align-items:center; gap:16px;
+    padding:18px 20px; border-radius:14px;
+    background:#fff; border:1.5px solid rgba(13,31,58,.07);
+    position:relative;
+  }
+  .svc-front[data-num]::before {
+    content:attr(data-num);
+    font-family:'Outfit',sans-serif; font-size:28px; font-weight:800;
+    color:rgba(58,145,136,.18); flex-shrink:0; width:40px; line-height:1;
+  }
+  .svc-front h3 { font-size:15px; color:var(--navy); margin-bottom:0; flex:1; }
+  .svc-front p { display:none; } /* skryté — otevírají se tapem */
+  .svc-front::after {
+    content:'＋';
+    position:static; transform:none;
+    color:var(--teal); font-size:20px; font-weight:300; flex-shrink:0;
+  }
+  /* expanded state */
+  .svc-front.open { background:var(--navy); flex-direction:column; align-items:flex-start; }
+  .svc-front.open::before { color:rgba(91,189,180,.3); margin-bottom:4px; }
+  .svc-front.open h3 { color:#fff; margin-bottom:8px; }
+  .svc-front.open p { display:block; font-size:13px; color:rgba(255,255,255,.5); line-height:1.65; }
+  .svc-front.open::after { display:none; }
+
+  /* ── ABOUT ── */
+  .about-photo img { height:260px; border-radius:16px; }
+  .about-card { right:8px; bottom:8px; }
+  .about-stats { grid-template-columns:repeat(3,1fr); gap:10px; }
+
+  /* ── PROCES: vertical timeline ── */
+  .proc-steps { grid-template-columns:1fr; gap:0; }
+  .proc-steps::before { display:none; }
+  .proc-step {
+    display:flex; align-items:flex-start; gap:18px;
+    text-align:left; padding:22px 0;
+    border-bottom:1px solid rgba(91,189,180,.1);
+  }
+  .proc-step:last-child { border-bottom:none; }
+  .proc-num { margin:0; flex-shrink:0; width:44px; height:44px; font-size:14px; }
+  .step-content h3 { font-size:15px; margin-bottom:5px; text-align:left; }
+  .step-content p { font-size:13px; text-align:left; }
+
+  /* ── CONTACT ── */
+  .cf { padding:24px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-in">
+    <a href="#" class="nav-logo">Tomáš <span>Vašíček</span></a>
+    <div class="nav-links">
+      <a href="#services">Služby</a>
+      <a href="#about">O mně</a>
+      <a href="#process">Průběh spolupráce</a>
+      <a href="#contact" class="nav-btn">Pojďme se potkat</a>
+    </div>
+    <div class="ham" onclick="toggleMob()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mob" id="mob">
+  <button class="mob-x" onclick="toggleMob()">✕</button>
+  <a href="#services" onclick="toggleMob()">Služby</a>
+  <a href="#about" onclick="toggleMob()">O mně</a>
+  <a href="#process" onclick="toggleMob()">Průběh spolupráce</a>
+  <a href="#contact" onclick="toggleMob()" style="color:var(--teal2)">Pojďme se potkat</a>
+</div>
+
+<!-- HERO -->
+<section id="hero" style="padding:0">
+  <div class="hero-l">
+    <div class="hero-eyebrow">Finanční poradce · money2u</div>
+    <h1 class="hero-name">Tomáš<br><span>Vašíček</span></h1>
+    <p class="hero-tagline">Specialista na Vaše finance.</p>
+    <p class="hero-desc">Ve financích se pohybuji přes 20 let. Pomáhám lidem najít cestu, která dává smysl — bez šablon, bez kompromisů.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-teal">Pojďme se potkat</a>
+      <a href="#services" class="btn-ghost">Moje služby</a>
+    </div>
+  </div>
+  <div class="hero-r">
+    <img src="assets/tomas_about.jpg" alt="Tomáš Vašíček">
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="stats" style="padding:0">
+  <div class="stats-row">
+    <div class="stat rv">
+      <div class="stat-n" data-count="200">0</div>
+      <div class="stat-l">spokojených klientů</div>
+    </div>
+    <div class="stat rv">
+      <div class="stat-n">20+</div>
+      <div class="stat-l">let ve financích</div>
+    </div>
+    <div class="stat rv">
+      <div class="stat-n">100%</div>
+      <div class="stat-l">férový přístup</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="svc-head rv">
+    <div class="tag">Co pro vás udělám</div>
+    <h2 class="sec-title">Komplexní péče<br>o <span>Vaše finance</span></h2>
+    <p class="sec-sub">Neřeším jen jeden produkt. Dívám se na Vaše finance jako celek a hledám řešení, která skutečně fungují.</p>
+  </div>
+  <div class="svc-grid">
+    <div class="svc rv">
+      <div class="svc-inner">
+        <div class="svc-front" data-num="01"><h3>Kompletní péče a servis</h3><p>Pravidelný přehled, aktualizace smluv, rychlá pomoc při pojistné události.</p></div>
+        <div class="svc-back"><h3>Kompletní péče</h3><ul><li>Pravidelné přehledy</li><li>Aktualizace smluv</li><li>Likvidace pojistných událostí</li><li>Dlouhodobá péče</li></ul></div>
+      </div>
+    </div>
+    <div class="svc rv">
+      <div class="svc-inner">
+        <div class="svc-front" data-num="02"><h3>Mobilní aplikace My Plann</h3><p>Všechny smlouvy v jedné aplikaci. Přehled a přímé spojení se mnou.</p></div>
+        <div class="svc-back"><h3>My Plann App</h3><ul><li>Všechny smlouvy přehledně</li><li>Notifikace a upozornění</li><li>Přímá komunikace</li><li>16 poboček v ČR</li></ul></div>
+      </div>
+    </div>
+    <div class="svc rv">
+      <div class="svc-inner">
+        <div class="svc-front" data-num="03"><h3>Finanční produkty</h3><p>Pojištění, investice, hypotéky, penze. Nejlepší řešení z celého trhu.</p></div>
+        <div class="svc-back"><h3>Finanční produkty</h3><ul><li>Životní pojištění</li><li>Investice a spoření</li><li>Hypotéky & úvěry</li><li>Penzijní spoření</li></ul></div>
+      </div>
+    </div>
+    <div class="svc rv">
+      <div class="svc-inner">
+        <div class="svc-front" data-num="04"><h3>Realitní služby</h3><p>Jako jednatel Reality2U vám pomůžu s financováním i koupí nemovitosti.</p></div>
+        <div class="svc-back"><h3>Realitní služby</h3><ul><li>Koupě a prodej nemovitostí</li><li>Financování hypotékou</li><li>Reality2U – váš partner</li><li>Developerské projekty</li></ul></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-photo rv">
+      <img src="assets/tomas_about2.jpg" alt="Tomáš Vašíček">
+      <div class="about-card">20+ let ve financích<span>Brno & celá ČR</span></div>
+    </div>
+    <div class="about-text rv">
+      <div class="tag">O mně</div>
+      <h2>Tomáš Vašíček</h2>
+      <p class="about-quote">„Férové jednání, profesionální přístup a kolektivní spolupráce."</p>
+      <p>Ve financích se pohybuji přes 20 let. V roce 2012 jsem spolu s nejlepším kamarádem Money2u přivedl k životu firmu, která dnes pomáhá klientům po celé republice.</p>
+      <p>Mám za sebou více než tisíc klientů a pro každého hledám to nejlepší řešení na míru. Co slíbím, to platí.</p>
+      <div class="about-note">Kromě financí se věnuji realitám a jsem spoluzakladatelem <strong>jurtového centra Marcipán</strong> v srdci vinic Jižní Moravy.</div>
+      <a href="#contact" class="btn-teal">Pojďme se potkat</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="proc-in">
+    <div class="proc-head rv">
+      <div class="tag" style="background:rgba(91,189,180,.15);color:var(--teal2)">Spolupráce</div>
+      <h2 class="sec-title w">Průběh <span style="color:var(--teal2)">spolupráce</span></h2>
+      <p class="sec-sub" style="color:rgba(255,255,255,.45)">Jasný a přehledný postup bez zbytečných kroků.</p>
+    </div>
+    <div class="proc-steps">
+      <div class="proc-step rv">
+        <div class="proc-num">01</div>
+        <div class="step-content"><h3>Konzultace</h3><p>Bezplatné setkání, kde se seznámím s vaší situací a cíli. Bez závazků.</p></div>
+      </div>
+      <div class="proc-step rv">
+        <div class="proc-num">02</div>
+        <div class="step-content"><h3>Analýza</h3><p>Detailní pohled na vaše stávající smlouvy a finanční stav.</p></div>
+      </div>
+      <div class="proc-step rv">
+        <div class="proc-num">03</div>
+        <div class="step-content"><h3>Plán na míru</h3><p>Sestavím individuální řešení přesně podle vašich potřeb.</p></div>
+      </div>
+      <div class="proc-step rv">
+        <div class="proc-num">04</div>
+        <div class="step-content"><h3>Pravidelná péče</h3><p>Jsem tu pro vás průběžně — sledujeme výsledky a reagujeme na změny.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-in">
+    <div class="ci rv">
+      <div class="tag">Kontakt</div>
+      <h2>Začněme spolu</h2>
+      <p>Napište nebo zavolejte — první krok může začít právě teď.</p>
+      <div class="ci-row">
+        <div class="ci-icon"><svg width="18" height="18" fill="none" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+        <div><div class="ci-label">Telefon</div><div class="ci-val"><a href="tel:+420604262012">+420 604 262 012</a></div></div>
+      </div>
+      <div class="ci-row">
+        <div class="ci-icon"><svg width="18" height="18" fill="none" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+        <div><div class="ci-label">E-mail</div><div class="ci-val"><a href="mailto:t.vasicek@money2u.cz">t.vasicek@money2u.cz</a></div></div>
+      </div>
+    </div>
+    <form id="cf" class="cf rv">
+      <div class="fg"><label>Jméno a příjmení *</label><input type="text" name="name" placeholder="Jan Novák" required></div>
+      <div class="fg"><label>E-mail *</label><input type="email" name="email" placeholder="jan@example.cz" required></div>
+      <div class="fg"><label>Telefon *</label><input type="tel" name="phone" placeholder="+420 XXX XXX XXX" required></div>
+      <div class="fg"><label>Zpráva *</label><textarea name="message" placeholder="Napište, s čím potřebujete pomoci..." required></textarea></div>
+      <button type="submit" class="btn-teal" style="width:100%">Pojďme se potkat</button>
+      <p id="fmsg">✓ Zpráva odeslána! Ozvu se co nejdříve.</p>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">Tomáš <span>Vašíček</span></div>
+  <p>© 2026 Tomáš Vašíček · tomasvasicek.cz</p>
+</footer>
+
+<script>
+function toggleMob() {
+  const m = document.getElementById('mob');
+  m.classList.toggle('open');
+  document.body.style.overflow = m.classList.contains('open') ? 'hidden' : '';
+}
+
+const rvEls = document.querySelectorAll('.rv');
+const ro = new IntersectionObserver(entries => {
+  entries.forEach((e,i) => { if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('on'), i*70); ro.unobserve(e.target); } });
+}, { threshold: 0.1 });
+rvEls.forEach(el => ro.observe(el));
+
+const cEl = document.querySelector('[data-count]');
+if(cEl) {
+  new IntersectionObserver(entries => {
+    if(!entries[0].isIntersecting) return;
+    let s=0; const t=parseInt(cEl.dataset.count);
+    const step=ts=>{ if(!s)s=ts; const p=Math.min((ts-s)/1800,1); const e2=1-Math.pow(1-p,3); cEl.textContent=Math.floor(e2*t)+(p===1?'+':''); if(p<1)requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }, {threshold:.3}).observe(cEl);
+}
+
+const form = document.getElementById('cf');
+form.addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = this.querySelector('button');
+  btn.textContent = 'Odesílám...'; btn.disabled = true;
+  try {
+    await fetch('https://formsubmit.co/t.vasicek@money2u.cz', { method:'POST', body:new FormData(this), headers:{'Accept':'application/json'} });
+    document.getElementById('fmsg').style.display = 'block';
+    this.reset();
+  } catch {}
+  btn.disabled = false; btn.textContent = 'Pojďme se potkat';
+});
+// Mobile scroll flip
+function updateFlips() {
+  if (window.innerWidth > 900) return;
+  const vh = window.innerHeight;
+  document.querySelectorAll('.svc').forEach(card => {
+    const rect = card.getBoundingClientRect();
+    const pct = (rect.top + rect.height / 2) / vh;
+    card.classList.toggle('flipped', pct >= 0.25 && pct <= 0.65);
+  });
+}
+window.addEventListener('scroll', updateFlips, { passive: true });
+window.addEventListener('resize', updateFlips);
+// Mobile service card tap-to-expand
+if (window.innerWidth <= 640) {
+  document.querySelectorAll('.svc-front').forEach(card => {
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', function() {
+      const wasOpen = this.classList.contains('open');
+      document.querySelectorAll('.svc-front.open').forEach(c => c.classList.remove('open'));
+      if (!wasOpen) this.classList.add('open');
+    });
+  });
+}
+</script>
+</body>
+</html>

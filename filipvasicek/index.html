@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Filip Vašíček – Finanční poradce</title>
+<meta name="description" content="Filip Vašíček – finanční poradce money2u v Brně. Hypotéky, investice, pojištění. Sjednejte konzultaci zdarma.">
+<meta property="og:title" content="Filip Vašíček – Finanční poradce">
+<meta property="og:description" content="Finanční poradce money2u. Bezplatná konzultace v Brně.">
+<meta property="og:url" content="https://filipvasicek.djai.cz">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0A1628;
+    --navy2: #0f2040;
+    --gold: #C9A84C;
+    --gold-light: #e8c97a;
+    --cream: #F8F6F0;
+    --text: #1a2540;
+    --muted: rgba(26,37,64,0.55);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--text); }
+
+  /* NAVBAR */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 0 40px;
+    transition: background 0.3s, box-shadow 0.3s;
+  }
+  nav.scrolled { background: rgba(10,22,40,0.97); box-shadow: 0 2px 20px rgba(0,0,0,0.3); }
+  .nav-inner { max-width: 1100px; margin: 0 auto; height: 72px; display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: #fff; text-decoration: none; letter-spacing: 0.02em; }
+  .nav-logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 36px; align-items: center; }
+  .nav-links a { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 14px; font-weight: 500; letter-spacing: 0.04em; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta { background: var(--gold); color: var(--navy) !important; padding: 10px 24px !important; border-radius: 50px; font-weight: 600 !important; transition: background 0.2s, transform 0.2s !important; }
+  .nav-cta:hover { background: var(--gold-light) !important; transform: translateY(-1px); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
+  .hamburger span { width: 24px; height: 2px; background: #fff; border-radius: 2px; transition: all 0.3s; }
+
+  /* MOBILE MENU */
+  .mobile-menu {
+    display: none; position: fixed; inset: 0; z-index: 99;
+    background: var(--navy); flex-direction: column;
+    align-items: center; justify-content: center; gap: 32px;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a { font-family: 'Playfair Display', serif; font-size: 28px; color: #fff; text-decoration: none; transition: color 0.2s; }
+  .mobile-menu a:hover { color: var(--gold); }
+  .mobile-close { position: absolute; top: 24px; right: 24px; background: none; border: none; color: #fff; font-size: 28px; cursor: pointer; }
+
+  /* HERO */
+  #hero {
+    position: relative; min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #060e1c 0%, #0a1628 40%, #0d1f3c 70%, #091422 100%);
+  }
+  .hero-bg::after {
+    content: ''; position: absolute; inset: 0;
+    background: url('assets/filip_hero.jpg') center 20%/cover no-repeat;
+    opacity: 0.18;
+  }
+  .hero-particles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+  .hero-content {
+    position: relative; z-index: 2;
+    text-align: center; padding: 120px 24px 80px;
+    max-width: 820px;
+  }
+  .hero-badge {
+    display: inline-block; color: var(--gold); font-size: 12px;
+    font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
+    margin-bottom: 24px; opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-badge::before, .hero-badge::after { content: '—  '; color: rgba(201,168,76,0.5); }
+  .hero-badge::after { content: '  —'; }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(44px, 7vw, 80px);
+    font-weight: 700; color: #fff; line-height: 1.12;
+    margin-bottom: 12px;
+    opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero-title em { color: var(--gold); font-style: italic; }
+  .hero-subtitle {
+    font-size: clamp(16px, 2vw, 19px); color: rgba(255,255,255,0.65);
+    font-weight: 300; margin-bottom: 16px; line-height: 1.6;
+    opacity: 0; animation: fadeUp 0.8s 0.55s forwards;
+  }
+  .hero-tagline {
+    font-size: 14px; color: rgba(201,168,76,0.8); letter-spacing: 0.06em;
+    margin-bottom: 48px; font-style: italic;
+    opacity: 0; animation: fadeUp 0.8s 0.65s forwards;
+  }
+  .hero-btns {
+    display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.8s 0.75s forwards;
+  }
+  .btn-gold {
+    background: var(--gold); color: var(--navy); padding: 16px 36px;
+    border-radius: 50px; font-weight: 600; font-size: 15px;
+    text-decoration: none; transition: all 0.25s; border: none; cursor: pointer;
+    letter-spacing: 0.02em;
+  }
+  .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.35); }
+  .btn-outline-white {
+    background: transparent; color: #fff; padding: 16px 36px;
+    border-radius: 50px; font-weight: 500; font-size: 15px;
+    text-decoration: none; transition: all 0.25s; border: 1.5px solid rgba(255,255,255,0.4);
+    letter-spacing: 0.02em;
+  }
+  .btn-outline-white:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.7); transform: translateY(-2px); }
+  .hero-scroll {
+    position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: rgba(255,255,255,0.35); font-size: 11px; letter-spacing: 0.1em;
+    animation: bounce 2s infinite;
+  }
+  .hero-scroll svg { opacity: 0.5; }
+
+  /* STATS */
+  #stats { background: var(--navy); padding: 40px 24px; }
+  .stats-grid {
+    max-width: 900px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+  }
+  .stat-card {
+    text-align: center; padding: 28px 16px;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+  .stat-card:last-child { border-right: none; }
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 54px); font-weight: 700;
+    color: var(--gold); line-height: 1;
+    margin-bottom: 8px;
+  }
+  .stat-label { color: rgba(255,255,255,0.6); font-size: 13px; font-weight: 400; line-height: 1.5; letter-spacing: 0.03em; }
+
+  /* SECTION GENERIC */
+  section { padding: 96px 24px; }
+  .section-label { color: var(--gold); font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 16px; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 46px); font-weight: 700; color: var(--navy); line-height: 1.2; margin-bottom: 20px; }
+  .section-title.light { color: #fff; }
+  .section-sub { color: var(--muted); font-size: 17px; line-height: 1.7; max-width: 560px; }
+
+  /* FLIP CARDS */
+  #sluzby { background: var(--cream); }
+  .services-intro { max-width: 1100px; margin: 0 auto 64px; }
+  .flip-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; }
+  .flip-card { height: 300px; perspective: 1000px; cursor: pointer; }
+  .flip-inner { position: relative; width: 100%; height: 100%; transition: transform 0.65s cubic-bezier(.4,0,.2,1); transform-style: preserve-3d; -webkit-transform-style: preserve-3d; }
+  .flip-card:hover .flip-inner, .flip-card.flipped .flip-inner { transform: rotateY(180deg); -webkit-transform: rotateY(180deg); }
+  .flip-front, .flip-back { position: absolute; inset: 0; border-radius: 18px; backface-visibility: hidden; -webkit-backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; padding: 36px 28px; }
+  .flip-front { background: var(--navy); border: 1px solid rgba(201,168,76,0.15); }
+  .flip-back { background: var(--gold); transform: rotateY(180deg); }
+  .flip-icon { margin-bottom: 20px; line-height: 0; }
+  .flip-front h3 { font-family: 'Playfair Display', serif; font-size: 22px; color: #fff; font-weight: 600; margin-bottom: 10px; }
+  .flip-front p { color: rgba(255,255,255,0.55); font-size: 14px; line-height: 1.6; }
+  .flip-back h3 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--navy); font-weight: 700; margin-bottom: 16px; }
+  .flip-back ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .flip-back ul li { color: var(--navy); font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 8px; }
+  .flip-back ul li::before { content: '→'; font-size: 11px; }
+
+  /* O MNĚ */
+  #o-mne { background: #fff; }
+  .about-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .about-img { border-radius: 24px; overflow: hidden; box-shadow: 0 32px 80px rgba(10,22,40,0.15); }
+  .about-img img { width: 100%; height: 480px; object-fit: cover; object-position: center 15%; display: block; }
+  .flip-inner { position: relative; width: 100%; height: 100%; transition: transform 0.65s cubic-bezier(.4,0,.2,1); transform-style: preserve-3d; -webkit-transform-style: preserve-3d; }
+  .flip-card:hover .flip-inner, .flip-card.flipped .flip-inner { transform: rotateY(180deg); -webkit-transform: rotateY(180deg); }
+  .flip-front, .flip-back { position: absolute; inset: 0; border-radius: 18px; backface-visibility: hidden; -webkit-backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; padding: 36px 28px; }
+  .about-quote { font-family: 'Playfair Display', serif; font-size: 19px; font-style: italic; color: var(--navy); line-height: 1.7; margin: 28px 0; padding-left: 24px; border-left: 3px solid var(--gold); }
+  .about-text p { color: var(--muted); font-size: 16px; line-height: 1.8; margin-bottom: 16px; }
+  .about-badges { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+  .badge { background: rgba(10,22,40,0.06); color: var(--navy); font-size: 12px; font-weight: 600; padding: 7px 16px; border-radius: 50px; letter-spacing: 0.04em; }
+
+  /* PROCESS */
+  #proces { background: var(--navy); }
+  .process-inner { max-width: 1000px; margin: 0 auto; }
+  .process-intro { margin-bottom: 64px; }
+  .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; }
+  .step { position: relative; }
+  .step-num { font-family: 'Playfair Display', serif; font-size: 56px; font-weight: 700; color: rgba(201,168,76,0.85); line-height: 1; margin-bottom: 16px; }
+  .step h3 { font-family: 'Playfair Display', serif; font-size: 20px; color: #fff; font-weight: 600; margin-bottom: 10px; }
+  .step p { color: rgba(255,255,255,0.5); font-size: 14px; line-height: 1.7; }
+  .step-line { position: absolute; top: 28px; left: 56px; right: -16px; height: 1px; background: rgba(201,168,76,0.2); }
+
+  /* KONTAKT */
+  #kontakt { background: var(--cream); }
+  .contact-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .contact-info h2 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 42px); color: var(--navy); margin-bottom: 16px; }
+  .contact-info p { color: var(--muted); font-size: 16px; line-height: 1.7; margin-bottom: 36px; }
+  .contact-detail { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+  .contact-icon { width: 48px; height: 48px; background: var(--navy); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .contact-icon svg { color: var(--gold); }
+  .contact-detail-text span { display: block; font-size: 12px; color: var(--muted); font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 2px; }
+  .contact-detail-text a, .contact-detail-text strong { color: var(--navy); font-weight: 600; text-decoration: none; font-size: 15px; }
+  .contact-detail-text a:hover { color: var(--gold); }
+  .contact-form { background: #fff; border-radius: 24px; padding: 40px; box-shadow: 0 8px 40px rgba(10,22,40,0.08); }
+  .form-group { margin-bottom: 20px; }
+  .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .form-group input, .form-group textarea {
+    width: 100%; padding: 14px 18px; border-radius: 12px;
+    border: 1.5px solid rgba(10,22,40,0.1); font-family: 'Inter', sans-serif;
+    font-size: 15px; color: var(--navy); background: var(--cream);
+    outline: none; transition: border-color 0.2s;
+  }
+  .form-group input:focus, .form-group textarea:focus { border-color: var(--gold); background: #fff; }
+  .form-group textarea { resize: none; height: 120px; }
+  .btn-gold-full { width: 100%; }
+
+  /* FOOTER */
+  footer { background: #060e1c; padding: 48px 24px 32px; text-align: center; }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 20px; color: #fff; font-weight: 700; margin-bottom: 8px; }
+  .footer-logo span { color: var(--gold); }
+  footer p { color: rgba(255,255,255,0.3); font-size: 13px; margin-top: 16px; }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: none; } }
+  @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .stats-grid { grid-template-columns: repeat(3,1fr); }
+    .stat-card { border-right: 1px solid rgba(255,255,255,0.08); border-bottom: none; padding: 20px 8px; }
+    .stat-card:last-child { border-right: none; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    .about-img { border-radius: 16px; }
+    .about-img img { height: 320px; object-position: center 10%; }
+    .step-line { display: none; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+  }
+  @media (max-width: 540px) {
+    .stats-grid { grid-template-columns: repeat(3,1fr); }
+    .stat-number { font-size: 22px; }
+    .stat-label { font-size: 11px; }
+    .hero-btns { flex-direction: column; align-items: center; }
+    .btn-gold, .btn-outline-white { width: 260px; text-align: center; }
+    nav { padding: 0 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">F<span>V</span></a>
+    <div class="nav-links">
+      <a href="#o-mne">O mně</a>
+      <a href="#sluzby">Služby</a>
+      <a href="#proces">Průběh spolupráce</a>
+      <a href="#kontakt" class="nav-cta">Pojďme se potkat</a>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <button class="mobile-close" onclick="toggleMenu()">✕</button>
+  <a href="#o-mne" onclick="toggleMenu()">O mně</a>
+  <a href="#sluzby" onclick="toggleMenu()">Služby</a>
+  <a href="#proces" onclick="toggleMenu()">Průběh spolupráce</a>
+  <a href="#kontakt" onclick="toggleMenu()" style="color:var(--gold)">Pojďme se potkat</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Finanční poradce</div>
+    <h1 class="hero-title">Filip <em>Vašíček</em></h1>
+    <p class="hero-subtitle">Ve světě plném možností i rizik je důležité mít po boku<br>někoho, kdo vám pomůže se správně rozhodnout.</p>
+    <p class="hero-tagline">„Neprodávám produkty — buduji vztahy a důvěru."</p>
+    <div class="hero-btns">
+      <a href="#kontakt" class="btn-gold">Pojďme se potkat</a>
+      <a href="#sluzby" class="btn-outline-white">Moje služby</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="stats-grid">
+    <div class="stat-card reveal">
+      <div class="stat-number" data-count="200">0</div>
+      <div class="stat-label">spokojených<br>klientů</div>
+    </div>
+    <div class="stat-card reveal">
+      <div class="stat-number">35+</div>
+      <div class="stat-label">mil. Kč klientů<br>ve správě</div>
+    </div>
+    <div class="stat-card reveal">
+      <div class="stat-number">100%</div>
+      <div class="stat-label">transparentnost<br>& nezávislost</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLUŽBY -->
+<section id="sluzby">
+  <div class="services-intro reveal">
+    <div class="section-label">Co pro vás udělám</div>
+    <h2 class="section-title">Komplexní finanční péče</h2>
+    <p class="section-sub">Specializuji se na celkový pohled na vaše finance. Každé řešení stavím na individuálním přístupu.</p>
+  </div>
+  <div class="flip-grid">
+    <div class="flip-card reveal">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="flip-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <h3>Pojištění a Ochrana</h3>
+          <p>Životní, majetkové, auto i firemní pojištění. Nastavím vám ochranu, která dává smysl.</p>
+        </div>
+        <div class="flip-back">
+          <h3>Pojištění a Ochrana</h3>
+          <ul>
+            <li>Životní pojištění</li>
+            <li>Pojištění majetku a domácnosti</li>
+            <li>Pojištění vozidel</li>
+            <li>Firemní pojištění</li>
+            <li>Likvidace pojistných událostí</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card reveal">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="flip-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <h3>Investice a Spoření</h3>
+          <p>Fondy, komodity, krypto, DPS. Váš kapitál pracuje pro vás.</p>
+        </div>
+        <div class="flip-back">
+          <h3>Investice a Spoření</h3>
+          <ul>
+            <li>Podílové fondy</li>
+            <li>Komodity a alternativy</li>
+            <li>Kryptoměny</li>
+            <li>Doplňkové penzijní spoření</li>
+            <li>Hypotéky a úvěry</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card reveal">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="flip-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <h3>Hypotéky a Úvěry</h3>
+          <p>Vlastní bydlení bez zbytečného přeplácení. Najdeme pro vás nejlepší podmínky na trhu.</p>
+        </div>
+        <div class="flip-back">
+          <h3>Hypotéky a Úvěry</h3>
+          <ul>
+            <li>Hypoteční poradenství</li>
+            <li>Refinancování hypotéky</li>
+            <li>Spotřebitelské úvěry</li>
+            <li>Porovnání bank na trhu</li>
+            <li>Kompletní vyřízení</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="flip-card reveal">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="flip-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-width="2"/></svg></div>
+          <h3>Aplikace My Plann</h3>
+          <p>Všechny vaše smlouvy na jednom místě. Moderní klientský portál v kapse.</p>
+        </div>
+        <div class="flip-back">
+          <h3>Aplikace My Plann</h3>
+          <ul>
+            <li>Klientský portál online</li>
+            <li>Všechny smlouvy přehledně</li>
+            <li>Přímá komunikace</li>
+            <li>Notifikace a upozornění</li>
+            <li>16 poboček po celé ČR</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- O MNĚ -->
+<section id="o-mne">
+  <div class="about-grid">
+    <div class="about-img reveal">
+      <img src="assets/filip_about.jpg" alt="Filip Vašíček">
+    </div>
+    <div class="about-text reveal">
+      <div class="section-label">O mně</div>
+      <h2 class="section-title">Filip Vašíček</h2>
+      <blockquote class="about-quote">„Finanční jistota začíná u správných rozhodnutí — neprodávám produkty, ale buduji vztahy a důvěru."</blockquote>
+      <p>Jako finanční poradce pomáhám klientům vyznat se v nabídce finančních produktů, nastavit smysluplný plán a dlouhodobě chránit jejich majetek, zdraví i budoucnost.</p>
+      <p>Mým cílem je, abyste měli ve svých financích jasno a jistotu – ať už jde o pojištění, spoření, investice, zajištění rodiny nebo přípravu na důchod.</p>
+    
+    </div>
+  </div>
+</section>
+
+<!-- PROCES -->
+<section id="proces">
+  <div class="process-inner">
+    <div class="process-intro reveal">
+      <div class="section-label" style="color:var(--gold)">Spolupráce</div>
+      <h2 class="section-title light">Průběh spolupráce</h2>
+      <p class="section-sub" style="color:rgba(255,255,255,0.5)">Jasný a přehledný postup od první schůzky až po dlouhodobou spolupráci.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <h3>Konzultace</h3>
+        <p>Bezplatné setkání, kde se seznámíme s vaší situací, cíli a potřebami. Bez závazků.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">02</div>
+        <h3>Analýza</h3>
+        <p>Detailně zanalyzuji váš finanční stav a stávající produkty. Zjistíme, co funguje a co lze zlepšit.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">03</div>
+        <h3>Plán</h3>
+        <p>Připravím individuální finanční plán přesně šitý na míru vašim potřebám a cílům.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">04</div>
+        <h3>Pravidelná péče</h3>
+        <p>Průběžně sledujeme výsledky, přizpůsobujeme plán a jsem tu pro vás, když mě potřebujete.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KONTAKT -->
+<section id="kontakt">
+  <div class="contact-grid">
+    <div class="contact-info reveal">
+      <div class="section-label">Kontakt</div>
+      <h2 class="section-title">Začněme spolu</h2>
+      <p>Napište nebo zavolejte – první krok k lepší správě financí může začít právě teď.</p>
+      <div class="contact-detail">
+        <div class="contact-icon">
+          <svg width="20" height="20" fill="none" stroke="#C9A84C" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
+        <div class="contact-detail-text">
+          <span>Telefon</span>
+          <a href="tel:+420725597243">+420 725 597 243</a>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-icon">
+          <svg width="20" height="20" fill="none" stroke="#C9A84C" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div class="contact-detail-text">
+          <span>E-mail</span>
+          <a href="mailto:f.vasicek@money2u.cz">f.vasicek@money2u.cz</a>
+        </div>
+      </div>
+    </div>
+    <form id="contact-form" class="contact-form reveal">
+      <div class="form-group">
+        <label>Jméno a příjmení *</label>
+        <input type="text" name="name" placeholder="Jan Novák" required>
+      </div>
+      <div class="form-group">
+        <label>E-mail *</label>
+        <input type="email" name="email" placeholder="jan@example.cz" required>
+      </div>
+      <div class="form-group">
+        <label>Telefon *</label>
+        <input type="tel" name="phone" placeholder="+420 XXX XXX XXX" required>
+      </div>
+      <div class="form-group">
+        <label>Zpráva *</label>
+        <textarea name="message" placeholder="Napište, s čím potřebujete pomoci..." required></textarea>
+      </div>
+      <button type="submit" class="btn-gold btn-gold-full" style="display:block;text-align:center;width:100%;border:none;cursor:pointer;font-size:15px;">Pojďme se potkat</button>
+      <p id="form-msg" style="margin-top:12px;font-size:13px;color:green;display:none;text-align:center;">Zpráva odeslána! Ozveme se co nejdříve.</p>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Filip <span>Vašíček</span></div>
+  <div style="color:rgba(255,255,255,0.4);font-size:13px;margin-top:4px;letter-spacing:0.08em;text-transform:uppercase;">Finanční poradce</div>
+  <p>© 2026 Filip Vašíček · vasicekfilip.cz</p>
+</footer>
+
+<script>
+// Navbar scroll
+const nav = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Mobile menu
+function toggleMenu() {
+  document.getElementById('mobile-menu').classList.toggle('open');
+  document.body.style.overflow = document.getElementById('mobile-menu').classList.contains('open') ? 'hidden' : '';
+}
+
+// Reveal on scroll
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(r => observer.observe(r));
+
+// Count up animation
+function countUp(el, target, suffix = '') {
+  let start = 0;
+  const duration = 1800;
+  const step = (timestamp) => {
+    if (!start) start = timestamp;
+    const progress = Math.min((timestamp - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.floor(ease * target) + (progress === 1 ? '+' : '') + suffix;
+    if (progress < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+const countEls = document.querySelectorAll('[data-count]');
+const countObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      countUp(e.target, parseInt(e.target.dataset.count));
+      countObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+countEls.forEach(el => countObserver.observe(el));
+// Contact form — send via FormSubmit to f.vasicek@money2u.cz
+const contactForm = document.getElementById('contact-form');
+if (contactForm) {
+  contactForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const data = new FormData(this);
+    const btn = this.querySelector('button[type=submit]');
+    btn.textContent = 'Odesílám...';
+    btn.disabled = true;
+    try {
+      await fetch('https://formsubmit.co/f.vasicek@money2u.cz', {
+        method: 'POST', body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+      document.getElementById('form-msg').style.display = 'block';
+      this.reset();
+    } catch {
+      btn.textContent = 'Chyba. Zkuste znovu.';
+    }
+    btn.disabled = false;
+    btn.textContent = 'Pojďme se potkat';
+  });
+}
+
+// Flip cards — auto-flip on mobile when card is in 25–65% of viewport
+function updateFlipCards() {
+  if (window.innerWidth > 900) return;
+  const vh = window.innerHeight;
+  document.querySelectorAll('.flip-card').forEach(card => {
+    const rect = card.getBoundingClientRect();
+    const centerY = rect.top + rect.height / 2;
+    const pct = centerY / vh;
+    if (pct >= 0.25 && pct <= 0.65) {
+      card.classList.add('flipped');
+    } else {
+      card.classList.remove('flipped');
+    }
+  });
+}
+window.addEventListener('scroll', updateFlipCards, { passive: true });
+window.addEventListener('resize', updateFlipCards);
+</script>
+</body>
+</html>

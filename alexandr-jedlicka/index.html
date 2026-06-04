@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alexandr Jedlička, PFP — Finanční poradce money2u</title>
+  <meta name="description" content="Alexandr Jedlička, PFP — privátní finanční poradce z Brna. Hypotéky, investice, pojištění a financování pro firmy i OSVČ. Jeden bankéř, nekonečno možností." />
+  <meta name="theme-color" content="#0D1F3A" />
+
+  <link rel="canonical" href="https://alexandr-jedlicka.vercel.app/" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230D1F3A'/%3E%3Ctext x='50%25' y='50%25' dy='.06em' fill='%2399C6C3' font-family='Poppins, Plus Jakarta Sans, sans-serif' font-size='42' font-weight='900' text-anchor='middle' dominant-baseline='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%230D1F3A'/%3E%3Ctext x='50%25' y='50%25' dy='.06em' fill='%2399C6C3' font-family='Poppins, Plus Jakarta Sans, sans-serif' font-size='118' font-weight='900' text-anchor='middle' dominant-baseline='middle'%3EA%3C/text%3E%3C/svg%3E" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="cs_CZ" />
+  <meta property="og:site_name" content="Alexandr Jedlička, PFP" />
+  <meta property="og:title" content="Alexandr Jedlička, PFP — Finanční poradce money2u" />
+  <meta property="og:description" content="Jeden bankéř, nekonečno možností. Privátní finanční poradenství — hypotéky, investice, pojištění i firemní financování. Brno i online po celé ČR." />
+  <meta property="og:url" content="https://alexandr-jedlicka.vercel.app/" />
+  <meta property="og:image" content="https://alexandr-jedlicka.vercel.app/assets/alexandr-jedlicka-uvod.jpg" />
+  <meta property="og:image:width" content="1440" />
+  <meta property="og:image:height" content="960" />
+  <meta property="og:image:alt" content="Alexandr Jedlička, PFP — finanční poradce" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Alexandr Jedlička, PFP — Finanční poradce money2u" />
+  <meta name="twitter:description" content="Jeden bankéř, nekonečno možností. Hypotéky, investice, pojištění i firemní financování — Brno i online po celé ČR." />
+  <meta name="twitter:image" content="https://alexandr-jedlicka.vercel.app/assets/alexandr-jedlicka-uvod.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Poppins:wght@900&display=swap" />
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FinancialService",
+    "@id": "https://alexandr-jedlicka.vercel.app/#service",
+    "name": "Alexandr Jedlička, PFP — finanční poradce",
+    "alternateName": "Alexandr Jedlička",
+    "description": "Privátní finanční poradenství v Brně. Hypotéky, investice, pojištění, firemní financování a daňová optimalizace pro OSVČ. Více než 10 let zkušeností.",
+    "url": "https://alexandr-jedlicka.vercel.app/",
+    "logo": "https://alexandr-jedlicka.vercel.app/assets/alexandr-jedlicka-uvod.jpg",
+    "image": "https://alexandr-jedlicka.vercel.app/assets/alexandr-jedlicka-uvod.jpg",
+    "telephone": "+420739506225",
+    "email": "info@alexandrjedlicka.cz",
+    "priceRange": "Konzultace zdarma",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Tolstého 562/35",
+      "addressLocality": "Brno – Žabovřesky",
+      "postalCode": "616 00",
+      "addressCountry": "CZ"
+    },
+    "areaServed": {
+      "@type": "Country",
+      "name": "Česká republika"
+    },
+    "founder": {
+      "@type": "Person",
+      "name": "Alexandr Jedlička, PFP",
+      "jobTitle": "Finanční poradce",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "money2u"
+      }
+    },
+    "sameAs": [
+      "https://money2u.cz"
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <a class="skip" href="#hero">Přeskočit na hlavní obsah</a>
+
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="#hero" class="brand">Alexandr Jedlička</a>
+      <div class="nav-links">
+        <a href="#why">Proč já</a>
+        <a href="#services">Služby</a>
+        <a href="#about">O mně</a>
+        <a href="#process">Průběh</a>
+        <a href="#contact">Kontakt</a>
+        <a href="#contact" class="btn-pill">Konzultace zdarma</a>
+      </div>
+      <button id="ham" class="ham" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <nav id="mob-nav" class="mob-nav">
+    <a href="#why">Proč já</a>
+    <a href="#services">Služby</a>
+    <a href="#about">O mně</a>
+    <a href="#process">Průběh</a>
+    <a href="#contact">Kontakt</a>
+    <a href="#contact" class="btn-pill">Konzultace zdarma</a>
+  </nav>
+
+  <section id="hero">
+    <picture class="hero-bg">
+      <img src="assets/alexandr-jedlicka-uvod.jpg" alt="Alexandr Jedlička, PFP — finanční poradce" />
+    </picture>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow"><span class="line"></span>Alexandr Jedlička, PFP</p>
+      <h1>
+        Jeden bankéř,<br/>nekonečno <em>možností.</em>
+      </h1>
+      <p class="hero-sub">Privátní finanční poradenství. Hypotéky, investice, pojištění i firemní finance — chytře, jasně a transparentně.</p>
+      <p class="hero-meta">Finanční poradce · money2u</p>
+      <div class="hero-ctas">
+        <a href="#contact" class="btn-primary">Domluvit konzultaci</a>
+        <a href="#about" class="btn-ghost">O mně</a>
+      </div>
+    </div>
+    <a href="#stats" class="hero-scroll" aria-label="Posunout dolů">
+      <span></span>
+    </a>
+  </section>
+
+  <section id="stats">
+    <div class="stats-grid">
+      <div class="stat"><div class="stat-num" data-target="10">0</div><div class="stat-lbl">Let praxe</div></div>
+      <div class="stat"><div class="stat-num" data-target="96" data-suffix="%">0</div><div class="stat-lbl">Úspěšnost případů</div></div>
+      <div class="stat"><div class="stat-num" data-target="100" data-suffix="%">0</div><div class="stat-lbl">Nezávislé poradenství</div></div>
+    </div>
+  </section>
+
+  <section id="why">
+    <div class="container">
+      <p class="eyebrow">Proč si vybrat mě</p>
+      <h2>Dodržení slova.<br/>Vždy.</h2>
+      <p class="lead">Komunikace a vzájemná důvěra jsou u mě na prvním místě. Co slíbím, to platí.</p>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <div class="why-num">01</div>
+          <h3>Férové jednání</h3>
+          <p>Žádné skryté provize, žádné triky. Vidíte přesně, co a proč doporučuji. Co slíbím, to platí — a vždy hájím váš zájem, ne zájem produktové firmy.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M5 21c0-3.9 3.1-7 7-7s7 3.1 7 7"/><path d="M17.5 4.5l1.5 1.5-3 3-1.5-1.5z"/></svg>
+          </div>
+          <div class="why-num">02</div>
+          <h3>Náročné případy — rutina</h3>
+          <p>Má klientela je velmi rozmanitá. Ani u bonitních klientů často není financování jednoduché — proto jsou „problémy“ u mě denní rutinou. Poradit si umím takřka se vším.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M3 19c0-3 2.7-5.5 6-5.5S15 16 15 19M14 19c0-2 1.3-3.5 3-4 2 .5 4 1.5 4 4"/></svg>
+          </div>
+          <div class="why-num">03</div>
+          <h3>Servis po celou dobu</h3>
+          <p>Financováním náš vztah teprve začíná — následný servis je samozřejmostí. Za mnou stojí tým specialistů money2u: hypoteční, investiční, na pojištění i právní.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="container">
+      <p class="eyebrow">Moje služby</p>
+      <h2>Komplexní péče<br/>o vaše finance</h2>
+      <p class="lead">Každý případ je jiný. Každé řešení je šité na míru.</p>
+
+      <div class="svc-grid">
+
+        <div class="svc-card">
+          <div class="svc-front">
+            <div class="svc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6"/></svg>
+            </div>
+            <h3>Hypoteční úvěry</h3>
+            <span class="flip-hint">Otočit ▸</span>
+          </div>
+          <div class="svc-back">
+            <h3>Hypoteční úvěry</h3>
+            <ul>
+              <li>Komplexní a individuální vyřízení financování</li>
+              <li>Koupě, výstavba, develop, refinancování</li>
+              <li>Zpětné proplacení a rekonstrukce</li>
+              <li>Majetkové vypořádání po rozvodu</li>
+              <li>Náročné případy a bonitní klientela</li>
+            </ul>
+            <a href="#contact" class="btn-link">Nezávazná konzultace →</a>
+          </div>
+        </div>
+
+        <div class="svc-card">
+          <div class="svc-front">
+            <div class="svc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
+            </div>
+            <h3>Investice & spoření</h3>
+            <span class="flip-hint">Otočit ▸</span>
+          </div>
+          <div class="svc-back">
+            <h3>Investice & spoření</h3>
+            <ul>
+              <li>Majetkové poradenství a růst bohatství</li>
+              <li>Investiční plánování a tvorba rezerv</li>
+              <li>Spoření a příprava renty</li>
+              <li>Zajištění důchodu</li>
+              <li>Obhospodařování majetkového portfolia</li>
+            </ul>
+            <a href="#contact" class="btn-link">Nezávazná konzultace →</a>
+          </div>
+        </div>
+
+        <div class="svc-card">
+          <div class="svc-front">
+            <div class="svc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z"/></svg>
+            </div>
+            <h3>Pojištění & zajištění</h3>
+            <span class="flip-hint">Otočit ▸</span>
+          </div>
+          <div class="svc-back">
+            <h3>Pojištění & zajištění</h3>
+            <ul>
+              <li>Ochrana příjmů a zajištění následků vážných rizik</li>
+              <li>Pojištění životní a úrazové</li>
+              <li>Pojištění vozidel a movitého majetku</li>
+              <li>Pojištění nemovitého majetku</li>
+              <li>Pojištění odpovědnosti</li>
+            </ul>
+            <a href="#contact" class="btn-link">Nezávazná konzultace →</a>
+          </div>
+        </div>
+
+        <div class="svc-card">
+          <div class="svc-front">
+            <div class="svc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7h16v13H4z"/><path d="M4 11h16M8 4v4M16 4v4"/></svg>
+            </div>
+            <h3>Firmy & OSVČ</h3>
+            <span class="flip-hint">Otočit ▸</span>
+          </div>
+          <div class="svc-back">
+            <h3>Firmy & OSVČ</h3>
+            <ul>
+              <li>Efektivní vyvádění firemních prostředků</li>
+              <li>Spojení osobních a firemních financí</li>
+              <li>Daňová optimalizace a zaměstnanecké benefity</li>
+              <li>Firemní a provozní financování, vozové parky</li>
+              <li>Leasing strojů a vozidel, neúčelové úvěry</li>
+            </ul>
+            <a href="#contact" class="btn-link">Nezávazná konzultace →</a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="svc-dots" id="svcDots" aria-hidden="true">
+        <button data-i="0" class="active" aria-label="Služba 1"></button>
+        <button data-i="1" aria-label="Služba 2"></button>
+        <button data-i="2" aria-label="Služba 3"></button>
+        <button data-i="3" aria-label="Služba 4"></button>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="about-glow"></div>
+    <div class="container">
+      <div class="about-head">
+        <p class="eyebrow">O mně</p>
+        <h2>Spolehlivý partner<br/>pro vaše finance</h2>
+      </div>
+
+      <div class="about-bio">
+        <div class="about-photo">
+          <img src="assets/alexandr-jedlicka-uvod.jpg" alt="Alexandr Jedlička, PFP — finanční poradce" loading="lazy" />
+        </div>
+        <div class="about-text">
+          <p>Už více než <strong>10 let</strong> pomáhám klientům dělat chytrá finanční rozhodnutí — investice a spoření, hypoteční úvěry, pojištění a zajištění, ale i firemní financování a daňová optimalizace pro OSVČ. Specializuji se na <strong>náročné případy</strong>, které jiní vzdají — komplikované hypotéky, bonitní klientelu i nestandardní zadání.</p>
+          <p>Moji kancelář najdete v <strong>Brně</strong>, ale stejně rád se potkávám online nebo osobně kdekoliv, kde to klientům vyhovuje. Komunikace a vzájemná důvěra jsou u mě na prvním místě — co slíbím, to platí. Pomáhám lidem bydlet, snít a žít: chytře, jasně a transparentně.</p>
+          <p>V rámci firmy <strong>money2u</strong> spolupracuji se specialisty na hypotéky, investice, pojištění i firemní finance. Díky tomu pro vás dokážu navrhnout i neobvyklá řešení — financováním náš vztah teprve začíná a následný servis je samozřejmostí.</p>
+          <blockquote class="about-quote">
+            <svg class="quote-mark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 11h3v9H2v-7c0-3.3 2.7-6 6-6v3a3 3 0 00-3 3v1H4zm10 0h3v9h-5v-7c0-3.3 2.7-6 6-6v3a3 3 0 00-3 3v1h-1z"/></svg>
+            <p>Pomáhám lidem bydlet, snít, žít. <em>Chytře, jasně a transparentně.</em></p>
+            <footer>— Alexandr Jedlička, PFP</footer>
+          </blockquote>
+        </div>
+      </div>
+
+      <div class="pillars">
+        <article class="pillar">
+          <div class="pillar-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          </div>
+          <div class="pillar-num">10<span>+</span></div>
+          <h3>Let v oboru</h3>
+          <p>Hypotéky, investice, pojištění i firemní financování — od jednoduchých smluv po složitá nestandardní zadání pro bonitní klientelu.</p>
+        </article>
+
+        <article class="pillar">
+          <div class="pillar-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-7.5 8-13a8 8 0 10-16 0c0 5.5 8 13 8 13z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          </div>
+          <div class="pillar-num">Brno <span>+ ČR</span></div>
+          <h3>Kdekoliv vám vyhovuje</h3>
+          <p>Kancelář v Brně-Žabovřeskách, ale schůzky vedu i online nebo osobně po celé republice — vždy tak, jak je to pro vás pohodlnější.</p>
+        </article>
+
+        <article class="pillar">
+          <div class="pillar-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3 2.7-5 6-5s6 2 6 5M14 20c0-2 1.3-3.5 3-4 2 .5 4 1.8 4 4"/></svg>
+          </div>
+          <div class="pillar-num">Money<span>2U</span></div>
+          <h3>Tým za mnou</h3>
+          <p>Hypoteční, investiční i pojišťovací specialisté plus vlastní právní servis. Společně dokážeme vyřešit i neobvyklé situace.</p>
+        </article>
+      </div>
+
+      <div class="about-personal">
+        <div class="ap-text">
+          <h3>Mimo práci</h3>
+          <p>Brno je můj domov i pracoviště — mám rád procházky historickým centrem a okolní přírodou jižní Moravy. Když zrovna nepracuji, věnuji se sportu, cestování a rodině. Věřím, že vyvážený osobní život je základem pro to, abych mohl naplno dělat svou práci.</p>
+        </div>
+        <div class="ap-tags" aria-hidden="true">
+          <span>Brno</span>
+          <span>Sport</span>
+          <span>Cestování</span>
+          <span>Rodina</span>
+        </div>
+      </div>
+
+      <div class="about-cta">
+        <a href="#contact" class="btn-primary">Domluvit nezávaznou konzultaci</a>
+        <div class="about-links">
+          <a href="https://money2u.cz" target="_blank" rel="noopener">money2u.cz ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="container">
+      <p class="eyebrow">Průběh spolupráce</p>
+      <h2>Čtyři kroky<br/>k finanční pohodě</h2>
+      <p class="lead">Jasný postup. Žádné překvapení. Jen výsledky.</p>
+      <div class="process-grid">
+        <div class="process-step">
+          <div class="process-num">01</div>
+          <h3>Konzultace</h3>
+          <p>Sejdeme se — online nebo osobně. Bez závazků, zcela zdarma.</p>
+        </div>
+        <div class="process-step">
+          <div class="process-num">02</div>
+          <h3>Analýza</h3>
+          <p>Detailní pohled na vaši situaci, příjmy, výdaje a stávající smlouvy.</p>
+        </div>
+        <div class="process-step">
+          <div class="process-num">03</div>
+          <h3>Plán</h3>
+          <p>Individuální řešení přesně pro vás. Z celého trhu to nejlepší.</p>
+        </div>
+        <div class="process-step">
+          <div class="process-num">04</div>
+          <h3>Péče</h3>
+          <p>Vše vyřídím za vás a zůstanu tu dlouhodobě — sledujeme výsledky.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <p class="eyebrow">Kontakt</p>
+      <h2>Pojďme si popovídat</h2>
+      <p class="lead">Napište mi nebo zavolejte — první konzultace je vždy zdarma.</p>
+
+      <div class="contact-grid">
+        <form class="contact-form" id="contactForm" novalidate>
+          <input type="text" name="name" placeholder="Vaše jméno" required />
+          <input type="email" name="email" placeholder="E-mail" required />
+          <input type="tel" name="phone" placeholder="Telefon (volitelné)" />
+          <textarea name="msg" rows="5" placeholder="Vaše zpráva nebo dotaz..." required></textarea>
+          <button type="submit" class="btn-primary">Odeslat zprávu</button>
+          <p class="form-note" id="formNote" hidden></p>
+        </form>
+
+        <div class="contact-info">
+          <div class="ci-row">
+            <div class="ci-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5a2 2 0 012-2h2.5a1 1 0 011 .7l1.3 4a1 1 0 01-.3 1.1l-1.7 1.4a14 14 0 006 6l1.4-1.7a1 1 0 011.1-.3l4 1.3a1 1 0 01.7 1V19a2 2 0 01-2 2h-1C9.6 21 3 14.4 3 6V5z"/></svg>
+            </div>
+            <div><div class="ci-lbl">Telefon</div><a href="tel:+420739506225">+420 739 506 225</a></div>
+          </div>
+          <div class="ci-row">
+            <div class="ci-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+            </div>
+            <div><div class="ci-lbl">E-mail</div><a href="mailto:info@alexandrjedlicka.cz">info@alexandrjedlicka.cz</a></div>
+          </div>
+          <div class="ci-row">
+            <div class="ci-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-7.5 8-13a8 8 0 10-16 0c0 5.5 8 13 8 13z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            </div>
+            <div><div class="ci-lbl">Kancelář</div><div>Tolstého 562/35<br/>616 00 Brno – Žabovřesky</div></div>
+          </div>
+          <div class="ci-row">
+            <div class="ci-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16v12H4z"/><path d="M4 10h16"/></svg>
+            </div>
+            <div>
+              <div class="ci-lbl">Fakturační údaje</div>
+              <div>Alexandr Jedlička<br/>Hilleho 1843/6, 602 00 Brno<br/>IČ: 05177090 · Nejsem plátce DPH</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery" aria-label="Fotogalerie">
+    <div class="gallery-inner">
+      <div class="gallery-slides" id="gallerySlides">
+        <div class="gallery-slide active"><img src="assets/gallery-1.jpg" alt="" loading="lazy" /></div>
+        <div class="gallery-slide"><img src="assets/gallery-2.jpg" alt="" loading="lazy" /></div>
+        <div class="gallery-slide"><img src="assets/gallery-3.jpg" alt="" loading="lazy" /></div>
+        <div class="gallery-slide"><img src="assets/gallery-4.webp" alt="" loading="lazy" /></div>
+        <div class="gallery-slide"><img src="assets/gallery-5.webp" alt="" loading="lazy" /></div>
+      </div>
+      <button class="gallery-btn prev" id="galPrev" aria-label="Předchozí snímek">‹</button>
+      <button class="gallery-btn next" id="galNext" aria-label="Další snímek">›</button>
+      <div class="gallery-dots" id="galleryDots">
+        <button data-i="0" class="active" aria-label="Snímek 1"></button>
+        <button data-i="1" aria-label="Snímek 2"></button>
+        <button data-i="2" aria-label="Snímek 3"></button>
+        <button data-i="3" aria-label="Snímek 4"></button>
+        <button data-i="4" aria-label="Snímek 5"></button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="footer-name">Alexandr Jedlička</span>
+        <span>PFP — Finanční poradce · money2u</span>
+      </div>
+      <ul class="footer-nav">
+        <li><a href="#why">Proč já</a></li>
+        <li><a href="#services">Služby</a></li>
+        <li><a href="#about">O mně</a></li>
+        <li><a href="#process">Průběh</a></li>
+        <li><a href="#contact">Kontakt</a></li>
+      </ul>
+      <div class="footer-meta">
+        <div>© <span id="year"></span> Alexandr Jedlička. Všechna práva vyhrazena.</div>
+        <div>IČ: 05177090 · Nejsem plátce DPH</div>
+      </div>
+    </div>
+  </footer>
+
+  <a href="#contact" id="mobileCta" class="mobile-cta">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5a2 2 0 012-2h2.5a1 1 0 011 .7l1.3 4a1 1 0 01-.3 1.1l-1.7 1.4a14 14 0 006 6l1.4-1.7a1 1 0 011.1-.3l4 1.3a1 1 0 01.7 1V19a2 2 0 01-2 2h-1C9.6 21 3 14.4 3 6V5z"/></svg>
+    <span>Konzultace zdarma</span>
+  </a>
+
+  <script src="script.js"></script>
+</body>
+</html>

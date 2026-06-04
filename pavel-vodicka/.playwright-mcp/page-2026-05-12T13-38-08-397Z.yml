@@ -1,0 +1,286 @@
+- generic [active] [ref=e1]:
+  - link "Přeskočit na hlavní obsah" [ref=e2] [cursor=pointer]:
+    - /url: "#hero"
+  - navigation [ref=e3]:
+    - generic [ref=e4]:
+      - link "Pavel Vodička" [ref=e5] [cursor=pointer]:
+        - /url: "#hero"
+      - button "Menu" [ref=e6] [cursor=pointer]
+  - navigation [ref=e10]:
+    - link "Proč já" [ref=e11] [cursor=pointer]:
+      - /url: "#why"
+    - link "Služby" [ref=e12] [cursor=pointer]:
+      - /url: "#services"
+    - link "O mně" [ref=e13] [cursor=pointer]:
+      - /url: "#about"
+    - link "Průběh" [ref=e14] [cursor=pointer]:
+      - /url: "#process"
+    - link "Kontakt" [ref=e15] [cursor=pointer]:
+      - /url: "#contact"
+    - link "Konzultace zdarma" [ref=e16] [cursor=pointer]:
+      - /url: "#contact"
+  - generic [ref=e17]:
+    - img "Pavel Vodička — finanční poradce" [ref=e19]
+    - generic [ref=e20]:
+      - heading "Zajímám se o vaši budoucnost." [level=1] [ref=e21]:
+        - text: Zajímám se
+        - text: o
+        - emphasis [ref=e22]: vaši budoucnost.
+      - paragraph [ref=e23]: Protože v ní budete žít celý život. Finance srozumitelně a férově — pomáhám vám mít v penězích jasno.
+      - paragraph [ref=e24]: Finanční poradce · money2u
+      - link "Domluvit konzultaci" [ref=e26] [cursor=pointer]:
+        - /url: "#contact"
+  - generic [ref=e28]:
+    - generic [ref=e29]:
+      - generic [ref=e30]: "0"
+      - generic [ref=e31]: Let praxe
+    - generic [ref=e32]:
+      - generic [ref=e33]: "0"
+      - generic [ref=e34]: Spokojených klientů
+    - generic [ref=e35]:
+      - generic [ref=e36]: "0"
+      - generic [ref=e37]: Nezávislé poradenství
+  - generic [ref=e39]:
+    - paragraph [ref=e40]: Proč si vybrat mě
+    - heading "Férové jednání. Profesionální přístup." [level=2] [ref=e41]:
+      - text: Férové jednání.
+      - text: Profesionální přístup.
+    - paragraph [ref=e42]: Nejsem call centrum ani robot. Jsem člověk, který se o vaše finance osobně stará.
+    - generic [ref=e43]:
+      - generic [ref=e44]:
+        - generic [ref=e45]: "01"
+        - heading "Mluvím narovinu" [level=3] [ref=e46]
+        - paragraph [ref=e47]: Žádné skryté provize, žádné triky. Vidíte přesně, co a proč doporučuji. Co slíbím, to platí — a vždy hájím váš zájem, ne zájem produktové firmy.
+      - generic [ref=e48]:
+        - generic [ref=e49]: "02"
+        - heading "16 let zkušeností" [level=3] [ref=e50]
+        - paragraph [ref=e51]: Ve financích se pohybuji od roku 2009. Stovky uzavřených smluv a dlouhodobých spoluprací. Znám trh, znám produkty a vím, jak je správně poskládat dohromady.
+      - generic [ref=e52]:
+        - generic [ref=e53]: "03"
+        - heading "Tým za mnou" [level=3] [ref=e54]
+        - paragraph [ref=e55]: Stojí za mnou tým specialistů money2u — hypoteční, investiční, na pojištění i právní. I složitý nebo nestandardní případ má řešení.
+  - generic [ref=e57]:
+    - paragraph [ref=e58]: Moje služby
+    - heading "Komplexní péče o vaše finance" [level=2] [ref=e59]:
+      - text: Komplexní péče
+      - text: o vaše finance
+    - paragraph [ref=e60]: Každý z nás je jedinečný — a proto neexistují univerzální řešení.
+    - generic [ref=e61]:
+      - generic [ref=e62]:
+        - generic [ref=e63]:
+          - img [ref=e65]
+          - heading "Kompletní péče a servis" [level=3] [ref=e67]
+        - generic [ref=e68]:
+          - list [ref=e69]:
+            - listitem [ref=e70]: Pojištění života, majetku, odpovědnosti, vozidel, podnikatelů
+            - listitem [ref=e71]: Úvěry — spotřebitelské, hypoteční, ze stavebního spoření, firemní
+            - listitem [ref=e72]: Spoření a investování — fondy, komodity, DPS, kryptoměny
+            - listitem [ref=e73]: Podpis smluv elektronicky i papírově, sjednání na dálku
+            - listitem [ref=e74]: Schůzky na 16 pobočkách po ČR
+            - listitem [ref=e75]: Klientský portál v aplikaci i webu
+          - link "Nezávazná konzultace →" [ref=e76] [cursor=pointer]:
+            - /url: "#contact"
+      - generic [ref=e77]:
+        - generic [ref=e78]:
+          - img [ref=e80]
+          - heading "Mobilní aplikace My Plann" [level=3] [ref=e83]
+        - generic [ref=e84]:
+          - list [ref=e85]:
+            - listitem [ref=e86]: Všechny smlouvy a skeny portfolia na jednom místě
+            - listitem [ref=e87]: Komunikace s poradcem přímo z aplikace, notifikace
+            - listitem [ref=e88]: Nahrávání dokumentů a informací klientem
+            - listitem [ref=e89]: Přehled o zaplacených a nezaplacených smlouvách
+            - listitem [ref=e90]: Rozvaha majetku, zůstatky investic a spoření
+          - link "Nezávazná konzultace →" [ref=e91] [cursor=pointer]:
+            - /url: "#contact"
+      - generic [ref=e92]:
+        - generic [ref=e93]:
+          - img [ref=e95]
+          - heading "Služby spojené s finančními produkty" [level=3] [ref=e97]
+        - generic [ref=e98]:
+          - list [ref=e99]:
+            - listitem [ref=e100]: Hlášení a likvidace pojistných událostí
+            - listitem [ref=e101]: Právní pomoc a konzultace v životních situacích
+            - listitem [ref=e102]: Komunikace s katastrem, lékaři, odhadci a úřady
+            - listitem [ref=e103]: Doporučení prověřených realizačních firem
+            - listitem [ref=e104]: FVE, energie, mobilní operátoři, řemesla a služby
+          - link "Nezávazná konzultace →" [ref=e105] [cursor=pointer]:
+            - /url: "#contact"
+      - generic [ref=e106]:
+        - generic [ref=e107]:
+          - img [ref=e109]
+          - heading "Realitní služby" [level=3] [ref=e111]
+        - generic [ref=e112]:
+          - list [ref=e113]:
+            - listitem [ref=e114]: Prodej, pronájem a výkup nemovitostí
+            - listitem [ref=e115]: Videoprohlídky včetně 3D
+            - listitem [ref=e116]: Homestaging
+            - listitem [ref=e117]: Profesionální makléři
+            - listitem [ref=e118]: Vlastní advokátní služby
+          - link "Nezávazná konzultace →" [ref=e119] [cursor=pointer]:
+            - /url: "#contact"
+    - generic [ref=e120]:
+      - button [ref=e121] [cursor=pointer]
+      - button [ref=e122] [cursor=pointer]
+      - button [ref=e123] [cursor=pointer]
+      - button [ref=e124] [cursor=pointer]
+  - generic [ref=e126]:
+    - generic [ref=e127]:
+      - paragraph [ref=e128]: O mně
+      - heading "Spolehlivý partner pro vaše finance" [level=2] [ref=e129]:
+        - text: Spolehlivý partner
+        - text: pro vaše finance
+    - generic [ref=e130]:
+      - img "Pavel Vodička — finanční poradce" [ref=e132]
+      - generic [ref=e133]:
+        - paragraph [ref=e134]:
+          - text: V oblasti financí se pohybuji
+          - strong [ref=e135]: od roku 2009
+          - text: . Pomáhám lidem řešit pojištění, úvěry i investice — přehledně, srozumitelně a efektivně. Mám za sebou stovky uzavřených smluv a dlouhodobých spoluprací.
+        - paragraph [ref=e136]:
+          - text: Moji kancelář najdete v
+          - strong [ref=e137]: Rosicích u Brna
+          - text: ", ale stejně rád se potkávám online nebo osobně kdekoliv, kde to klientům vyhovuje. Spolupracuji s většinou bank a pojišťoven na trhu, takže mohu nabídnout široký výběr a najít řešení na míru. Spojuji osobní přístup s možností vše vyřešit online, bez zbytečného papírování."
+        - paragraph [ref=e138]:
+          - text: V rámci naší firmy
+          - strong [ref=e139]: Money2U
+          - text: spolupracuji i s dalšími specialisty — hypotečními, investičními i na pojištění. Kromě financí se věnuji i realitám ve spolupráci s
+          - strong [ref=e140]: Reality2u
+          - text: . Mohu s vámi zkonzultovat i neobvyklá řešení a nestandardní finanční případy.
+        - blockquote [ref=e141]:
+          - img [ref=e142]
+          - paragraph [ref=e144]:
+            - text: Mluvím narovinu a vždy hledám
+            - emphasis [ref=e145]: to nejlepší právě pro vás.
+          - generic [ref=e146]: — Pavel Vodička
+    - generic [ref=e147]:
+      - article [ref=e148]:
+        - img [ref=e150]
+        - generic [ref=e153]: 16+
+        - heading "Let v oboru" [level=3] [ref=e154]
+        - paragraph [ref=e155]: Pojištění, úvěry, investice i dlouhodobé finanční plánování — od jednoduchých smluv po složitá nestandardní zadání. Od roku 2009.
+      - article [ref=e156]:
+        - img [ref=e158]
+        - generic [ref=e161]: Rosice + ČR
+        - heading "Kdekoliv vám vyhovuje" [level=3] [ref=e162]
+        - paragraph [ref=e163]: Kancelář v Rosicích u Brna, ale schůzky vedu i online nebo osobně po celé republice — vždy tak, jak je to pro vás pohodlnější.
+      - article [ref=e164]:
+        - img [ref=e166]
+        - generic [ref=e170]: Money2U
+        - heading "Tým za mnou" [level=3] [ref=e171]
+        - paragraph [ref=e172]: Hypoteční, investiční i pojišťovací specialisté + vlastní advokátní servis a Reality2u. Mohu řešit i neobvyklé situace.
+    - generic [ref=e173]:
+      - generic [ref=e174]:
+        - heading "Jak pracuji" [level=3] [ref=e175]
+        - paragraph [ref=e176]: Díky moderním nástrojům a srovnávačům šetřím klientům čas i peníze. Spojuji osobní přístup s možností vše vyřešit online, bez zbytečného papírování. Mluvím narovinu — protože dobré finanční rozhodnutí musí dávat smysl především vám.
+      - generic [ref=e177]:
+        - generic [ref=e178]: Srozumitelnost
+        - generic [ref=e179]: Férovost
+        - generic [ref=e180]: Online i osobně
+        - generic [ref=e181]: Bez papírování
+    - generic [ref=e182]:
+      - link "Domluvit nezávaznou konzultaci" [ref=e183] [cursor=pointer]:
+        - /url: "#contact"
+      - generic [ref=e184]:
+        - link "money2u.cz ↗" [ref=e185] [cursor=pointer]:
+          - /url: https://money2u.cz
+        - link "reality2u.cz ↗" [ref=e186] [cursor=pointer]:
+          - /url: https://reality2u.cz
+  - generic [ref=e188]:
+    - paragraph [ref=e189]: Průběh spolupráce
+    - heading "Čtyři kroky k finanční pohodě" [level=2] [ref=e190]:
+      - text: Čtyři kroky
+      - text: k finanční pohodě
+    - paragraph [ref=e191]: Jasný postup. Žádné překvapení. Jen výsledky.
+    - generic [ref=e192]:
+      - generic [ref=e193]:
+        - generic [ref=e194]: "01"
+        - heading "Konzultace" [level=3] [ref=e195]
+        - paragraph [ref=e196]: Sejdeme se — online nebo osobně. Bez závazků, zcela zdarma.
+      - generic [ref=e197]:
+        - generic [ref=e198]: "02"
+        - heading "Analýza" [level=3] [ref=e199]
+        - paragraph [ref=e200]: Detailní pohled na vaši situaci, příjmy, výdaje a stávající smlouvy.
+      - generic [ref=e201]:
+        - generic [ref=e202]: "03"
+        - heading "Plán" [level=3] [ref=e203]
+        - paragraph [ref=e204]: Individuální řešení přesně pro vás. Z celého trhu to nejlepší.
+      - generic [ref=e205]:
+        - generic [ref=e206]: "04"
+        - heading "Péče" [level=3] [ref=e207]
+        - paragraph [ref=e208]: Vše vyřídím za vás a zůstanu tu dlouhodobě — sledujeme výsledky.
+  - generic [ref=e210]:
+    - paragraph [ref=e211]: Kontakt
+    - heading "Pojďme si popovídat" [level=2] [ref=e212]
+    - paragraph [ref=e213]: Napište mi nebo zavolejte — první konzultace je vždy zdarma.
+    - generic [ref=e214]:
+      - generic [ref=e215]:
+        - textbox "Vaše jméno" [ref=e216]
+        - textbox "E-mail" [ref=e217]
+        - textbox "Telefon (volitelné)" [ref=e218]
+        - textbox "Vaše zpráva nebo dotaz..." [ref=e219]
+        - button "Odeslat zprávu" [ref=e220] [cursor=pointer]
+      - generic [ref=e221]:
+        - generic [ref=e222]:
+          - img [ref=e224]
+          - generic [ref=e226]:
+            - generic [ref=e227]: Telefon
+            - link "+420 723 248 314" [ref=e228] [cursor=pointer]:
+              - /url: tel:+420723248314
+        - generic [ref=e229]:
+          - img [ref=e231]
+          - generic [ref=e234]:
+            - generic [ref=e235]: E-mail
+            - link "vodicka@money2u.cz" [ref=e236] [cursor=pointer]:
+              - /url: mailto:vodicka@money2u.cz
+        - generic [ref=e237]:
+          - img [ref=e239]
+          - generic [ref=e242]:
+            - generic [ref=e243]: Kancelář
+            - generic [ref=e244]: Tyršova 75, 665 01 Rosice
+        - generic [ref=e245]:
+          - img [ref=e247]
+          - generic [ref=e249]:
+            - generic [ref=e250]: Fakturační údaje
+            - generic [ref=e251]:
+              - text: Pavel Vodička
+              - text: Neslovická 300, 664 17 Tetčice
+              - text: "IČ: 74716492 · Nejsem plátce DPH"
+  - region "Fotogalerie" [ref=e252]:
+    - generic [ref=e253]:
+      - button "Předchozí snímek" [ref=e256] [cursor=pointer]: ‹
+      - button "Další snímek" [ref=e257] [cursor=pointer]: ›
+      - generic [ref=e258]:
+        - button "Snímek 1" [ref=e259] [cursor=pointer]
+        - button "Snímek 2" [ref=e260] [cursor=pointer]
+        - button "Snímek 3" [ref=e261] [cursor=pointer]
+        - button "Snímek 4" [ref=e262] [cursor=pointer]
+        - button "Snímek 5" [ref=e263] [cursor=pointer]
+  - contentinfo [ref=e264]:
+    - generic [ref=e265]:
+      - generic [ref=e266]:
+        - generic [ref=e267]: Pavel Vodička
+        - generic [ref=e268]: Finanční poradce · money2u
+      - list [ref=e269]:
+        - listitem [ref=e270]:
+          - link "Proč já" [ref=e271] [cursor=pointer]:
+            - /url: "#why"
+        - listitem [ref=e272]:
+          - link "Služby" [ref=e273] [cursor=pointer]:
+            - /url: "#services"
+        - listitem [ref=e274]:
+          - link "O mně" [ref=e275] [cursor=pointer]:
+            - /url: "#about"
+        - listitem [ref=e276]:
+          - link "Průběh" [ref=e277] [cursor=pointer]:
+            - /url: "#process"
+        - listitem [ref=e278]:
+          - link "Kontakt" [ref=e279] [cursor=pointer]:
+            - /url: "#contact"
+      - generic [ref=e280]:
+        - generic [ref=e281]: © 2026 Pavel Vodička. Všechna práva vyhrazena.
+        - generic [ref=e282]: "IČ: 74716492 · Nejsem plátce DPH"
+  - link "Konzultace zdarma":
+    - /url: "#contact"
+    - img
+    - generic: Konzultace zdarma
