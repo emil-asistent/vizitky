@@ -2,498 +2,1112 @@
 <html lang="cs">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Martin Kroupa – Finanční poradce</title>
-<meta name="description" content="Martin Kroupa – finanční poradce money2u v Brně. Hypotéky, investice, pojištění. Sjednejte konzultaci zdarma.">
-<meta property="og:title" content="Martin Kroupa – Finanční poradce">
-<meta property="og:description" content="Finanční poradce money2u. Bezplatná konzultace v Brně.">
-<meta property="og:url" content="https://martinkroupa.cz">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Martin Kroupa — Finanční poradce | money2u</title>
+<meta name="description" content="Martin Kroupa, DiS., PFP — nezávislý finanční poradce. 700+ klientů, 15+ let zkušeností. Bezplatná konzultace. Brno a celá ČR.">
+<link rel="canonical" href="https://martinkroupa.cz/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Martin Kroupa — Finanční poradce | money2u">
+<meta property="og:description" content="Martin Kroupa, DiS., PFP — nezávislý finanční poradce. 700+ klientů, 15+ let zkušeností. Bezplatná konzultace. Brno a celá ČR.">
+<meta property="og:url" content="https://martinkroupa.cz/">
+<meta property="og:image" content="https://martinkroupa.cz/assets/martin_hero.jpg">
+<meta property="og:locale" content="cs_CZ">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://martinkroupa.cz/assets/martin_hero.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Poppins:wght@900&display=swap" rel="stylesheet">
 <style>
-:root {
-  --navy: #0D1F3A;
-  --navy2: #162849;
-  --teal: #99C6C3;
-  --teal2: #6AAAA7;
-  --teal3: #C8E8E6;
-  --off: #F2F7F7;
-  --text: #0D1F3A;
-  --muted: rgba(13,31,58,0.52);
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#99C6C3;
+  --teal-dark:#2D7A76;
+  --navy:#0D1F3A;
+  --cream:#F7F4EF;
+  --white:#fff;
+  --muted:rgba(13,31,58,.55);
 }
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior:smooth; }
-body { font-family:'Space Grotesk',sans-serif; background:#fff; color:var(--text); overflow-x:hidden; }
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--navy);overflow-x:hidden;background:#fff}
 
-/* ═══════════════ NAV ═══════════════ */
-nav {
-  position:fixed; top:0; left:0; right:0; z-index:100;
-  padding:0 40px;
-  background:rgba(13,31,58,0.96);
-  backdrop-filter:blur(16px);
-  border-bottom:1px solid rgba(153,198,195,0.12);
+/* ═══ NAV ═══ */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  height:72px;
+  background:transparent;
+  transition:background .3s,box-shadow .3s,color .3s;
 }
-.ni { max-width:1200px; margin:0 auto; height:66px; display:flex; align-items:center; justify-content:space-between; }
-.nl { font-family:'Space Mono',monospace; font-weight:700; font-size:16px; color:#fff; text-decoration:none; letter-spacing:-.01em; }
-.nl span { color:var(--teal); }
-.nlinks { display:flex; gap:32px; align-items:center; }
-.nlinks a { color:rgba(255,255,255,.65); font-size:14px; font-weight:500; text-decoration:none; transition:color .2s; }
-.nlinks a:hover { color:var(--teal); }
-.nbtn { background:var(--teal) !important; color:var(--navy) !important; padding:9px 22px !important; border-radius:6px !important; font-weight:700 !important; font-size:13px !important; letter-spacing:.02em !important; transition:all .2s !important; }
-.nbtn:hover { background:var(--teal3) !important; }
-.ham { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:6px; }
-.ham span { width:22px; height:2px; background:#fff; border-radius:2px; }
-.mmenu { display:none; position:fixed; inset:0; z-index:99; background:var(--navy); flex-direction:column; align-items:center; justify-content:center; gap:28px; }
-.mmenu.open { display:flex; }
-.mmenu a { font-family:'Space Mono',monospace; font-size:24px; font-weight:700; color:#fff; text-decoration:none; }
-.mmenu a:hover { color:var(--teal); }
-.mmx { position:absolute; top:24px; right:24px; background:none; border:none; color:#fff; font-size:28px; cursor:pointer; }
-
-/* ═══════════════ HERO — centered big name ═══════════════ */
-#hero {
-  min-height:100vh;
+.nav-in{
+  max-width:1160px;margin:0 auto;height:100%;
+  padding:0 48px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+#nav.scrolled{background:#fff;box-shadow:0 2px 24px rgba(13,31,58,.09)}
+.nav-logo{
+  font-size:22px;font-weight:900;text-transform:uppercase;
+  letter-spacing:.06em;text-decoration:none;line-height:1;
+}
+.nav-logo .l1{color:#fff}
+.nav-logo .l2{color:#fff}
+#nav.scrolled .nav-logo .l1{color:var(--teal)}
+#nav.scrolled .nav-logo .l2{color:var(--teal)}
+.nav-links{display:flex;gap:36px;list-style:none;margin-left:auto;margin-right:24px;}
+.nav-links a{
+  font-size:14px;font-weight:600;color:#fff;text-decoration:none;
+  letter-spacing:.04em;opacity:.85;transition:opacity .2s,color .2s;
+}
+#nav.scrolled .nav-links a{color:var(--navy)}
+.nav-links a:hover{opacity:1;color:var(--teal-dark)}
+.nav-cta{
+  display:inline-block;padding:10px 22px;
+  background:rgba(255,255,255,0.2);color:#fff;border:1px solid rgba(255,255,255,0.5);
+  font-size:13px;font-weight:700;letter-spacing:.04em;
+  border-radius:8px;text-decoration:none;
+  transition:background .3s,transform .2s,color .3s,border .3s;
+}
+#nav.scrolled .nav-cta{background:var(--navy);color:#fff;border-color:var(--navy)}
+.nav-cta:hover{background:var(--teal-dark);border-color:var(--teal-dark);transform:translateY(-1px)}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;}
+.nav-hamburger span{display:block;width:24px;height:2px;background:#fff;border-radius:2px;transition:transform .3s, opacity .3s}
+#nav.scrolled .nav-hamburger span{background:var(--navy)}
+body.menu-open .nav-hamburger .bar:nth-child(1){ transform: translateY(7px) rotate(45deg); }
+body.menu-open .nav-hamburger .bar:nth-child(2){ opacity: 0; }
+body.menu-open .nav-hamburger .bar:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
+.mob-menu{
+  display:none;position:fixed;inset:0;
   background:var(--navy);
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  position:relative; overflow:hidden;
-  padding:100px 32px 60px;
-  text-align:center;
+  flex-direction:column;align-items:center;justify-content:center;gap:36px;
+  z-index:999;
 }
-/* Teal radial glow */
-#hero::before {
-  content:''; position:absolute;
-  top:30%; left:50%; transform:translateX(-50%);
-  width:600px; height:600px; border-radius:50%;
-  background:radial-gradient(circle, rgba(153,198,195,.14) 0%, transparent 65%);
-  pointer-events:none;
-}
-/* Horizontal line decoration */
-#hero::after {
-  content:''; position:absolute;
-  bottom:0; left:0; right:0; height:1px;
-  background:linear-gradient(to right, transparent, var(--teal), transparent);
-}
-.hero-label {
-  font-family:'Space Mono',monospace;
-  font-size:11px; letter-spacing:.22em; text-transform:uppercase;
-  color:var(--teal); margin-bottom:32px;
-  display:flex; align-items:center; gap:12px;
-}
-.hero-label::before, .hero-label::after { content:''; width:32px; height:1px; background:var(--teal); opacity:.5; }
-.hero-name {
-  font-family:'Space Grotesk',sans-serif;
-  font-size:clamp(56px,9vw,120px); font-weight:700;
-  color:#fff; line-height:.95; letter-spacing:-.03em;
-  margin-bottom:0;
-}
-.hero-name .last { display:block; color:var(--teal); }
-.hero-photo-wrap {
-  width:min(85vw, 320px); height:min(85vw, 320px);
-  border-radius:50%; overflow:hidden;
-  border:3px solid rgba(153,198,195,.3);
-  box-shadow:0 0 0 8px rgba(153,198,195,.06), 0 24px 64px rgba(0,0,0,.4);
-  margin:36px auto;
-  flex-shrink:0;
-}
-.hero-photo-wrap img { width:100%; height:100%; object-fit:cover; object-position:55% 5%; }
-.hero-tagline {
-  font-size:clamp(15px,2vw,20px); color:rgba(255,255,255,.55);
-  font-weight:400; max-width:480px; line-height:1.65;
-  margin:0 auto 40px;
-}
-.hero-tagline strong { color:rgba(255,255,255,.85); font-weight:600; }
-.hero-actions { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
-.btn-primary { background:var(--teal); color:var(--navy); padding:14px 34px; border-radius:8px; font-weight:700; font-size:15px; text-decoration:none; transition:all .25s; font-family:'Space Grotesk',sans-serif; border:none; cursor:pointer; }
-.btn-primary:hover { background:var(--teal3); transform:translateY(-2px); box-shadow:0 8px 24px rgba(153,198,195,.3); }
-.btn-outline { background:transparent; color:#fff; padding:14px 34px; border-radius:8px; font-weight:500; font-size:15px; text-decoration:none; transition:all .25s; border:1.5px solid rgba(255,255,255,.2); }
-.btn-outline:hover { border-color:rgba(153,198,195,.5); background:rgba(153,198,195,.06); }
-/* scroll indicator */
-.scroll-ind {
-  position:absolute; bottom:32px; left:50%; transform:translateX(-50%);
-  display:flex; flex-direction:column; align-items:center; gap:6px;
-  color:rgba(255,255,255,.3); font-size:11px; letter-spacing:.1em; text-transform:uppercase;
-  font-family:'Space Mono',monospace;
-}
-.scroll-ind::before {
-  content:''; width:1px; height:32px;
-  background:linear-gradient(to bottom, transparent, rgba(153,198,195,.5));
-  animation:scrollPulse 1.8s ease-in-out infinite;
-}
-@keyframes scrollPulse { 0%,100%{opacity:.3; transform:scaleY(0.7);} 50%{opacity:1; transform:scaleY(1);} }
+.mob-menu.open{display:flex}
+.mob-menu a{font-size:clamp(28px,8vw,48px);font-weight:700;color:#fff;text-decoration:none;letter-spacing:-.01em;}
+.mob-menu a:hover{color:var(--teal)}
+.mob-menu .mob-cta{font-size:clamp(16px,4vw,20px);margin-top:8px;padding:14px 36px;background:var(--teal);color:var(--navy);border-radius:50px;font-weight:700;letter-spacing:0;}
 
-/* ═══════════════ BENTO GRID — services ═══════════════ */
-#services { background:var(--off); padding:96px 32px; }
-.sh { max-width:1100px; margin:0 auto 56px; }
-.tag { display:inline-block; font-family:'Space Mono',monospace; font-size:11px; font-weight:400; letter-spacing:.18em; text-transform:uppercase; color:var(--teal2); background:rgba(153,198,195,.15); padding:6px 14px; border-radius:4px; margin-bottom:18px; }
-.stitle { font-size:clamp(28px,3.5vw,44px); font-weight:700; color:var(--navy); line-height:1.1; margin-bottom:14px; letter-spacing:-.02em; }
-.stitle.light { color:#fff; }
-.ssub { font-size:16px; color:var(--muted); line-height:1.7; max-width:500px; }
-.bento { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(4, 1fr); grid-template-rows:auto; gap:16px; }
-.bc { background:#fff; border-radius:20px; padding:36px 28px; border:1.5px solid rgba(13,31,58,.07); transition:all .3s; position:relative; overflow:hidden; }
-.bc::before { content:''; position:absolute; top:0; right:0; width:80px; height:80px; background:radial-gradient(circle at top right, rgba(153,198,195,.2) 0%, transparent 70%); }
-.bc:hover { transform:translateY(-4px); box-shadow:0 20px 48px rgba(13,31,58,.1); border-color:rgba(153,198,195,.4); }
-.bc.big { grid-column:span 2; background:var(--navy); border-color:transparent; }
-.bc.big::before { background:radial-gradient(circle at top right, rgba(153,198,195,.15) 0%, transparent 70%); }
-.bc.tall { grid-row:span 2; }
-.bc-num { font-family:'Space Mono',monospace; font-size:11px; color:var(--teal2); letter-spacing:.1em; margin-bottom:20px; }
-.bc.big .bc-num { color:rgba(153,198,195,.6); }
-.bc h3 { font-size:20px; font-weight:700; color:var(--navy); margin-bottom:10px; letter-spacing:-.01em; }
-.bc.big h3 { color:#fff; font-size:22px; }
-.bc p { font-size:14px; color:var(--muted); line-height:1.7; }
-.bc.big p { color:rgba(255,255,255,.55); }
-.bc-line { width:32px; height:2px; background:var(--teal); border-radius:2px; margin-top:20px; }
-.bc-list { list-style:none; margin-top:14px; display:flex; flex-direction:column; gap:8px; }
-.bc-list li { font-size:13px; color:var(--muted); display:flex; align-items:flex-start; gap:8px; }
-.bc.big .bc-list li { color:rgba(255,255,255,.55); }
-.bc-list li::before { content:'—'; font-family:'Space Mono',monospace; font-size:11px; color:var(--teal); flex-shrink:0; margin-top:1px; }
 
-/* ═══════════════ ABOUT ═══════════════ */
-#about { background:#fff; padding:96px 32px; }
-.about-grid { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; }
-.about-visual { position:relative; }
-.about-img { width:100%; border-radius:20px; object-fit:cover; height:580px; object-position:center 15%; display:block; filter:grayscale(15%); }
-/* Teal accent block */
-.about-accent {
-  position:absolute; bottom:-12px; left:-12px;
-  width:120px; height:120px; border-radius:16px;
-  background:var(--teal);
+/* ═══ HERO ═══ */
+#hero{
+  position:relative;height:100vh;min-height:600px;
+  display:flex;align-items:flex-end;justify-content:center;
+  text-align:center;overflow:hidden;padding-bottom:100px;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:url('assets/martin_hero.jpg') center 20%/cover no-repeat;
   z-index:-1;
 }
-.about-badge {
-  position:absolute; top:24px; right:-16px;
-  background:var(--navy); color:#fff;
-  padding:16px 20px; border-radius:14px;
-  font-family:'Space Mono',monospace; font-size:13px; font-weight:700;
-  line-height:1.3;
-  box-shadow:0 12px 32px rgba(13,31,58,.25);
+.hero-overlay{
+  position:absolute;inset:0;
+  background:rgba(13,31,58,0.62);
+  z-index:1;
+  pointer-events:none;
 }
-.about-badge span { display:block; font-size:11px; font-weight:400; color:var(--teal); }
-.about-content .tag { margin-bottom:14px; }
-.about-content h2 { font-size:clamp(28px,3.5vw,42px); font-weight:700; color:var(--navy); margin-bottom:6px; letter-spacing:-.02em; }
-.about-sub { font-size:15px; color:var(--teal2); font-weight:600; margin-bottom:28px; }
-.about-content p { font-size:15px; color:var(--muted); line-height:1.8; margin-bottom:14px; }
-.about-hl { background:var(--off); border-left:3px solid var(--teal); padding:16px 20px; border-radius:0 12px 12px 0; font-size:14px; color:var(--navy); font-weight:500; line-height:1.65; margin:24px 0 32px; }
-/* Mono stats row */
-.about-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-bottom:32px; }
-.ast { text-align:center; }
-.ast-n { font-family:'Space Mono',monospace; font-size:28px; font-weight:700; color:var(--navy); }
-.ast-l { font-size:12px; color:var(--muted); margin-top:4px; }
+.hero-content{
+  position:relative;z-index:2;
+  max-width:900px;padding:0 32px;
+}
+.hero-tag{
+  display:inline-block;margin-bottom:24px;
+  font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--teal);background:rgba(153,198,195,.15);
+  padding:7px 20px;border-radius:100px;border:1px solid rgba(153,198,195,.3);
+}
+.hero-name{
+  font-size:clamp(56px,10vw,120px);font-weight:900;
+  color:#fff;line-height:.95;letter-spacing:-.03em;
+  margin-bottom:20px;
+}
+.hero-sub{
+  font-size:16px;font-weight:700;color:var(--teal);
+  text-transform:uppercase;letter-spacing:.14em;
+  margin-bottom:48px;
+}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;padding:16px 36px;background:var(--teal);color:var(--navy);font-size:14px;font-weight:700;letter-spacing:.04em;border-radius:10px;text-decoration:none;border:2px solid var(--teal);transition:transform .2s,box-shadow .2s;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(153,198,195,.4);}
+.btn-outline-light{display:inline-flex;align-items:center;gap:8px;padding:16px 36px;background:transparent;color:#fff;font-size:14px;font-weight:700;letter-spacing:.04em;border-radius:10px;text-decoration:none;border:2px solid rgba(255,255,255,.5);transition:transform .2s,background .2s,border-color .2s;}
+.btn-outline-light:hover{background:rgba(255,255,255,.1);border-color:#fff;transform:translateY(-2px);}
+.btn-navy{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:16px 32px;background:var(--navy);color:#fff;
+  font-size:14px;font-weight:700;letter-spacing:.04em;
+  border-radius:10px;text-decoration:none;border:2px solid var(--navy);
+  transition:transform .2s,box-shadow .2s,background .2s;
+}
+.btn-navy:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(13,31,58,.3)}
+.btn-navy-outline{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:16px 32px;background:transparent;color:var(--navy);
+  font-size:14px;font-weight:700;letter-spacing:.04em;
+  border-radius:10px;text-decoration:none;border:2px solid var(--navy);
+  transition:transform .2s,background .2s,color .2s;
+}
+.btn-navy-outline:hover{background:var(--navy);color:#fff;transform:translateY(-2px)}
 
-/* ═══════════════ PROCESS — zigzag timeline ═══════════════ */
-#process { background:var(--navy); padding:96px 32px; }
-.proc-grid { max-width:900px; margin:64px auto 0; display:flex; flex-direction:column; gap:0; }
-.pstep {
-  display:grid; grid-template-columns:72px 1fr; gap:32px;
-  padding:32px 0; border-bottom:1px solid rgba(153,198,195,.1);
-  position:relative;
+.hero-right img{
+  width:100%;height:100%;object-fit:cover;object-position:center top;
+  display:block;
 }
-.pstep:last-child { border-bottom:none; }
-.pn {
-  width:56px; height:56px; border-radius:50%;
-  background:rgba(153,198,195,.12); border:1.5px solid rgba(153,198,195,.3);
-  display:flex; align-items:center; justify-content:center;
-  font-family:'Space Mono',monospace; font-size:13px; font-weight:700; color:var(--teal);
-  flex-shrink:0; position:relative; z-index:1;
-}
-.pstep::before {
-  content:''; position:absolute; left:27px; top:88px; bottom:-32px; width:1px;
-  background:linear-gradient(to bottom, rgba(153,198,195,.3), rgba(153,198,195,.05));
-}
-.pstep:last-child::before { display:none; }
-.pc h3 { font-size:20px; font-weight:700; color:#fff; margin-bottom:8px; letter-spacing:-.01em; }
-.pc p { font-size:14px; color:rgba(255,255,255,.45); line-height:1.7; }
-.pc-tag { display:inline-block; font-family:'Space Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--teal); background:rgba(153,198,195,.1); padding:4px 10px; border-radius:4px; margin-bottom:10px; }
 
-/* ═══════════════ CONTACT ═══════════════ */
-#contact { background:var(--off); padding:96px 32px; }
-.ct-grid { max-width:960px; margin:0 auto; display:grid; grid-template-columns:1fr 1.1fr; gap:64px; align-items:start; }
-.ct-info h2 { font-size:clamp(26px,3.5vw,40px); font-weight:700; color:var(--navy); margin-bottom:12px; letter-spacing:-.02em; }
-.ct-info p { font-size:15px; color:var(--muted); line-height:1.7; margin-bottom:32px; }
-.ci { display:flex; align-items:center; gap:14px; margin-bottom:16px; }
-.cii { width:44px; height:44px; border-radius:10px; background:var(--navy); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.cii svg { stroke:#fff; }
-.cil { font-family:'Space Mono',monospace; font-size:10px; color:var(--muted); font-weight:400; text-transform:uppercase; letter-spacing:.07em; margin-bottom:2px; }
-.civ a { font-size:15px; font-weight:600; color:var(--navy); text-decoration:none; }
-.civ a:hover { color:var(--teal2); }
-.cf { background:#fff; border-radius:20px; padding:36px; box-shadow:0 8px 48px rgba(13,31,58,.07); }
-.fg { margin-bottom:16px; }
-.fg label { display:block; font-family:'Space Mono',monospace; font-size:10px; font-weight:400; color:var(--muted); text-transform:uppercase; letter-spacing:.1em; margin-bottom:7px; }
-.fg input,.fg textarea {
-  width:100%; padding:13px 16px; border-radius:10px;
-  border:1.5px solid rgba(13,31,58,.1); font-family:'Space Grotesk',sans-serif;
-  font-size:15px; color:var(--navy); background:var(--off); outline:none; transition:border-color .2s;
+/* ═══ STATS ═══ */
+#stats {
+  background: var(--teal);
+  padding: 60px 40px;
 }
-.fg input:focus,.fg textarea:focus { border-color:var(--teal2); background:#fff; }
-.fg textarea { resize:none; height:110px; }
-#fmsg { margin-top:12px; font-size:13px; color:var(--teal2); display:none; text-align:center; font-family:'Space Mono',monospace; }
-
-/* ═══════════════ FOOTER ═══════════════ */
-footer { background:var(--navy); padding:44px 32px 28px; text-align:center; border-top:1px solid rgba(153,198,195,.1); }
-.flogo { font-family:'Space Mono',monospace; font-size:15px; font-weight:700; color:#fff; }
-.flogo span { color:var(--teal); }
-footer p { color:rgba(255,255,255,.25); font-size:12px; margin-top:12px; letter-spacing:.02em; }
-
-/* ═══════════════ REVEAL ═══════════════ */
-.rv { opacity:0; transform:translateY(24px); transition:opacity .7s, transform .7s; }
-.rv.on { opacity:1; transform:none; }
-.rv2 { opacity:0; transform:translateX(-16px); transition:opacity .7s, transform .7s; }
-.rv2.on { opacity:1; transform:none; }
-
-/* ═══════════════ RESPONSIVE ═══════════════ */
-@media(max-width:960px) {
-  .bento { grid-template-columns:1fr 1fr; }
-  .bc.big { grid-column:span 2; }
-  .about-grid { grid-template-columns:1fr; gap:48px; }
-  .about-img { height:380px; }
-  .about-accent { display:none; }
-  .about-badge { right:0; }
-  .ct-grid { grid-template-columns:1fr; gap:40px; }
-  nav { padding:0 20px; }
-  .nlinks { display:none; }
-  .ham { display:flex; }
+.stats-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 32px;
+  text-align: center;
 }
-@media(max-width:640px) {
-  .bento { grid-template-columns:1fr; }
-  .bc.big { grid-column:span 1; }
-  #hero { padding:90px 24px 56px; }
-  .hero-name { font-size:clamp(52px,14vw,80px); }
-  .about-stats { grid-template-columns:repeat(3,1fr); }
-  .pstep { grid-template-columns:56px 1fr; gap:16px; }
-  .pstep::before { left:27px; }
-  section { padding:72px 20px; }
-  #services, #about, #process, #contact { padding:72px 20px; }
-  .cf { padding:24px 20px; }
+.stat-item { padding: 16px; }
+.stat-num {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 900;
+  font-size: clamp(52px, 7vw, 80px);
+  letter-spacing: -0.03em;
+  color: var(--navy);
+  line-height: 1;
 }
+.stat-label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600; font-size: 14px;
+  color: var(--navy);
+  margin-top: 8px;
+  opacity: 0.8;
+}
+
+/* ═══ SERVICES ═══ */
+#services{background:var(--cream);padding:96px 48px}
+.section-header{text-align:center;margin-bottom:64px}
+.section-tag{
+  display:inline-block;margin-bottom:16px;
+  font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--teal-dark);background:rgba(45,122,118,.1);
+  padding:6px 16px;border-radius:100px;
+}
+.section-tag.light{color:var(--teal);background:rgba(153,198,195,.15)}
+.section-h2{font-size:clamp(32px,4vw,52px);font-weight:800;color:var(--navy);line-height:1.1;margin-bottom:16px}
+.section-sub{font-size:17px;color:var(--muted);max-width:560px;margin:0 auto;line-height:1.7}
+.section-sub.white{color:rgba(255,255,255,.6)}
+.services-grid{
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:24px;
+}
+.flip-card{height:340px;perspective:1000px;cursor:pointer}
+.flip-inner{
+  position:relative;width:100%;height:100%;
+  transform-style:preserve-3d;
+  transition:transform .6s cubic-bezier(.22,1,.36,1);
+}
+.flip-card:hover .flip-inner,
+.flip-card.flipped .flip-inner{transform:rotateY(180deg)}
+.flip-front,.flip-back{
+  position:absolute;inset:0;
+  border-radius:20px;padding:36px 32px;
+  backface-visibility:hidden;
+  display:flex;flex-direction:column;justify-content:flex-end;
+}
+.flip-front{background:var(--teal)}
+.flip-front .fc-icon{
+  width:56px;height:56px;border-radius:14px;
+  background:rgba(13,31,58,.12);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:auto;
+}
+.flip-front .fc-icon svg{stroke:var(--navy)}
+.flip-front h3{font-size:22px;font-weight:800;color:var(--navy);line-height:1.2}
+.flip-front p{font-size:14px;color:rgba(13,31,58,.65);margin-top:8px;font-weight:500}
+.flip-back{
+  background:var(--navy);
+  transform:rotateY(180deg);
+  justify-content:center;
+  gap:16px;
+}
+.flip-back h3{font-size:20px;font-weight:800;color:var(--teal);margin-bottom:4px}
+.flip-back ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.flip-back ul li{
+  font-size:14px;color:rgba(255,255,255,.8);font-weight:500;
+  display:flex;align-items:center;gap:10px;
+}
+.flip-back ul li::before{
+  content:'';display:block;width:6px;height:6px;
+  background:var(--teal);border-radius:50%;flex-shrink:0;
+}
+
+/* ═══ WHY ME — BENTO ═══ */
+#why{background:var(--teal);padding:96px 48px}
+.bento-grid{
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(12,1fr);
+  grid-template-rows:auto auto;
+  gap:16px;
+}
+.bento-card{
+  background:var(--navy);border-radius:20px;
+  padding:32px;color:#fff;
+  transition:transform .3s,box-shadow .3s;
+  border:1.5px solid transparent;
+}
+.bento-card:hover{
+  transform:scale(1.02);
+  box-shadow:0 0 0 2px rgba(255,255,255,.4);
+}
+.bento-card h3{font-size:18px;font-weight:800;color:var(--teal);margin-bottom:10px;line-height:1.2}
+.bento-card p{font-size:14px;color:rgba(255,255,255,.7);line-height:1.7}
+.bento-card .bc-num{ color: #fff !important;
+  font-family:'Poppins',sans-serif;font-weight:900;
+  font-size:48px;color:rgba(153,198,195,.25);
+  line-height:1;margin-bottom:8px;
+}
+.bc1{grid-column:span 5}
+.bc2{grid-column:span 4}
+.bc3{grid-column:span 3}
+.bc4{grid-column:span 3}
+.bc5{grid-column:span 4}
+.bc6{grid-column:span 5}
+
+/* ═══ ABOUT ═══ */
+#about{background:var(--cream);padding:96px 48px}
+.about-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1.1fr;gap:72px;align-items:center}
+.about-photo-wrap{position:relative}
+.about-photo-frame{
+  border-radius:24px;overflow:hidden;
+  outline:6px solid var(--teal);
+  outline-offset:10px;
+}
+.about-photo-frame img{width:100%;height:560px;object-fit:cover;object-position:center top;display:block}
+.about-badge{
+  position:absolute;bottom:-12px;right:-12px;
+  background:var(--navy);color:#fff;
+  padding:18px 24px;border-radius:16px;
+  box-shadow:0 16px 40px rgba(13,31,58,.25);
+  font-weight:700;font-size:15px;text-align:center;
+}
+.about-badge small{display:block;font-size:12px;font-weight:400;color:var(--teal);margin-top:4px}
+.about-content .section-tag{margin-bottom:12px}
+.about-content h2{font-size:clamp(28px,3vw,40px);font-weight:800;color:var(--navy);margin-bottom:24px;line-height:1.1}
+.about-content p{font-size:15px;color:var(--muted);line-height:1.85;margin-bottom:16px}
+.about-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+.btn-teal{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:12px 22px;background:var(--teal);color:var(--navy);
+  font-size:13px;font-weight:700;letter-spacing:.04em;
+  border-radius:8px;text-decoration:none;
+  transition:transform .2s,background .2s,box-shadow .2s;
+}
+.btn-teal:hover{background:var(--teal-dark);color:#fff;transform:translateY(-2px);box-shadow:0 6px 20px rgba(45,122,118,.3)}
+
+/* ═══ PROCESS ═══ */
+#process{background:var(--navy);padding:96px 48px}
+.process-inner{max-width:1100px;margin:0 auto}
+.process-steps{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:0;position:relative;margin-top:64px;
+}
+.process-line-wrap{
+  position:absolute;top:36px;left:12.5%;right:12.5%;height:2px;
+  background:rgba(255,255,255,.08);border-radius:1px;
+  overflow:hidden;z-index:0;
+}
+.process-line-fill{
+  height:100%;width:0;
+  background:var(--teal);
+  transition:width 1.2s cubic-bezier(.22,1,.36,1);
+}
+.process-line-fill.animate{width:100%}
+.process-step{
+  text-align:center;padding:0 20px;position:relative;
+}
+.ps-num{
+  width:72px;height:72px;border-radius:50%;position:relative;z-index:1;
+  background:var(--navy);border:2px solid var(--teal);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 24px;
+  font-family:'Poppins',sans-serif;font-weight:900;
+  font-size:22px;color:var(--teal);
+}
+.ps-title{font-size:16px;font-weight:800;color:#fff;margin-bottom:10px}
+.ps-desc{font-size:14px;color:rgba(255,255,255,.5);line-height:1.7}
+
+/* ═══ CONTACT ═══ */
+#contact{background:var(--teal);padding:96px 48px}
+.contact-inner{max-width:1100px;margin:0 auto}
+.contact-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:64px;align-items:start;margin-top:64px}
+.contact-form{background:rgba(13,31,58,.08);border-radius:24px;padding:40px}
+.form-group{margin-bottom:20px}
+.form-group label{
+  display:block;font-size:11px;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(13,31,58,.6);margin-bottom:8px;
+}
+.form-group input,.form-group textarea{
+  width:100%;padding:14px 18px;
+  border-radius:10px;border:1.5px solid rgba(13,31,58,.15);
+  background:rgba(255,255,255,.65);
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;
+  color:var(--navy);outline:none;
+  transition:border-color .2s,background .2s;
+}
+.form-group input:focus,.form-group textarea:focus{
+  border-color:var(--navy);background:rgba(255,255,255,.9);
+}
+.form-group textarea{resize:none;height:120px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.btn-submit{
+  width:100%;padding:16px;
+  background:var(--navy);color:#fff;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:15px;font-weight:700;letter-spacing:.04em;
+  border:none;border-radius:10px;cursor:pointer;
+  transition:background .2s,transform .2s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn-submit:hover{background:var(--teal-dark);transform:translateY(-2px)}
+#form-success{display:none;margin-top:16px;text-align:center;font-weight:600;color:var(--navy)}
+.contact-info{display:flex;flex-direction:column;gap:28px}
+.ci-block{}
+.ci-label{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(13,31,58,.55);margin-bottom:8px}
+.ci-val{font-size:17px;font-weight:700;color:var(--navy)}
+.ci-val a{color:var(--navy);text-decoration:none}
+.ci-val a:hover{text-decoration:underline}
+.ci-sub{font-size:13px;color:rgba(13,31,58,.6);margin-top:3px}
+.contact-social{display:flex;gap:12px;margin-top:8px}
+.social-link{
+  display:flex;align-items:center;justify-content:center;
+  width:44px;height:44px;border-radius:10px;
+  background:rgba(13,31,58,.1);color:var(--navy);
+  text-decoration:none;transition:background .2s,transform .2s;
+}
+.social-link:hover{background:var(--navy);color:#fff;transform:translateY(-2px)}
+.ci-invoice{
+  margin-top:4px;font-size:14px;color:rgba(13,31,58,.65);
+  line-height:1.8;
+}
+
+/* ═══ CAROUSEL ═══ */
+
+
+
+
+
+
+
+
+
+.carousel-dot{
+  width:10px;height:10px;border-radius:50%;
+  background:rgba(255,255,255,.45);border:none;cursor:pointer;
+  transition:background .2s,transform .2s;padding:0;
+}
+.carousel-dot.active{background:#fff;transform:scale(1.3)}
+
+/* ═══ FOOTER ═══ */
+footer{background:var(--navy);padding:56px 48px 40px}
+.footer-inner{max-width:1100px;margin:0 auto}
+.footer-top{display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap;margin-bottom:40px}
+.footer-logo{
+  font-size:22px;font-weight:900;text-transform:uppercase;
+  letter-spacing:.06em;text-decoration:none;line-height:1;
+}
+.footer-logo .fl1{color:#fff}
+.footer-logo .fl2{color:var(--teal)}
+.footer-tagline{font-size:13px;color:rgba(255,255,255,.4);margin-top:8px;font-weight:500}
+footer .f-nav{
+  display:flex;flex-wrap:wrap;gap:8px 28px;list-style:none;
+  align-items:center;
+}
+footer .f-nav a{
+  font-size:14px;font-weight:600;color:rgba(255,255,255,.55);
+  text-decoration:none;transition:color .2s;
+}
+footer .f-nav a:hover{color:var(--teal)}
+.footer-bottom{
+  border-top:1px solid rgba(255,255,255,.07);
+  padding-top:28px;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:12px;
+}
+.footer-copy{font-size:13px;color:rgba(255,255,255,.3)}
+.footer-legal{font-size:13px;color:rgba(255,255,255,.25)}
+
+/* ═══ REVEAL ANIMATIONS ═══ */
+.rv{opacity:0;transform:translateY(36px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+.rv.visible{opacity:1;transform:translateY(0)}
+.rv-d1{transition-delay:.1s}
+.rv-d2{transition-delay:.2s}
+.rv-d3{transition-delay:.3s}
+.rv-d4{transition-delay:.4s}
+
+/* ═══ CUSTOM CURSOR ═══ */
+/* custom cursor disabled */
+
+/* ═══ HERO WORD REVEAL ═══ */
+.hero-name{overflow:visible}
+.hero-word{
+  display:inline-block;overflow:hidden;vertical-align:bottom;
+  line-height:1;
+}
+.hero-word-inner{
+  display:inline-block;
+  transform:translateY(110%) rotate(3deg);
+  opacity:0;
+  animation:heroWordIn .75s cubic-bezier(.22,1,.36,1) forwards;
+}
+@keyframes heroWordIn{
+  to{transform:translateY(0) rotate(0deg);opacity:1}
+}
+
+/* ═══ HERO TAG FADE ═══ */
+.hero-tag{opacity:0;animation:heroFadeUp .6s .1s cubic-bezier(.22,1,.36,1) forwards}
+.hero-sub{opacity:0;animation:heroFadeUp .6s 1.1s cubic-bezier(.22,1,.36,1) forwards}
+.hero-btns{opacity:0;animation:heroFadeUp .6s 1.3s cubic-bezier(.22,1,.36,1) forwards}
+@keyframes heroFadeUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ═══ STAGGERED CARD REVEAL ═══ */
+@keyframes cardReveal{
+  from{opacity:0;transform:translateY(48px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.flip-card,.bento-card{opacity:1;will-change:transform,opacity}
+.flip-card.card-visible,.bento-card.card-visible{
+  animation:none;
+}
+
+/* ═══ CLIP-PATH SECTION REVEAL ═══ */
+.section-clip{
+  clip-path:inset(0 0 100% 0);
+  transition:clip-path .9s cubic-bezier(.22,1,.36,1);
+}
+.section-clip.clip-visible{clip-path:inset(0 0 0% 0)}
+
+/* ═══ MAGNETIC CTA ═══ */
+.btn-primary,.btn-submit,.nav-cta{will-change:transform}
+
+/* ═══ CAROUSEL FADE OVERLAY ═══ */
+.carousel-slides{transition:transform .75s cubic-bezier(.77,0,.175,1)}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:1024px){
+  #nav{padding:0 28px}
+  
+  .bento-grid{grid-template-columns:1fr 1fr}
+  .bc1,.bc2,.bc3,.bc4,.bc5,.bc6{grid-column:span 6}
+  .process-steps{grid-template-columns:repeat(2,1fr);gap:40px}
+  .process-line-wrap{display:none}
+  .contact-grid{grid-template-columns:1fr}
+  .about-inner{grid-template-columns:1fr;gap:40px}
+  .about-photo-frame img{height:400px}
+  .stats-inner{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  #nav{padding:0 20px}
+  .nav-in{padding:0;max-width:100%}
+  .nav-links,.nav-cta{display:none}
+  .nav-hamburger{display:flex}
+  #hero{grid-template-columns:1fr;grid-template-rows:40vh 1fr;height:100vh;min-height:600px;}
+  
+  .hero-right img{height:100%}
+  
+  
+  @keyframes slideInUp{to{transform:translateY(0);opacity:1}}
+  @keyframes fadeIn{to{opacity:1}}
+  .hero-name{font-size:clamp(52px,14vw,80px)}
+  #stats{isolation:isolate;padding:48px 24px}
+  .stats-inner{grid-template-columns:repeat(2,1fr);gap:16px}
+  #services{padding:64px 24px}
+  .services-grid{grid-template-columns:1fr}
+  #why{padding:64px 24px}
+  .bento-grid{grid-template-columns:1fr}
+  .bc1,.bc2,.bc3,.bc4,.bc5,.bc6{grid-column:span 1}
+  #about{padding:64px 24px}
+  .about-inner{grid-template-columns:1fr}
+  #process{padding:64px 24px}
+  .process-steps{grid-template-columns:1fr;gap:32px}
+  #contact{padding:64px 24px}
+  .contact-grid{gap:40px}
+  .form-row{grid-template-columns:1fr}
+  footer{padding:40px 24px 32px}
+  .footer-top{flex-direction:column;gap:24px}
+  .footer-bottom{flex-direction:column;text-align:center}
+}
+#carousel{
+  width:100%;overflow:hidden;background:#f5f5f5;
+}
+.carousel-wrap{position:relative;width:100%;overflow:hidden;margin:0;padding:0;}
+.carousel-slides{display:flex;transition:transform .8s cubic-bezier(.77,0,.175,1);will-change:transform;margin:0;padding:0;}
+.carousel-slide{flex-shrink:0;width:100vw;margin:0;padding:0;line-height:0;}
+.carousel-slide img{width:100%;height:auto;max-height:85vh;object-fit:contain;object-position:center;display:block;margin:0;padding:0;background:#f5f5f5;}
+.carousel-dots{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:10;}
+.cdot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.5);border:none;cursor:pointer;padding:0;transition:background .2s,transform .2s;}
+.cdot.active{background:#fff;transform:scale(1.3);}
+.carousel-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.35);border:none;color:#fff;font-size:36px;width:48px;height:64px;cursor:pointer;z-index:10;transition:background .2s;line-height:1;}
+.carousel-btn:hover{background:rgba(0,0,0,.6);}
+.carousel-prev{left:16px;}
+.carousel-next{right:16px;}
 </style>
 </head>
 <body>
+<!-- Custom Cursor -->
+<!-- custom cursor disabled -->
 
-<!-- NAV -->
-<nav>
-  <div class="ni">
-    <a href="#" class="nl">Martin <span>Kroupa</span></a>
-    <div class="nlinks">
-      <a href="#services">Služby</a>
-      <a href="#about">O mně</a>
-      <a href="#process">Průběh</a>
-      <a href="#contact" class="nbtn">Pojďme se potkat</a>
-    </div>
-    <div class="ham" onclick="tm()"><span></span><span></span><span></span></div>
-  </div>
+<!-- ═══ NAV ═══ -->
+<nav id="nav">
+    <div class="nav-in">
+    <a href="#" class="nav-logo"><span class="l1">M</span><span class="l2">K</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Služby</a></li>
+    <li><a href="#why">Proč já</a></li>
+    <li><a href="#about">O mně</a></li>
+    <li><a href="#process">Průběh</a></li>
+    <li><a href="#contact">Kontakt</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Konzultace zdarma</a>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+  </button>
 </nav>
-<div class="mmenu" id="mm">
-  <button class="mmx" onclick="tm()">✕</button>
-  <a href="#services" onclick="tm()">Služby</a>
-  <a href="#about" onclick="tm()">O mně</a>
-  <a href="#process" onclick="tm()">Průběh</a>
-  <a href="#contact" onclick="tm()" style="color:var(--teal)">Pojďme se potkat</a>
+<div class="mob-menu" id="mobMenu">
+  <a href="#services" onclick="closeMob()">Služby</a>
+  <a href="#why" onclick="closeMob()">Proč já</a>
+  <a href="#about" onclick="closeMob()">O mně</a>
+  <a href="#process" onclick="closeMob()">Průběh</a>
+  <a href="#contact" onclick="closeMob()" class="mob-cta">Konzultace zdarma</a>
 </div>
 
-<!-- HERO -->
+<!-- ═══ HERO ═══ -->
 <section id="hero">
-  <div class="hero-label">Finanční poradce · money2u</div>
-  <h1 class="hero-name">Martin<span class="last">Kroupa</span></h1>
-  <div class="hero-photo-wrap">
-    <img src="assets/martin_photo.jpg" alt="Martin Kroupa">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1 class="hero-name">MARTIN<br>KROUPA</h1>
+    <p class="hero-sub">DiS., PFP — Finanční poradce</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">Domluvit konzultaci</a>
+      <a href="#services" class="btn-outline-light">Zjistit více</a>
+    </div>
   </div>
-  <p class="hero-tagline">Když slova <strong>důvěra, spolehlivost</strong> a nejlepší řešení nejsou jen fráze.<br>Provedu vás bezpečně světem financí.</p>
-  <div class="hero-actions">
-    <a href="#contact" class="btn-primary">Pojďme se potkat</a>
-    <a href="#services" class="btn-outline">Moje služby</a>
-  </div>
-  <div class="scroll-ind">scroll</div>
 </section>
 
-<!-- SERVICES — Bento Grid -->
+<!-- ═══ STATS ═══ -->
+<section id="stats">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-num" data-count="15" data-suffix="+">15+</div>
+      <div class="stat-label">Let praxe</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-count="700" data-suffix="+">700+</div>
+      <div class="stat-label">Spokojených klientů</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-count="100" data-suffix="%">100%</div>
+      <div class="stat-label">Nezávislé poradenství</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-count="24" data-suffix="h">24h</div>
+      <div class="stat-label">Rychlá odpověď</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SERVICES ═══ -->
 <section id="services">
-  <div class="sh rv">
-    <div class="tag">// Služby</div>
-    <h2 class="stitle">Co pro vás udělám</h2>
-    <p class="ssub">Komplexní pohled na Vaše finance — nejen jeden produkt, ale celý systém, který funguje.</p>
+  <div class="section-header rv">
+    <div class="section-tag">Služby</div>
+    <h2 class="section-h2">Co pro vás udělám</h2>
+    <p class="section-sub">Komplexní finanční poradenství pod jednou střechou — od pojištění přes hypotéky až po nemovitosti.</p>
   </div>
-  <div class="bento">
-    <div class="bc big rv">
-      <div class="bc-num">01 —</div>
-      <h3>Kompletní péče a servis</h3>
-      <p>Vaše smlouvy pod kontrolou. Aktualizuji podmínky, řeším pojistné události, dívám se na váš finanční svět jako celek.</p>
-      <ul class="bc-list">
-        <li>Pravidelné přehledy a revize</li>
-        <li>Rychlá pomoc při pojistné události</li>
-        <li>Dlouhodobá péče a dostupnost</li>
-      </ul>
+  <div class="services-grid">
+    <!-- Karta 1 -->
+    <div class="flip-card rv rv-d1">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="fc-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <h3>Kompletní péče a servis</h3>
+            <p>Celoroční servis a aktualizace portfolia</p>
+          </div>
+        </div>
+        <div class="flip-back">
+          <h3>Kompletní péče</h3>
+          <ul>
+            <li>Pravidelné přehledy</li>
+            <li>Aktualizace produktů</li>
+            <li>Finanční plán na míru</li>
+            <li>Přístupnost kdykoliv</li>
+          </ul>
+        </div>
+      </div>
     </div>
-    <div class="bc rv">
-      <div class="bc-num">02 —</div>
-      <h3>My Plann App</h3>
-      <p>Všechny smlouvy přehledně v telefonu. Přímé spojení se mnou kdykoliv potřebujete.</p>
-      <div class="bc-line"></div>
+    <!-- Karta 2 -->
+    <div class="flip-card rv rv-d2">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="fc-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg>
+          </div>
+          <div>
+            <h3>My Plann App</h3>
+            <p>Přehled financí v mobilní aplikaci</p>
+          </div>
+        </div>
+        <div class="flip-back">
+          <h3>My Plann App</h3>
+          <ul>
+            <li>Přehled smluv online</li>
+            <li>Sledování pojistných událostí</li>
+            <li>Komunikace s poradcem</li>
+            <li>Dokumenty v mobilu</li>
+          </ul>
+        </div>
+      </div>
     </div>
-    <div class="bc rv">
-      <div class="bc-num">03 —</div>
-      <h3>Finanční produkty</h3>
-      <p>Pojištění, investice, hypotéky, penze — výběr z celého trhu, objektivně.</p>
-      <ul class="bc-list">
-        <li>Životní pojištění</li>
-        <li>Investice & spoření</li>
-        <li>Hypotéky & penze</li>
-      </ul>
+    <!-- Karta 3 -->
+    <div class="flip-card rv rv-d3">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="fc-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <div>
+            <h3>Finanční produkty</h3>
+            <p>Investice, pojištění, hypotéky</p>
+          </div>
+        </div>
+        <div class="flip-back">
+          <h3>Finanční produkty</h3>
+          <ul>
+            <li>Investiční poradenství</li>
+            <li>Životní a neživotní pojištění</li>
+            <li>Hypoteční poradenství</li>
+            <li>Penzijní spoření</li>
+          </ul>
+        </div>
+      </div>
     </div>
-    <div class="bc big rv">
-      <div class="bc-num">04 —</div>
-      <h3>Realitní služby</h3>
-      <p>Jako součást Reality2U vám pomůžu nejen s financováním, ale i samotnou koupí nebo prodejem nemovitosti.</p>
-      <ul class="bc-list">
-        <li>Koupě a prodej nemovitostí</li>
-        <li>Financování hypotékou</li>
-        <li>Developerské projekty</li>
-      </ul>
+    <!-- Karta 4 -->
+    <div class="flip-card rv rv-d4">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="fc-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div>
+            <h3>Realitní služby</h3>
+            <p>Koupě, prodej i pronájem nemovitostí</p>
+          </div>
+        </div>
+        <div class="flip-back">
+          <h3>Realitní služby</h3>
+          <ul>
+            <li>Koupě a prodej nemovitostí</li>
+            <li>Pronájem a správa</li>
+            <li>Developerské projekty</li>
+            <li>Realitní poradenství</li>
+            <li>Kompletní právní servis</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ABOUT -->
+<!-- ═══ WHY ME — BENTO ═══ -->
+<section id="why">
+  <div class="section-header rv" style="margin-bottom:48px">
+    <div class="section-tag light">Proč já</div>
+    <h2 class="section-h2" style="color:var(--navy)">Férové poradenství bez kompromisů</h2>
+    <p class="section-sub">Pracuji pro vás, ne pro banku. Moje práce je najít řešení, které skutečně funguje.</p>
+  </div>
+  <div class="bento-grid">
+    <div class="bento-card bc1 rv">
+      <div class="bc-num">01</div>
+      <h3>Nezávislost</h3>
+      <p>Nejsem svázán jednou bankou ani produktem. Z celého trhu vybírám to, co vám skutečně sedí.</p>
+    </div>
+    <div class="bento-card bc2 rv rv-d1">
+      <div class="bc-num">02</div>
+      <h3>15+ let zkušeností</h3>
+      <p>Dvě dekády praxe v oblasti investic, hypoték a pojištění. Zažil jsem různé trhy.</p>
+    </div>
+    <div class="bento-card bc3 rv rv-d2">
+      <div class="bc-num">03</div>
+      <h3>700+ klientů</h3>
+      <p>Tisíce spokojených rodin po celé ČR.</p>
+    </div>
+    <div class="bento-card bc4 rv rv-d1">
+      <div class="bc-num">04</div>
+      <h3>Komplexní řešení</h3>
+      <p>Finance i nemovitosti — vše na jednom místě.</p>
+    </div>
+    <div class="bento-card bc5 rv rv-d2">
+      <div class="bc-num">05</div>
+      <h3>Osobní přístup</h3>
+      <p>Vždy víte s kým mluvíte. Žádné call centrum, žádné přeposílání. Jsem dostupný osobně i na dálku.</p>
+    </div>
+    <div class="bento-card bc6 rv rv-d3">
+      <div class="bc-num">06</div>
+      <h3>Brno &amp; celá ČR</h3>
+      <p>Kancelář v Brně, ale vydám se kamkoliv. Online konzultace kdykoliv a odkudkoliv.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ABOUT ═══ -->
 <section id="about">
-  <div class="about-grid">
-    <div class="about-visual rv2">
-      <img src="assets/martin_about.jpg" alt="Martin Kroupa" class="about-img">
-      <div class="about-accent"></div>
-      <div class="about-badge">money2u<span>od roku 2012</span></div>
-    </div>
-    <div class="about-content rv">
-      <div class="tag">// O mně</div>
-      <h2>Martin Kroupa</h2>
-      <p class="about-sub">Finanční poradce, realitní expert</p>
-      <div class="about-stats">
-        <div class="ast"><div class="ast-n" data-count="200">0</div><div class="ast-l">klientů</div></div>
-        <div class="ast"><div class="ast-n">20+</div><div class="ast-l">let praxe</div></div>
-        <div class="ast"><div class="ast-n">100%</div><div class="ast-l">férově</div></div>
+  <div class="about-inner">
+    <div class="about-photo-wrap rv">
+      <div class="about-photo-frame">
+        <img src="assets/martin_about.jpg" alt="Martin Kroupa">
       </div>
-      <p>Ve financích se pohybuji přes 20 let. Každý klient je pro mě příběh, ne číslo — hledám řešení, která dávají smysl právě pro vaši situaci.</p>
-      <p>Jsem součástí sítě money2u, která mi dává přístup k produktům celého trhu bez závislosti na jedné pojišťovně nebo bance.</p>
-      <div class="about-hl">Jsem také součástí týmu Reality2U — mohu vám pomoci nejen s financemi, ale i s celým procesem koupě nebo prodeje nemovitosti.</div>
-      <a href="#contact" class="btn-primary">Pojďme se potkat</a>
+      <div class="about-badge" style="display:none">
+        700+ klientů
+        <small>Brno &amp; celá ČR</small>
+      </div>
+    </div>
+    <div class="about-content rv rv-d1">
+      <div class="section-tag">O mně</div>
+      <h2>Martin Kroupa, DiS., PFP</h2>
+      <p>Život má spoustu podob a jedna z nich, která nás velmi ovlivňuje a mění, je, jak žít ve společnosti, kde peníze znamenají mnoho. Uvědomil jsem si, že mít jasno a přehled, kam naše vydělané peníze míří a kde končí, je velmi důležité. Finančnímu poradenství se věnuji více než 15 let a snažím se, aby moji klienti spolu se mnou našli to nejlepší řešení v oblasti investic, hypoték, pojištění a tvorby finančního plánu.</p>
+      <p>Klienti ode mě očekávají, že jim rychle a spolehlivě vyřeším jejich požadavky. Tím většinou začíná naše spolupráce, kdy se přesvědčí, že se na mě mohou spolehnout. Co ale následuje, je pravidelný servis, aktualizace produktů a hlavně směřování k finanční svobodě.</p>
+      <p>Kancelář mám sice v Brně, ale nemám žádný problém se rozjet kamkoliv. Kromě financí vám také pomůžu i s prodejem nebo hledáním nemovitosti. A když zrovna nepracuju? Odpočinkem je pro mě hudba — ve svém nahrávacím studiu <strong>MaMu</strong> natáčíme podcasty, mladé kapely, zpěváky a občas i někoho známějšího.</p>
+      <div class="about-btns">
+        <a href="https://money2u.cz" target="_blank" rel="noopener" class="btn-teal">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          money2u.cz
+        </a>
+        <a href="https://reality2u.cz" target="_blank" rel="noopener" class="btn-teal">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          reality2u.cz
+        </a>
+        <a href="https://www.mamustudio.cz/" target="_blank" rel="noopener" class="btn-teal">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          MaMu Studio
+        </a>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- PROCESS — Timeline -->
+<!-- ═══ PROCESS ═══ -->
 <section id="process">
-  <div style="max-width:900px;margin:0 auto">
-    <div class="rv">
-      <div class="tag" style="background:rgba(153,198,195,.12)">// Průběh spolupráce</div>
-      <h2 class="stitle light">Jak to funguje</h2>
-      <p class="ssub" style="color:rgba(255,255,255,.4)">Jasný postup, žádné překvapení.</p>
+  <div class="process-inner">
+    <div class="section-header rv" style="text-align:center">
+      <div class="section-tag light">Jak spolupracujeme</div>
+      <h2 class="section-h2" style="color:#fff">Průběh spolupráce</h2>
+      <p class="section-sub white">Čtyři jednoduché kroky k finanční svobodě.</p>
     </div>
-  </div>
-  <div class="proc-grid">
-    <div class="pstep rv">
-      <div class="pn">01</div>
-      <div class="pc">
-        <div class="pc-tag">Zdarma</div>
-        <h3>Konzultace</h3>
-        <p>Nezávazné setkání — seznámím se s vaší situací, cíli a tím, co vás trápí. Žádné závazky.</p>
+    <div class="process-steps rv rv-d1" id="processSteps">
+      <div class="process-line-wrap">
+        <div class="process-line-fill" id="processLine"></div>
       </div>
-    </div>
-    <div class="pstep rv">
-      <div class="pn">02</div>
-      <div class="pc">
-        <div class="pc-tag">Hloubková analýza</div>
-        <h3>Analýza a revize</h3>
-        <p>Projdu vaše stávající smlouvy a finanční situaci. Zjistím, co funguje a co ne.</p>
+      <div class="process-step">
+        <div class="ps-num">1</div>
+        <div class="ps-title">Konzultace zdarma</div>
+        <div class="ps-desc">První schůzka bez závazků. Poznáme se, zjistím vaše potřeby a cíle.</div>
       </div>
-    </div>
-    <div class="pstep rv">
-      <div class="pn">03</div>
-      <div class="pc">
-        <div class="pc-tag">Na míru</div>
-        <h3>Plán a realizace</h3>
-        <p>Navrhnu konkrétní kroky a produkty přesně pro váš případ. Po odsouhlasení realizuji.</p>
+      <div class="process-step">
+        <div class="ps-num">2</div>
+        <div class="ps-title">Analýza a revize</div>
+        <div class="ps-desc">Provedu kompletní analýzu vaší finanční situace a stávajících produktů.</div>
       </div>
-    </div>
-    <div class="pstep rv">
-      <div class="pn">04</div>
-      <div class="pc">
-        <div class="pc-tag">Dlouhodobě</div>
-        <h3>Pravidelná péče</h3>
-        <p>Nejsem jednorázový poradce. Pravidelně sledujeme výsledky a reagujeme na změny ve vašem životě.</p>
+      <div class="process-step">
+        <div class="ps-num">3</div>
+        <div class="ps-title">Plán a realizace</div>
+        <div class="ps-desc">Navrhnu optimální řešení a postarám se o celou realizaci.</div>
+      </div>
+      <div class="process-step">
+        <div class="ps-num">4</div>
+        <div class="ps-title">Pravidelná péče</div>
+        <div class="ps-desc">Průběžný servis, aktualizace a sledování vašich finančních cílů.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CONTACT -->
+<!-- ═══ CONTACT ═══ -->
 <section id="contact">
-  <div class="ct-grid">
-    <div class="ct-info rv">
-      <div class="tag">// Kontakt</div>
-      <h2>Začněme spolu</h2>
-      <p>Napište nebo zavolejte. Rád se s vámi sejdu — online i osobně v Brně.</p>
-      <div class="ci">
-        <div class="cii"><svg width="18" height="18" fill="none" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
-        <div><div class="cil">Telefon</div><div class="civ"><a href="tel:+420">Doplňte číslo</a></div></div>
+  <div class="contact-inner">
+    <div class="section-header rv" style="text-align:center">
+      <div class="section-tag">Kontakt</div>
+      <h2 class="section-h2">Napište mi</h2>
+      <p class="section-sub">První konzultace je zcela zdarma a bez závazků. Ozvěte se a vyřešíme to společně.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-form rv rv-d1">
+        <form id="contactForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Jméno a příjmení</label>
+              <input type="text" name="name" placeholder="Jan Novák" required>
+            </div>
+            <div class="form-group">
+              <label>E-mail</label>
+              <input type="email" name="email" placeholder="jan@example.cz" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Telefon (volitelné)</label>
+            <input type="tel" name="phone" placeholder="+420 000 000 000">
+          </div>
+          <div class="form-group">
+            <label>Zpráva</label>
+            <textarea name="message" placeholder="S čím mohu pomoci?" required></textarea>
+          </div>
+          <button type="submit" class="btn-submit">
+            Odeslat zprávu
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <p id="form-success">Zpráva odeslána! Ozvu se co nejdříve.</p>
+        </form>
       </div>
-      <div class="ci">
-        <div class="cii"><svg width="18" height="18" fill="none" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-        <div><div class="cil">E-mail</div><div class="civ"><a href="mailto:m.kroupa@money2u.cz">m.kroupa@money2u.cz</a></div></div>
+      <div class="contact-info rv rv-d2">
+        <div class="ci-block">
+          <div class="ci-label">Telefon</div>
+          <div class="ci-val"><a href="tel:+420777167930">+420 777 167 930</a></div>
+          <div class="ci-sub">Po–Pá, 8:00–18:00</div>
+        </div>
+        <div class="ci-block">
+          <div class="ci-label">E-mail</div>
+          <div class="ci-val"><a href="mailto:kroupa@money2u.cz">kroupa@money2u.cz</a></div>
+        </div>
+        <div class="ci-block">
+          <div class="ci-label">Sociální sítě</div>
+          <div class="contact-social">
+            <a href="https://facebook.com/martin.kroupa.1690" target="_blank" rel="noopener" class="social-link" aria-label="Facebook">
+              <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="https://instagram.com/kroupamartin/" target="_blank" rel="noopener" class="social-link" aria-label="Instagram">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="ci-block">
+          <div class="ci-label">Fakturační adresa</div>
+          <div class="ci-invoice">
+            Martin Kroupa<br>
+            Příční 339, 664 63 Žabčice<br>
+            IČ: 72522798<br>
+            Nejsem plátce DPH
+          </div>
+        </div>
       </div>
     </div>
-    <form id="cf" class="cf rv">
-      <div class="fg"><label>Jméno *</label><input type="text" name="name" placeholder="Jan Novák" required></div>
-      <div class="fg"><label>E-mail *</label><input type="email" name="email" placeholder="jan@example.cz" required></div>
-      <div class="fg"><label>Telefon *</label><input type="tel" name="phone" placeholder="+420 XXX XXX XXX" required></div>
-      <div class="fg"><label>Zpráva *</label><textarea name="message" placeholder="S čím vám mohu pomoci?" required></textarea></div>
-      <button type="submit" class="btn-primary" style="width:100%">Pojďme se potkat</button>
-      <p id="fmsg">✓ Zpráva odeslána.</p>
-    </form>
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ═══ CAROUSEL ═══ -->
+<section id="carousel" aria-label="Fotogalerie">
+  <div class="carousel-wrap">
+    <div class="carousel-slides" id="carouselSlides">
+      <div class="carousel-slide"><img src="assets/slider1.jpg" alt="" loading="lazy"></div>
+      <div class="carousel-slide"><img src="assets/slider2.jpg" alt="" loading="lazy"></div>
+      <div class="carousel-slide"><img src="assets/slider3.jpg" alt="" loading="lazy"></div>
+      <div class="carousel-slide"><img src="assets/slider4.webp" alt="" loading="lazy"></div>
+      <div class="carousel-slide"><img src="assets/slider5.webp" alt="" loading="lazy"></div>
+    </div>
+    <div class="carousel-dots" id="carouselDots"></div>
+    <button class="carousel-btn carousel-prev" id="cPrev">&#8249;</button>
+    <button class="carousel-btn carousel-next" id="cNext">&#8250;</button>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
 <footer>
-  <div class="flogo">Martin <span>Kroupa</span></div>
-  <p>© 2026 Martin Kroupa · martinkroupa.cz · money2u</p>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <a href="#" class="footer-logo"><span class="fl1">MARTIN</span> <span class="fl2">KROUPA</span></a>
+        <div class="footer-tagline">DiS., PFP — Finanční poradce · money2u</div>
+      </div>
+      <ul class="f-nav">
+        <li><a href="#services">Služby</a></li>
+        <li><a href="#why">Proč já</a></li>
+        <li><a href="#about">O mně</a></li>
+        <li><a href="#process">Průběh</a></li>
+        <li><a href="#contact">Kontakt</a></li>
+      </ul>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">&copy; 2025 Martin Kroupa, DiS., PFP. Všechna práva vyhrazena.</div>
+      <div class="footer-legal">IČ: 72522798 · Nejsem plátce DPH</div>
+    </div>
+  </div>
 </footer>
 
 <script>
-function tm() {
-  const m = document.getElementById('mm');
-  m.classList.toggle('open');
-  document.body.style.overflow = m.classList.contains('open') ? 'hidden' : '';
-}
+// custom cursor disabled
 
-// Reveal on scroll
-const rvEls = document.querySelectorAll('.rv, .rv2');
-const ro = new IntersectionObserver(entries => {
-  entries.forEach((e, i) => {
-    if (e.isIntersecting) { setTimeout(() => e.target.classList.add('on'), i * 80); ro.unobserve(e.target); }
-  });
-}, { threshold: 0.1 });
-rvEls.forEach(el => ro.observe(el));
-
-// CountUp
-const cEl = document.querySelector('[data-count]');
-if (cEl) {
-  new IntersectionObserver(entries => {
-    if (!entries[0].isIntersecting) return;
-    let s = 0;
-    const t = parseInt(cEl.dataset.count);
-    const step = ts => { if (!s) s = ts; const p = Math.min((ts - s) / 1600, 1); const e2 = 1 - Math.pow(1 - p, 3); cEl.textContent = Math.floor(e2 * t) + (p === 1 ? '+' : ''); if (p < 1) requestAnimationFrame(step); };
-    requestAnimationFrame(step);
-  }, { threshold: .3 }).observe(cEl);
-}
-
-// Form
-document.getElementById('cf').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  const btn = this.querySelector('button');
-  btn.textContent = 'Odesílám...'; btn.disabled = true;
-  try {
-    await fetch('https://formsubmit.co/m.kroupa@money2u.cz', { method: 'POST', body: new FormData(this), headers: { 'Accept': 'application/json' } });
-    document.getElementById('fmsg').style.display = 'block';
-    this.reset();
-  } catch {}
-  btn.disabled = false; btn.textContent = 'Pojďme se potkat';
+// ═══ NAV scroll ═══
+const navEl = document.getElementById('nav');
+window.addEventListener('scroll', function() {
+  navEl.classList.toggle('scrolled', window.scrollY > 40);
 });
+
+// ═══ Hamburger ═══
+const hamburger = document.getElementById('hamburger');
+const mobMenu = document.getElementById('mobMenu');
+hamburger.addEventListener('click', function() { 
+  mobMenu.classList.toggle('open');
+  document.body.classList.toggle('menu-open');
+});
+function closeMob() { mobMenu.classList.remove('open'); document.body.classList.remove('menu-open'); }
+
+// ═══ HERO WORD REVEAL ═══
+(function(){
+  const heroName = document.querySelector('.hero-name');
+  if(!heroName) return;
+  const html = heroName.innerHTML;
+  const lines = html.split('<br>');
+  let delay = 0.35;
+  const result = lines.map(function(line){
+    const words = line.trim().split(' ');
+    return words.map(function(word){
+      const d = delay;
+      delay += 0.15;
+      return '<span class="hero-word"><span class="hero-word-inner" style="animation-delay:'+d+'s">'+word+'</span></span>';
+    }).join(' ');
+  });
+  heroName.innerHTML = result.join('<br>');
+})();
+
+// ═══ COUNTER ANIMATION with IntersectionObserver ═══
+function animateCounter(el) {
+  if(el.dataset.animated) return;
+  el.dataset.animated = '1';
+  const target = parseInt(el.dataset.count) || 0;
+  const suffix = el.dataset.suffix || '';
+  const duration = 1400;
+  const start = performance.now();
+  function step(now) {
+    const p = Math.min((now - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(ease * target) + suffix;
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+const counterIO = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){
+      animateCounter(e.target);
+      counterIO.unobserve(e.target);
+    }
+  });
+},{threshold:0.3});
+document.querySelectorAll('.stat-num[data-count]').forEach(function(el){ counterIO.observe(el); });
+
+// ═══ REVEAL IO ═══
+const rvEls = document.querySelectorAll('.rv');
+const rvIO = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('visible'); rvIO.unobserve(e.target); } });
+}, { threshold: 0.12 });
+rvEls.forEach(function(el) { rvIO.observe(el); });
+
+// ═══ STAGGERED CARD REVEAL — disabled ═══
+
+// ═══ CLIP-PATH SECTION REVEAL ═══
+(function(){
+  const sections = document.querySelectorAll('#services .section-header, #why .section-header, #about .about-content, #process .section-header, #contact .section-header');
+  sections.forEach(function(s){ s.classList.add('section-clip'); });
+  const clipIO = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('clip-visible'); clipIO.unobserve(e.target); }
+    });
+  },{threshold:0.15});
+  sections.forEach(function(s){ clipIO.observe(s); });
+})();
+
+// ═══ MAGNETIC CTA ═══
+// magnetic effect disabled
+
+// ═══ Process line ═══
+const processLine = document.getElementById('processLine');
+const processSteps = document.getElementById('processSteps');
+if (processLine && processSteps) {
+  const lineIO = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        processLine.classList.add('animate');
+        lineIO.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  lineIO.observe(processSteps);
+}
+
+// ═══ Flip cards mobile ═══
+const flipCards = document.querySelectorAll('.flip-card');
+let lastFlipped = null;
+const flipIO = new IntersectionObserver(function(entries) {
+  if (window.innerWidth >= 768) return;
+  entries.forEach(function(e) {
+    if (e.intersectionRatio >= 0.85) {
+      if (lastFlipped && lastFlipped !== e.target) lastFlipped.classList.remove('flipped');
+      e.target.classList.add('flipped');
+      lastFlipped = e.target;
+    } else {
+      e.target.classList.remove('flipped');
+      if (lastFlipped === e.target) lastFlipped = null;
+    }
+  });
+}, { threshold: 0.85 });
+flipCards.forEach(function(c) { flipIO.observe(c); });
+
+// ═══ Contact form ═══
+const form = document.getElementById('contactForm');
+if (form) {
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    document.getElementById('form-success').style.display = 'block';
+    form.reset();
+  });
+}
+
+// ═══ CAROUSEL with fade transition ═══
+(function(){
+  const slides = document.getElementById('carouselSlides');
+  const dotsWrap = document.getElementById('carouselDots');
+  const slideEls = document.querySelectorAll('.carousel-slide');
+  const total = slideEls.length;
+  let cur = 0, timer, isAnimating = false;
+
+  // Add fade overlay style
+  const st = document.createElement('style');
+  st.textContent = '.carousel-slide{transition:opacity .45s ease}.carousel-slide.fade-out{opacity:0}.carousel-slide.fade-in{opacity:1}';
+  document.head.appendChild(st);
+  // init all visible for now — we'll handle per slide
+  slideEls.forEach(function(s,i){ s.style.opacity = i===0?'1':'1'; });
+
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('button');
+    d.className = 'cdot' + (i === 0 ? ' active' : '');
+    d.setAttribute('aria-label', 'Snímek ' + (i + 1));
+    (function(idx){ d.onclick = function(){ go(idx); reset(); }; })(i);
+    dotsWrap.appendChild(d);
+  }
+  function go(n) {
+    if(isAnimating) return;
+    const prev = cur;
+    cur = (n + total) % total;
+    if(prev===cur) return;
+    isAnimating = true;
+    // slide + fade
+    slides.style.transform = 'translateX(-' + (cur * 100) + '%)';
+    dotsWrap.querySelectorAll('.cdot').forEach(function(d, i) { d.classList.toggle('active', i === cur); });
+    setTimeout(function(){ isAnimating=false; }, 800);
+  }
+  function reset() { clearInterval(timer); timer = setInterval(function(){ go(cur + 1); }, 5000); }
+  document.getElementById('cPrev').onclick = function(){ go(cur - 1); reset(); };
+  document.getElementById('cNext').onclick = function(){ go(cur + 1); reset(); };
+  timer = setInterval(function(){ go(cur + 1); }, 4000);
+})();
 </script>
 </body>
 </html>
