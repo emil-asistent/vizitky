@@ -1,0 +1,14 @@
+{
+  "name": "vizitka-petr-samek",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Web finančního poradce Petr Samek (money2u) + kontaktní formulář s přímým odesláním",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "nodemailer": "^6.9.14"
+  }
+}
