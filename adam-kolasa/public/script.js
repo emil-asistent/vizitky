@@ -77,6 +77,8 @@ if (!supportsHover) {
 }
 
 // ---------- Services swipe dots (mobile) ----------
+// Native iOS scroll — overflow-x: auto + scroll-snap, žádný custom JS touch handling.
+// JS jen sleduje který karta je aktivní (pro dots) a umožňuje dots klikem skrolovat.
 const svcGrid = document.querySelector('.svc-grid');
 const svcDots = document.querySelectorAll('#svcDots button');
 const svcCards = document.querySelectorAll('.svc-card');
@@ -178,10 +180,10 @@ const revealObserver = new IntersectionObserver(entries => {
 }, { threshold: 0.15 });
 revealEls.forEach(el => revealObserver.observe(el));
 
-// ---------- Contact form ----------
+// ---------- Contact form (přímé odeslání na e-mail poradce přes /api/contact) ----------
 const form = document.getElementById('contactForm');
 const note = document.getElementById('formNote');
-const TO_EMAIL = 'info@alexandrjedlicka.cz';
+const submitBtn = form ? form.querySelector('button[type="submit"], .btn-primary') : null;
 
 const showNote = (msg, type = 'info') => {
   note.hidden = false;
@@ -194,42 +196,43 @@ const isEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 form.addEventListener('submit', async e => {
   e.preventDefault();
   const data = new FormData(form);
-  const name = (data.get('name') || '').toString().trim();
-  const email = (data.get('email') || '').toString().trim();
-  const phone = (data.get('phone') || '').toString().trim();
-  const msg = (data.get('msg') || '').toString().trim();
+  const payload = {
+    name: (data.get('name') || '').toString().trim(),
+    email: (data.get('email') || '').toString().trim(),
+    phone: (data.get('phone') || '').toString().trim(),
+    msg: (data.get('msg') || '').toString().trim(),
+    company: (data.get('company') || '').toString().trim(), // honeypot
+  };
 
-  if (!name || !email || !msg) {
+  if (!payload.name || !payload.email || !payload.msg) {
     showNote('Vyplňte prosím jméno, e-mail a zprávu.', 'error');
     return;
   }
-  if (!isEmail(email)) {
+  if (!isEmail(payload.email)) {
     showNote('Zkontrolujte e-mailovou adresu.', 'error');
     return;
   }
 
-  const subject = `Poptávka z webu — ${name}`;
-  const body = `Jméno: ${name}\nE-mail: ${email}\nTelefon: ${phone || '—'}\n\n${msg}`;
-  const mailto = `mailto:${TO_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  const btnLabel = submitBtn ? submitBtn.textContent : '';
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Odesílám…'; }
+  showNote('Odesílám vaši zprávu…', 'info');
 
-  // Try mailto in invisible link to detect failures
-  let opened = false;
   try {
-    const w = window.open(mailto, '_self');
-    opened = true;
-  } catch {}
-
-  showNote(`Otevřel se váš e-mailový klient. Pokud ne, můžete mi napsat přímo na ${TO_EMAIL} nebo zavolat +420 739 506 225.`, 'success');
-
-  // Offer clipboard copy fallback after a moment (in case mailto failed silently)
-  setTimeout(async () => {
-    if (!navigator.clipboard) return;
-    try {
-      await navigator.clipboard.writeText(`${TO_EMAIL}\n\nPředmět: ${subject}\n\n${body}`);
-      const extra = document.createElement('div');
-      extra.style.cssText = 'margin-top:8px;font-size:13px;opacity:.85;';
-      extra.textContent = '💡 Obsah zprávy jsem zkopíroval do schránky — můžete ji rovnou vložit do e-mailu.';
-      note.appendChild(extra);
-    } catch {}
-  }, 800);
+    const resp = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const out = await resp.json().catch(() => ({}));
+    if (resp.ok && out.ok) {
+      form.reset();
+      showNote('Děkuji, vaše zpráva byla odeslána. Ozvu se vám co nejdříve.', 'success');
+    } else {
+      throw new Error(out.error || 'send_failed');
+    }
+  } catch (err) {
+    showNote('Zprávu se teď nepodařilo odeslat. Zkuste to prosím znovu, nebo mi zavolejte na +420 608 170 237.', 'error');
+  } finally {
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = btnLabel; }
+  }
 });

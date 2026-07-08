@@ -76,33 +76,56 @@ if (!supportsHover) {
   });
 }
 
-// ---------- Services swipe dots (mobile) ----------
-const svcGrid = document.querySelector('.svc-grid');
+// ---------- Services mobile slider (Embla Carousel) ----------
+const svcViewport = document.querySelector('.svc-viewport');
 const svcDots = document.querySelectorAll('#svcDots button');
-const svcCards = document.querySelectorAll('.svc-card');
-if (svcGrid && svcDots.length && svcCards.length) {
-  const updateSvcDots = () => {
-    if (window.matchMedia('(min-width: 761px)').matches) return;
-    const center = svcGrid.scrollLeft + svcGrid.clientWidth / 2;
-    let closestIdx = 0, closestDist = Infinity;
-    svcCards.forEach((card, i) => {
-      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
-      const dist = Math.abs(cardCenter - center);
-      if (dist < closestDist) { closestDist = dist; closestIdx = i; }
-    });
-    svcDots.forEach((d, i) => d.classList.toggle('active', i === closestIdx));
+let emblaInstance = null;
+
+const initEmbla = () => {
+  const isMobile = window.matchMedia('(max-width: 760px)').matches;
+
+  // Pokud existuje instance a už nejsme na mobile → destroy
+  if (emblaInstance && !isMobile) {
+    emblaInstance.destroy();
+    emblaInstance = null;
+    if (svcViewport) {
+      const grid = svcViewport.querySelector('.svc-grid');
+      if (grid) grid.style.transform = '';
+    }
+    return;
+  }
+  if (emblaInstance || !isMobile) return;
+  if (!svcViewport || typeof EmblaCarousel !== 'function') return;
+
+  emblaInstance = EmblaCarousel(svcViewport, {
+    loop: false,
+    align: 'center',
+    containScroll: 'trimSnaps',
+    dragFree: false,
+    duration: 22,
+    dragThreshold: 6,
+  });
+
+  const updateDots = () => {
+    const idx = emblaInstance.selectedScrollSnap();
+    svcDots.forEach((d, i) => d.classList.toggle('active', i === idx));
   };
-  svcGrid.addEventListener('scroll', updateSvcDots, { passive: true });
-  window.addEventListener('resize', updateSvcDots);
-  svcDots.forEach(dot => dot.addEventListener('click', () => {
-    const i = parseInt(dot.dataset.i, 10);
-    const card = svcCards[i];
-    if (!card) return;
-    const target = card.offsetLeft - (svcGrid.clientWidth - card.offsetWidth) / 2;
-    svcGrid.scrollTo({ left: target, behavior: 'smooth' });
-  }));
-  updateSvcDots();
+  emblaInstance.on('select', updateDots);
+  emblaInstance.on('init', updateDots);
+  updateDots();
+
+  svcDots.forEach((dot, i) =>
+    dot.addEventListener('click', () => emblaInstance && emblaInstance.scrollTo(i))
+  );
+};
+
+// Init až je Embla načtená (defer script)
+if (document.readyState === 'complete') {
+  initEmbla();
+} else {
+  window.addEventListener('load', initEmbla);
 }
+window.addEventListener('resize', initEmbla);
 
 // ---------- Gallery carousel ----------
 const gSlides = document.querySelectorAll('.gallery-slide');
@@ -178,10 +201,10 @@ const revealObserver = new IntersectionObserver(entries => {
 }, { threshold: 0.15 });
 revealEls.forEach(el => revealObserver.observe(el));
 
-// ---------- Contact form ----------
+// ---------- Contact form (přímé odeslání na e-mail poradce přes /api/contact) ----------
 const form = document.getElementById('contactForm');
 const note = document.getElementById('formNote');
-const TO_EMAIL = 'pitelova@money2u.cz';
+const submitBtn = form ? form.querySelector('button[type="submit"], .btn-primary') : null;
 
 const showNote = (msg, type = 'info') => {
   note.hidden = false;
@@ -194,42 +217,43 @@ const isEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 form.addEventListener('submit', async e => {
   e.preventDefault();
   const data = new FormData(form);
-  const name = (data.get('name') || '').toString().trim();
-  const email = (data.get('email') || '').toString().trim();
-  const phone = (data.get('phone') || '').toString().trim();
-  const msg = (data.get('msg') || '').toString().trim();
+  const payload = {
+    name: (data.get('name') || '').toString().trim(),
+    email: (data.get('email') || '').toString().trim(),
+    phone: (data.get('phone') || '').toString().trim(),
+    msg: (data.get('msg') || '').toString().trim(),
+    company: (data.get('company') || '').toString().trim(), // honeypot
+  };
 
-  if (!name || !email || !msg) {
+  if (!payload.name || !payload.email || !payload.msg) {
     showNote('Vyplňte prosím jméno, e-mail a zprávu.', 'error');
     return;
   }
-  if (!isEmail(email)) {
+  if (!isEmail(payload.email)) {
     showNote('Zkontrolujte e-mailovou adresu.', 'error');
     return;
   }
 
-  const subject = `Poptávka z webu — ${name}`;
-  const body = `Jméno: ${name}\nE-mail: ${email}\nTelefon: ${phone || '—'}\n\n${msg}`;
-  const mailto = `mailto:${TO_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  const btnLabel = submitBtn ? submitBtn.textContent : '';
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Odesílám…'; }
+  showNote('Odesílám vaši zprávu…', 'info');
 
-  // Try mailto in invisible link to detect failures
-  let opened = false;
   try {
-    const w = window.open(mailto, '_self');
-    opened = true;
-  } catch {}
-
-  showNote(`Otevřel se váš e-mailový klient. Pokud ne, můžete mi napsat přímo na ${TO_EMAIL} nebo zavolat +420 736 670 311.`, 'success');
-
-  // Offer clipboard copy fallback after a moment (in case mailto failed silently)
-  setTimeout(async () => {
-    if (!navigator.clipboard) return;
-    try {
-      await navigator.clipboard.writeText(`${TO_EMAIL}\n\nPředmět: ${subject}\n\n${body}`);
-      const extra = document.createElement('div');
-      extra.style.cssText = 'margin-top:8px;font-size:13px;opacity:.85;';
-      extra.textContent = '💡 Obsah zprávy jsem zkopíroval do schránky — můžete ji rovnou vložit do e-mailu.';
-      note.appendChild(extra);
-    } catch {}
-  }, 800);
+    const resp = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const out = await resp.json().catch(() => ({}));
+    if (resp.ok && out.ok) {
+      form.reset();
+      showNote('Děkuji, vaše zpráva byla odeslána. Ozvu se vám co nejdříve.', 'success');
+    } else {
+      throw new Error(out.error || 'send_failed');
+    }
+  } catch (err) {
+    showNote('Zprávu se teď nepodařilo odeslat. Zkuste to prosím znovu, nebo mi zavolejte na +420 602 762 681.', 'error');
+  } finally {
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = btnLabel; }
+  }
 });
