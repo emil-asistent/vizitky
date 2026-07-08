@@ -191,7 +191,7 @@ revealEls.forEach(el => revealObserver.observe(el));
 // ---------- Contact form ----------
 const form = document.getElementById('contactForm');
 const note = document.getElementById('formNote');
-const TO_EMAIL = 'dasa.dobrovolna@gmail.com';
+const TO_EMAIL = 'palanova@money2u.cz';
 
 const showNote = (msg, type = 'info') => {
   note.hidden = false;
@@ -229,7 +229,7 @@ form.addEventListener('submit', async e => {
     opened = true;
   } catch {}
 
-  showNote(`Otevřel se váš e-mailový klient. Pokud ne, můžete mi napsat přímo na ${TO_EMAIL} nebo zavolat +420 602 762 681.`, 'success');
+  showNote(`Otevřel se váš e-mailový klient. Pokud ne, můžete mi napsat přímo na ${TO_EMAIL} nebo zavolat +420 608 680 542.`, 'success');
 
   // Offer clipboard copy fallback after a moment (in case mailto failed silently)
   setTimeout(async () => {
