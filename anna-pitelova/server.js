@@ -1,4 +1,4 @@
-// Vizitka money2u — statický web + kontaktní formulář s přímým odesláním na e-mail poradce.
+// Vizitka money2u: statický web + kontaktní formulář s přímým odesláním na e-mail poradce.
 // Node + Express + nodemailer → náš mailcow SMTP (mail.gomatela.cz). Běží na Coolify.
 const path = require('path');
 const express = require('express');
@@ -41,17 +41,17 @@ app.post('/api/contact', async (req, res) => {
     connectionTimeout: 12000, greetingTimeout: 8000, socketTimeout: 20000,
   });
 
-  const subject = `Nová poptávka z webu — ${name}`;
+  const subject = `Nová poptávka z webu · ${name}`;
   const text =
     `Nová zpráva z kontaktního formuláře (${SITE}).\n\n` +
-    `Jméno: ${name}\nE-mail: ${email}\nTelefon: ${phone || '—'}\n\nZpráva:\n${msg}\n`;
+    `Jméno: ${name}\nE-mail: ${email}\nTelefon: ${phone || 'neuvedeno'}\n\nZpráva:\n${msg}\n`;
   const html =
     `<div style="font-family:'Segoe UI',Arial,sans-serif;color:#0D1F3A;line-height:1.5">` +
     `<h2 style="margin:0 0 12px">Nová poptávka z webu</h2>` +
     `<table style="border-collapse:collapse;font-size:15px">` +
     `<tr><td style="padding:2px 12px 2px 0;color:#2D7A76"><b>Jméno</b></td><td>${esc(name)}</td></tr>` +
     `<tr><td style="padding:2px 12px 2px 0;color:#2D7A76"><b>E-mail</b></td><td><a href="mailto:${esc(email)}">${esc(email)}</a></td></tr>` +
-    `<tr><td style="padding:2px 12px 2px 0;color:#2D7A76"><b>Telefon</b></td><td>${esc(phone) || '—'}</td></tr>` +
+    `<tr><td style="padding:2px 12px 2px 0;color:#2D7A76"><b>Telefon</b></td><td>${esc(phone) || 'neuvedeno'}</td></tr>` +
     `</table>` +
     `<p style="margin:14px 0 4px;color:#2D7A76"><b>Zpráva</b></p>` +
     `<p style="margin:0;white-space:pre-wrap">${esc(msg)}</p>` +
@@ -73,7 +73,7 @@ app.post('/api/contact', async (req, res) => {
   }
 });
 
-// Statika z public/ — kód (HTML/CSS/JS) revaliduje, média mají dlouhou immutable cache.
+// Statika z public/: kód (HTML/CSS/JS) revaliduje, média mají dlouhou immutable cache.
 app.use(express.static(path.join(__dirname, 'public'), {
   extensions: ['html'],
   setHeaders: (res, fp) => {

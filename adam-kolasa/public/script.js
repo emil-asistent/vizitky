@@ -77,7 +77,7 @@ if (!supportsHover) {
 }
 
 // ---------- Services swipe dots (mobile) ----------
-// Native iOS scroll — overflow-x: auto + scroll-snap, žádný custom JS touch handling.
+// Native iOS scroll pomocí overflow-x: auto + scroll-snap, žádný custom JS touch handling.
 // JS jen sleduje který karta je aktivní (pro dots) a umožňuje dots klikem skrolovat.
 const svcGrid = document.querySelector('.svc-grid');
 const svcDots = document.querySelectorAll('#svcDots button');
