@@ -133,8 +133,6 @@ if (gSlides.length && gInner) {
     gGo(parseInt(d.dataset.i, 10));
     gStart();
   }));
-  gInner.addEventListener('mouseenter', gStop);
-  gInner.addEventListener('mouseleave', gStart);
 
   // Touch swipe
   let touchStartX = 0;
