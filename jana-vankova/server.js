@@ -73,6 +73,18 @@ app.post('/api/contact', async (req, res) => {
   }
 });
 
+// Adresy původního WordPress webu → odpovídající sekce jednostránky (ať se neztratí pozice v Googlu).
+const LEGACY = { '/sluzby': '/#services', '/o-mne': '/#about', '/kontakt': '/#contact' };
+app.use((req, res, next) => {
+  if (req.method !== 'GET' && req.method !== 'HEAD') return next();
+  const p = req.path.replace(/\/+$/, '').toLowerCase();
+  if (!p) return next();                              // kořen servíruje statika
+  if (LEGACY[p]) return res.redirect(301, LEGACY[p]);
+  if (p.startsWith('/api/')) return next();           // API má vlastní routy
+  if (/\.[a-z0-9]{2,5}$/i.test(p)) return next();     // soubory nechat statice, ať 404 zůstane 404
+  return res.redirect(301, '/');                      // zbylé staré adresy (články, kategorie) → úvod
+});
+
 // Statika z public/: kód (HTML/CSS/JS) revaliduje, média mají dlouhou immutable cache.
 app.use(express.static(path.join(__dirname, 'public'), {
   extensions: ['html'],
