@@ -860,6 +860,7 @@ footer .f-nav a:hover{color:var(--teal)}
             <label>Zpráva</label>
             <textarea name="message" placeholder="S čím mohu pomoci?" required></textarea>
           </div>
+          <input type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
           <button type="submit" class="btn-submit">
             Odeslat zprávu
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -1063,10 +1064,46 @@ flipCards.forEach(function(c) { flipIO.observe(c); });
 // ═══ Contact form ═══
 const form = document.getElementById('contactForm');
 if (form) {
-  form.addEventListener('submit', function(e) {
+  const note = document.getElementById('form-success');
+  const btn = form.querySelector('button[type=submit]');
+  const btnHtml = btn ? btn.innerHTML : '';
+  const show = (text, ok) => {
+    note.textContent = text;
+    note.style.color = ok ? 'var(--navy)' : '#b3261e';
+    note.style.display = 'block';
+  };
+
+  form.addEventListener('submit', async function(e) {
     e.preventDefault();
-    document.getElementById('form-success').style.display = 'block';
-    form.reset();
+    const d = new FormData(form);
+    const payload = {
+      name: (d.get('name') || '').toString().trim(),
+      email: (d.get('email') || '').toString().trim(),
+      phone: (d.get('phone') || '').toString().trim(),
+      msg: (d.get('message') || '').toString().trim(),
+      company: (d.get('company') || '').toString().trim(),
+    };
+    if (!payload.name || !payload.email || !payload.msg) {
+      show('Vyplňte prosím jméno, e-mail a zprávu.', false);
+      return;
+    }
+    if (btn) { btn.disabled = true; btn.textContent = 'Odesílám…'; }
+    show('Odesílám vaši zprávu…', true);
+    try {
+      const resp = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const out = await resp.json().catch(() => ({}));
+      if (!resp.ok || !out.ok) throw new Error(out.error || 'send_failed');
+      form.reset();
+      show('Zpráva odeslána! Ozvu se co nejdříve.', true);
+    } catch (err) {
+      show('Zprávu se teď nepodařilo odeslat. Zkuste to prosím znovu, nebo mi zavolejte na +420 777 167 930.', false);
+    } finally {
+      if (btn) { btn.disabled = false; btn.innerHTML = btnHtml; }
+    }
   });
 }
 

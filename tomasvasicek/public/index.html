@@ -872,12 +872,14 @@ footer .f-nav a:hover{color:var(--teal)}
       <p>Napište mi nebo zavolejte — první konzultace je vždy zdarma.</p>
     </div>
     <div class="contact-grid">
-      <form class="contact-form rv rv-d1" onsubmit="return false;">
-        <input type="text" placeholder="Vaše jméno" autocomplete="name">
-        <input type="email" placeholder="E-mail" autocomplete="email">
-        <input type="tel" placeholder="Telefon (volitelné)" autocomplete="tel">
-        <textarea placeholder="Vaše zpráva nebo dotaz..."></textarea>
+      <form class="contact-form rv rv-d1" id="contactForm" novalidate>
+        <input type="text" name="name" placeholder="Vaše jméno" autocomplete="name" required>
+        <input type="email" name="email" placeholder="E-mail" autocomplete="email" required>
+        <input type="tel" name="phone" placeholder="Telefon (volitelné)" autocomplete="tel">
+        <textarea name="message" placeholder="Vaše zpráva nebo dotaz..." required></textarea>
+        <input type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
         <button type="submit">Odeslat zprávu</button>
+        <p id="form-note" style="display:none;margin-top:12px;font-size:14px;font-weight:600"></p>
       </form>
       <div class="contact-info rv rv-d2">
         <div class="contact-info-item">
@@ -1145,6 +1147,53 @@ track.addEventListener('touchend', e => {
 })();
 
 // hero word reveal handled by pure CSS (.hw class)
+
+// ═══ Kontaktní formulář → /api/contact (mail dorazí na vasicek@money2u.cz) ═══
+(function(){
+  const form = document.getElementById('contactForm');
+  if (!form) return;
+  const note = document.getElementById('form-note');
+  const btn = form.querySelector('button[type=submit]');
+  const btnLabel = btn ? btn.textContent : 'Odeslat zprávu';
+  const show = (text, ok) => {
+    note.textContent = text;
+    note.style.color = ok ? '#1a7f4b' : '#b3261e';
+    note.style.display = 'block';
+  };
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const d = new FormData(form);
+    const payload = {
+      name: (d.get('name') || '').toString().trim(),
+      email: (d.get('email') || '').toString().trim(),
+      phone: (d.get('phone') || '').toString().trim(),
+      msg: (d.get('message') || '').toString().trim(),
+      company: (d.get('company') || '').toString().trim(),
+    };
+    if (!payload.name || !payload.email || !payload.msg) {
+      show('Vyplňte prosím jméno, e-mail a zprávu.', false);
+      return;
+    }
+    if (btn) { btn.disabled = true; btn.textContent = 'Odesílám…'; }
+    show('Odesílám vaši zprávu…', true);
+    try {
+      const resp = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const out = await resp.json().catch(() => ({}));
+      if (!resp.ok || !out.ok) throw new Error(out.error || 'send_failed');
+      form.reset();
+      show('Zpráva odeslána! Ozvu se co nejdříve.', true);
+    } catch (err) {
+      show('Zprávu se teď nepodařilo odeslat. Zkuste to prosím znovu, nebo mi zavolejte na +420 604 262 012.', false);
+    } finally {
+      if (btn) { btn.disabled = false; btn.textContent = btnLabel; }
+    }
+  });
+})();
 </script>
 </body>
 </html>

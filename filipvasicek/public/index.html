@@ -496,6 +496,7 @@
         <label>Zpráva *</label>
         <textarea name="message" placeholder="Napište, s čím potřebujete pomoci..." required></textarea>
       </div>
+      <input type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
       <button type="submit" class="btn-gold btn-gold-full" style="display:block;text-align:center;width:100%;border:none;cursor:pointer;font-size:15px;">Pojďme se potkat</button>
       <p id="form-msg" style="margin-top:12px;font-size:13px;color:green;display:none;text-align:center;">Zpráva odeslána! Ozveme se co nejdříve.</p>
     </form>
@@ -558,24 +559,45 @@ const countObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.3 });
 countEls.forEach(el => countObserver.observe(el));
-// Contact form — send via FormSubmit to f.vasicek@money2u.cz
+// Contact form — odeslání na vlastní backend /api/contact (mail dorazí na f.vasicek@money2u.cz)
 const contactForm = document.getElementById('contact-form');
 if (contactForm) {
+  const msgEl = document.getElementById('form-msg');
+  const show = (text, ok) => {
+    msgEl.textContent = text;
+    msgEl.style.color = ok ? 'green' : '#b3261e';
+    msgEl.style.display = 'block';
+  };
+
   contactForm.addEventListener('submit', async function(e) {
     e.preventDefault();
-    const data = new FormData(this);
+    const d = new FormData(this);
     const btn = this.querySelector('button[type=submit]');
+    const payload = {
+      name: (d.get('name') || '').toString().trim(),
+      email: (d.get('email') || '').toString().trim(),
+      phone: (d.get('phone') || '').toString().trim(),
+      msg: (d.get('message') || '').toString().trim(),
+      company: (d.get('company') || '').toString().trim(),
+    };
+    if (!payload.name || !payload.email || !payload.msg) {
+      show('Vyplňte prosím jméno, e-mail a zprávu.', false);
+      return;
+    }
     btn.textContent = 'Odesílám...';
     btn.disabled = true;
     try {
-      await fetch('https://formsubmit.co/f.vasicek@money2u.cz', {
-        method: 'POST', body: data,
-        headers: { 'Accept': 'application/json' }
+      const resp = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       });
-      document.getElementById('form-msg').style.display = 'block';
+      const out = await resp.json().catch(() => ({}));
+      if (!resp.ok || !out.ok) throw new Error(out.error || 'send_failed');
+      show('Zpráva odeslána! Ozveme se co nejdříve.', true);
       this.reset();
     } catch {
-      btn.textContent = 'Chyba. Zkuste znovu.';
+      show('Zprávu se teď nepodařilo odeslat. Zkuste to prosím znovu, nebo napište na f.vasicek@money2u.cz.', false);
     }
     btn.disabled = false;
     btn.textContent = 'Pojďme se potkat';
