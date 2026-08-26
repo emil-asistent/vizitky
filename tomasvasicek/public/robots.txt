@@ -29,3 +29,5 @@ User-agent: Bingbot
 Allow: /
 
 Sitemap: https://tomasvasicek.cz/sitemap.xml
+
+# LLM summary: https://tomasvasicek.cz/llms.txt

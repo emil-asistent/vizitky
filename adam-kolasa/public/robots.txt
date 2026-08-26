@@ -29,3 +29,5 @@ User-agent: Bingbot
 Allow: /
 
 Sitemap: https://adamkolasa.cz/sitemap.xml
+
+# LLM summary: https://adamkolasa.cz/llms.txt

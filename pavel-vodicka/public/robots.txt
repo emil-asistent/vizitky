@@ -29,3 +29,5 @@ User-agent: Bingbot
 Allow: /
 
 Sitemap: https://vodickapavel.cz/sitemap.xml
+
+# LLM summary: https://vodickapavel.cz/llms.txt

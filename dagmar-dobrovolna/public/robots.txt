@@ -29,3 +29,5 @@ User-agent: Bingbot
 Allow: /
 
 Sitemap: https://dagmardobrovolna.cz/sitemap.xml
+
+# LLM summary: https://dagmardobrovolna.cz/llms.txt

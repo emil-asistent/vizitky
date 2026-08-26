@@ -29,3 +29,5 @@ User-agent: Bingbot
 Allow: /
 
 Sitemap: https://evapalanova.cz/sitemap.xml
+
+# LLM summary: https://evapalanova.cz/llms.txt

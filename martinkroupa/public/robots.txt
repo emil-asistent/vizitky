@@ -29,3 +29,5 @@ User-agent: Bingbot
 Allow: /
 
 Sitemap: https://martinkroupa.cz/sitemap.xml
+
+# LLM summary: https://martinkroupa.cz/llms.txt
