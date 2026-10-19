@@ -1,115 +1,249 @@
-document.documentElement.classList.add('js');
-
-// ---------- Hlavička po odrolování ----------
+// ---------- NAV scroll ----------
 const nav = document.getElementById('nav');
-const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
+const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 30);
 onScroll();
 window.addEventListener('scroll', onScroll, { passive: true });
 
-// ---------- Mobilní menu ----------
+// ---------- Mobile menu ----------
 const ham = document.getElementById('ham');
 const mobNav = document.getElementById('mob-nav');
-const setMenu = (open) => {
-  mobNav.classList.toggle('open', open);
-  ham.setAttribute('aria-expanded', String(open));
-  ham.setAttribute('aria-label', open ? 'Zavřít menu' : 'Otevřít menu');
-  document.body.classList.toggle('menu-open', open);
+const backdrop = document.getElementById('mobBackdrop');
+const closeMenu = () => {
+  mobNav.classList.remove('open');
+  ham.classList.remove('open');
+  nav.classList.remove('menu-open');
+  if (backdrop) backdrop.classList.remove('show');
 };
-ham.addEventListener('click', () => setMenu(!mobNav.classList.contains('open')));
-mobNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
-document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
-window.matchMedia('(min-width: 901px)').addEventListener('change', e => { if (e.matches) setMenu(false); });
+ham.addEventListener('click', () => {
+  const open = mobNav.classList.toggle('open');
+  ham.classList.toggle('open', open);
+  nav.classList.toggle('menu-open', open);
+  if (backdrop) backdrop.classList.toggle('show', open);
+});
+mobNav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+if (backdrop) backdrop.addEventListener('click', closeMenu);
 
+// ---------- Year ----------
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// ---------- Plovoucí tlačítko na mobilu (mimo úvod a kontakt) ----------
+// ---------- Mobile sticky CTA ----------
 const mobCta = document.getElementById('mobileCta');
-const hero = document.getElementById('hero');
-const contact = document.getElementById('kontakt');
-const checkCta = () => {
-  const pastHero = hero.getBoundingClientRect().bottom < 80;
-  const nearContact = contact.getBoundingClientRect().top < window.innerHeight;
-  mobCta.classList.toggle('show', pastHero && !nearContact);
-};
-checkCta();
-window.addEventListener('scroll', checkCta, { passive: true });
-window.addEventListener('resize', checkCta);
-
-// ---------- Služby: záložky na počítači, rozbalování na mobilu ----------
-const tabs = [...document.querySelectorAll('.svc-tabs [role="tab"]')];
-const panels = [...document.querySelectorAll('.svc-panel')];
-const selectTab = (i, focus) => {
-  tabs.forEach((t, j) => {
-    t.setAttribute('aria-selected', String(i === j));
-    t.tabIndex = i === j ? 0 : -1;
-  });
-  panels.forEach((p, j) => {
-    p.classList.toggle('is-open', i === j);
-    p.querySelector('.svc-acc').setAttribute('aria-expanded', String(i === j));
-  });
-  if (focus) tabs[i].focus();
-};
-tabs.forEach((t, i) => {
-  t.addEventListener('click', () => selectTab(i));
-  t.addEventListener('keydown', e => {
-    const d = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
-    if (!d) return;
-    e.preventDefault();
-    selectTab((i + d + tabs.length) % tabs.length, true);
-  });
-});
-panels.forEach(p => {
-  const acc = p.querySelector('.svc-acc');
-  acc.addEventListener('click', () => {
-    const open = !p.classList.contains('is-open');
-    p.classList.toggle('is-open', open);
-    acc.setAttribute('aria-expanded', String(open));
-  });
-});
-
-// Odkaz ze služby předvyplní téma do zprávy
-const msg = document.querySelector('#contactForm textarea[name="msg"]');
-document.querySelectorAll('.svc-link[data-topic]').forEach(a => {
-  a.addEventListener('click', () => {
-    if (!msg.value.trim()) msg.value = `Dobrý den, mám zájem o: ${a.dataset.topic}.\n\n`;
-  });
-});
-
-// ---------- Postupné zobrazení při rolování ----------
-const rvEls = document.querySelectorAll('.why-head, .why-list li, .svc-head, .svc-body, .about-photo, .about-text > *, .process-head, .process-list li, .contact-intro, .contact-form');
-if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  rvEls.forEach(el => el.classList.add('rv'));
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-    });
-  }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
-  rvEls.forEach(el => io.observe(el));
+if (mobCta) {
+  const hero = document.getElementById('hero');
+  const contact = document.getElementById('contact');
+  const checkCta = () => {
+    const heroBottom = hero.getBoundingClientRect().bottom;
+    const contactTop = contact.getBoundingClientRect().top;
+    const inHero = heroBottom > 100;
+    const nearContact = contactTop < window.innerHeight + 80;
+    mobCta.classList.toggle('show', !inHero && !nearContact);
+  };
+  checkCta();
+  window.addEventListener('scroll', checkCta, { passive: true });
+  window.addEventListener('resize', checkCta);
 }
 
-// ---------- Kontaktní formulář (odeslání rovnou na e-mail) ----------
+// ---------- Stats counter ----------
+const statEls = document.querySelectorAll('.stat-num');
+const animateStat = el => {
+  const target = parseInt(el.dataset.target, 10);
+  const suffix = el.dataset.suffix || '+';
+  const dur = 1600;
+  const start = performance.now();
+  const tick = now => {
+    const t = Math.min((now - start) / dur, 1);
+    const eased = 1 - Math.pow(1 - t, 3);
+    const val = Math.round(target * eased);
+    el.textContent = val + (t === 1 ? suffix : '');
+    if (t < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+};
+
+const statObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      animateStat(e.target);
+      statObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.4 });
+statEls.forEach(el => statObserver.observe(el));
+
+// ---------- Services flip cards ----------
+// Hover-capable zařízení (desktop) flipuje přes CSS :hover.
+// Touch zařízení (mobil/tablet) bez hoveru používají tap.
+const supportsHover = window.matchMedia('(hover: hover)').matches;
+if (!supportsHover) {
+  document.querySelectorAll('.svc-card').forEach(card => {
+    card.addEventListener('click', e => {
+      if (e.target.closest('a')) return;
+      card.classList.toggle('flipped');
+    });
+  });
+}
+
+// ---------- Services mobile slider (Embla Carousel) ----------
+const svcViewport = document.querySelector('.svc-viewport');
+const svcDots = document.querySelectorAll('#svcDots button');
+let emblaInstance = null;
+
+const initEmbla = () => {
+  const isMobile = window.matchMedia('(max-width: 760px)').matches;
+
+  // Pokud existuje instance a už nejsme na mobile → destroy
+  if (emblaInstance && !isMobile) {
+    emblaInstance.destroy();
+    emblaInstance = null;
+    if (svcViewport) {
+      const grid = svcViewport.querySelector('.svc-grid');
+      if (grid) grid.style.transform = '';
+    }
+    return;
+  }
+  if (emblaInstance || !isMobile) return;
+  if (!svcViewport || typeof EmblaCarousel !== 'function') return;
+
+  emblaInstance = EmblaCarousel(svcViewport, {
+    loop: false,
+    align: 'center',
+    containScroll: 'trimSnaps',
+    dragFree: false,
+    duration: 22,
+    dragThreshold: 6,
+  });
+
+  const updateDots = () => {
+    const idx = emblaInstance.selectedScrollSnap();
+    svcDots.forEach((d, i) => d.classList.toggle('active', i === idx));
+  };
+  emblaInstance.on('select', updateDots);
+  emblaInstance.on('init', updateDots);
+  updateDots();
+
+  svcDots.forEach((dot, i) =>
+    dot.addEventListener('click', () => emblaInstance && emblaInstance.scrollTo(i))
+  );
+};
+
+// Init až je Embla načtená (defer script)
+if (document.readyState === 'complete') {
+  initEmbla();
+} else {
+  window.addEventListener('load', initEmbla);
+}
+window.addEventListener('resize', initEmbla);
+
+// ---------- Gallery carousel ----------
+const gSlides = document.querySelectorAll('.gallery-slide');
+const gDots = document.querySelectorAll('#galleryDots button');
+const gPrev = document.getElementById('galPrev');
+const gNext = document.getElementById('galNext');
+const gInner = document.querySelector('.gallery-inner');
+if (gSlides.length && gInner) {
+  let gIdx = 0;
+  let gTimer;
+  const AUTO_MS = 5500;
+
+  const gGo = (i) => {
+    gSlides[gIdx].classList.remove('active');
+    gDots[gIdx].classList.remove('active');
+    gIdx = (i + gSlides.length) % gSlides.length;
+    gSlides[gIdx].classList.add('active');
+    gDots[gIdx].classList.add('active');
+  };
+  const gNextFn = () => gGo(gIdx + 1);
+  const gPrevFn = () => gGo(gIdx - 1);
+  const gStart = () => { clearInterval(gTimer); gTimer = setInterval(gNextFn, AUTO_MS); };
+  const gStop = () => clearInterval(gTimer);
+
+  gNext.addEventListener('click', () => { gNextFn(); gStart(); });
+  gPrev.addEventListener('click', () => { gPrevFn(); gStart(); });
+  gDots.forEach(d => d.addEventListener('click', () => {
+    gGo(parseInt(d.dataset.i, 10));
+    gStart();
+  }));
+  // Autoplay běží pořád (bez pauzy na hover), automatické i klikací.
+
+  // Touch swipe
+  let touchStartX = 0;
+  gInner.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  gInner.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) { dx > 0 ? gPrevFn() : gNextFn(); gStart(); }
+  });
+
+  // Start autoplay až když je vidět
+  const gObs = new IntersectionObserver(es => {
+    es.forEach(e => e.isIntersecting ? gStart() : gStop());
+  }, { threshold: 0.2 });
+  gObs.observe(gInner);
+}
+
+// ---------- Process line animation ----------
+const processGrid = document.querySelector('.process-grid');
+if (processGrid) {
+  const procObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('animate');
+        procObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  procObs.observe(processGrid);
+}
+
+// ---------- Reveal on scroll ----------
+const revealEls = document.querySelectorAll('h2, .lead, .why-card, .svc-card, .process-step, .stat, .about-photo, .about-text > p, .about-quote, .pillar, .about-personal, .about-cta, .contact-info, .contact-form');
+revealEls.forEach(el => el.classList.add('reveal'));
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      revealObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.15 });
+revealEls.forEach(el => revealObserver.observe(el));
+
+// ---------- Contact form (přímé odeslání na e-mail) ----------
 const form = document.getElementById('contactForm');
 const note = document.getElementById('formNote');
 const submitBtn = document.getElementById('contactSubmit');
-const showNote = (text, type) => { note.hidden = false; note.dataset.type = type; note.textContent = text; };
+
+const showNote = (msg, type = 'info') => {
+  note.hidden = false;
+  note.dataset.type = type;
+  note.textContent = msg;
+};
+
 const isEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 
 form.addEventListener('submit', async e => {
   e.preventDefault();
   const data = new FormData(form);
   const payload = {
-    name: String(data.get('name') || '').trim(),
-    email: String(data.get('email') || '').trim(),
-    phone: String(data.get('phone') || '').trim(),
-    msg: String(data.get('msg') || '').trim(),
-    company: String(data.get('company') || '').trim(),
+    name: (data.get('name') || '').toString().trim(),
+    email: (data.get('email') || '').toString().trim(),
+    phone: (data.get('phone') || '').toString().trim(),
+    msg: (data.get('msg') || '').toString().trim(),
+    company: (data.get('company') || '').toString().trim(), // honeypot
   };
-  if (!payload.name || !payload.email || !payload.msg) return showNote('Vyplňte prosím jméno, e-mail a zprávu.', 'error');
-  if (!isEmail(payload.email)) return showNote('Zkontrolujte prosím e-mailovou adresu.', 'error');
 
-  const label = submitBtn.textContent;
-  submitBtn.disabled = true;
-  submitBtn.textContent = 'Odesílám…';
+  if (!payload.name || !payload.email || !payload.msg) {
+    showNote('Vyplňte prosím jméno, e-mail a zprávu.', 'error');
+    return;
+  }
+  if (!isEmail(payload.email)) {
+    showNote('Zkontrolujte e-mailovou adresu.', 'error');
+    return;
+  }
+
+  const btnLabel = submitBtn ? submitBtn.textContent : '';
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Odesílám…'; }
+  showNote('Odesílám vaši zprávu…', 'info');
+
   try {
     const resp = await fetch('/api/contact', {
       method: 'POST',
@@ -117,13 +251,15 @@ form.addEventListener('submit', async e => {
       body: JSON.stringify(payload),
     });
     const out = await resp.json().catch(() => ({}));
-    if (!resp.ok || !out.ok) throw new Error(out.error || 'send_failed');
-    form.reset();
-    showNote('Děkuji, zpráva je odeslaná. Ozvu se Vám co nejdříve.', 'success');
+    if (resp.ok && out.ok) {
+      form.reset();
+      showNote('Děkuji, vaše zpráva byla odeslána. Ozvu se vám co nejdříve.', 'success');
+    } else {
+      throw new Error(out.error || 'send_failed');
+    }
   } catch (err) {
     showNote('Zprávu se teď nepodařilo odeslat. Zkuste to prosím znovu, nebo mi zavolejte na +420 737 202 797.', 'error');
   } finally {
-    submitBtn.disabled = false;
-    submitBtn.textContent = label;
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = btnLabel; }
   }
 });
