@@ -70,6 +70,27 @@ async function sendWithRetry(mail) {
   throw last;
 }
 
+// Makléř z detailu nemovitosti: buď adresa na doméně webu, nebo musí být uvedená přímo na té stránce
+// (makléři mají i vlastní domény). Jinak by formulář šel zneužít k rozesílání komukoli.
+const pageCache = new Map();
+async function agentOnPage(domain, agent, pageUrl) {
+  if (agent.endsWith('@' + domain)) return true;
+  let u;
+  try { u = new URL(String(pageUrl || '')); } catch { return false; }
+  if (u.protocol !== 'https:' || !(u.hostname === domain || u.hostname === 'www.' + domain)) return false;
+  const key = u.origin + u.pathname;
+  let c = pageCache.get(key);
+  if (!c || Date.now() - c.t > 600000) {
+    try {
+      const r = await fetch(key, { signal: AbortSignal.timeout(8000) });
+      c = { t: Date.now(), html: r.ok ? (await r.text()).toLowerCase() : '' };
+    } catch { c = { t: Date.now(), html: '' }; }
+    if (pageCache.size > 500) pageCache.clear();
+    pageCache.set(key, c);
+  }
+  return c.html.includes('mailto:' + agent);
+}
+
 app.get('/api/health', (_req, res) => res.json({ ok: true, smtp: !!process.env.SMTP_PASS }));
 
 app.post('/api/:site', async (req, res) => {
@@ -94,7 +115,7 @@ app.post('/api/:site', async (req, res) => {
 
   let to = site.to, cc;
   const agent = String(data.agent_email || '').trim().toLowerCase();
-  if (site.agentDomain && isEmail(agent) && agent.endsWith('@' + site.agentDomain) && agent !== to) {
+  if (site.agentDomain && isEmail(agent) && agent !== to && await agentOnPage(site.agentDomain, agent, data.stranka)) {
     to = agent; cc = site.to;
   }
 
