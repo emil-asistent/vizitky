@@ -91,7 +91,12 @@ async function agentOnPage(domain, agent, pageUrl) {
   return c.html.includes('mailto:' + agent);
 }
 
-app.get('/api/health', (_req, res) => res.json({ ok: true, smtp: !!process.env.SMTP_PASS }));
+// Hlídač na serveru volá ?deep=1 denně: ověří přihlášení do SMTP bez odeslání mailu.
+app.get('/api/health', async (req, res) => {
+  if (!req.query.deep) return res.json({ ok: true, smtp: !!process.env.SMTP_PASS });
+  try { await transport.verify(); res.json({ ok: true, smtp: 'verified' }); }
+  catch (e) { res.status(503).json({ ok: false, error: String(e && e.message) }); }
+});
 
 app.post('/api/:site', async (req, res) => {
   const site = SITES[req.params.site];
@@ -139,6 +144,7 @@ app.post('/api/:site', async (req, res) => {
     await sendWithRetry({
       from: `"Web ${site.name}" <${FROM_ADDR}>`,
       to, cc,
+      bcc: process.env.ARCHIV_BCC || undefined,   // záloha každé poptávky do naší schránky
       replyTo: email ? `"${name.replace(/"/g, '').trim() || email}" <${email}>` : undefined,
       subject, text, html,
     });
