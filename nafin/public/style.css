@@ -240,6 +240,10 @@ p{max-width:64ch}
   .clovek figcaption a{font-size:15px}
 }
 
+.mimo-foto{grid-column:span 7;min-height:420px}
+.mimo-text{grid-column:span 5;justify-content:center}
+@media (max-width:900px){.mimo-foto,.mimo-text{grid-column:span 12}.mimo-foto{min-height:300px}}
+
 /* příběh / osa */
 .osa{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid var(--noc)}
 .osa li{padding:24px 22px 0 0;position:relative}
