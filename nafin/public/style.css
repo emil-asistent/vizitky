@@ -241,6 +241,7 @@ p{max-width:64ch}
 }
 
 .mimo-foto{grid-column:span 7;min-height:420px}
+.mimo-foto::before{display:none}
 .mimo-text{grid-column:span 5;justify-content:center}
 @media (max-width:900px){.mimo-foto,.mimo-text{grid-column:span 12}.mimo-foto{min-height:300px}}
 
