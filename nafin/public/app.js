@@ -1,3 +1,18 @@
+// Hlavička po odrolování
+const hl = document.querySelector('.hl');
+const onScroll = () => hl.classList.toggle('je-dole', scrollY > 4);
+addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+// Životní situace: najetí přepne fotku
+document.querySelectorAll('[data-situace]').forEach(s => {
+  const polozky = s.querySelectorAll('li[data-obr]'), obr = s.querySelectorAll('.sit-obr img');
+  const aktivuj = li => {
+    polozky.forEach(p => p.classList.toggle('aktivni', p === li));
+    obr.forEach((o, i) => o.classList.toggle('aktivni', i === +li.dataset.obr));
+  };
+  polozky.forEach(li => { li.addEventListener('mouseenter', () => aktivuj(li)); li.addEventListener('focusin', () => aktivuj(li)); });
+});
+
 // Mobilní menu
 const burger = document.querySelector('.burger');
 burger.addEventListener('click', () => {
@@ -61,9 +76,6 @@ kalkulacka('[data-srovnani]', { castka: mil, sazba: pct, rozdil: n => '−' + cz
   set('mesic', kc(s1 - s2));
   set('fixace', kc((s1 - s2) * 12 * Math.min(5, v.roky)));
   set('spl1', kc(s1)); set('spl2', kc(s2)); set('nova', pct(nova));
-  const max = s1;
-  out('sl1').style.height = '100%';
-  out('sl2').style.height = (s2 / max * 100) + '%';
 });
 
 // Splátka hypotéky
