@@ -1,33 +1,30 @@
 User-agent: *
 Allow: /
+Disallow: /api/
 
-User-agent: GPTBot
-Allow: /
-
-User-agent: ChatGPT-User
-Allow: /
-
-User-agent: ClaudeBot
-Allow: /
-
-User-agent: Claude-User
-Allow: /
-
-User-agent: anthropic-ai
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
-
+# Vyhledávače a AI asistenti jsou výslovně vítáni.
+User-agent: Googlebot
+User-agent: Bingbot
+User-agent: SeznamBot
+User-agent: DuckDuckBot
+User-agent: Applebot
+User-agent: Applebot-Extended
 User-agent: Google-Extended
-Allow: /
-
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: anthropic-ai
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: DuckAssistBot
+User-agent: MistralAI-User
 User-agent: CCBot
 Allow: /
-
-User-agent: Bingbot
-Allow: /
+Disallow: /api/
 
 Sitemap: https://holazova.cz/sitemap.xml
 
-# LLM summary: https://holazova.cz/llms.txt
+# Shrnutí pro AI: https://holazova.cz/llms.txt

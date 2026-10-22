@@ -12,6 +12,9 @@ app.use(express.json({ limit: '256kb' }));
 const CANONICAL_HOST = process.env.CANONICAL_HOST || 'holazova.cz';
 app.use((req, res, next) => {
   if (req.hostname !== CANONICAL_HOST) res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
   next();
 });
 
@@ -82,14 +85,14 @@ app.post('/api/contact', async (req, res) => {
 
 // Na holazova.cz dřív stála jen parkovací stránka WEDOS, vlastní starý web nebyl.
 // Všechno neznámé proto míří na úvod.
-const LEGACY = { '/sluzby': '/#sluzby', '/o-mne': '/#o-mne', '/kontakt': '/#kontakt' };
+const LEGACY = { '/sluzby': '/#services', '/o-mne': '/#about', '/kontakt': '/#contact' };
 app.use((req, res, next) => {
   if (req.method !== 'GET' && req.method !== 'HEAD') return next();
   const p = req.path.replace(/\/+$/, '').toLowerCase();
   if (!p) return next();                              // kořen servíruje statika
   if (LEGACY[p]) return res.redirect(301, LEGACY[p]);
   if (p.startsWith('/api/')) return next();           // API má vlastní routy
-  if (/\.[a-z0-9]{2,5}$/i.test(p)) return next();     // soubory nechat statice, ať 404 zůstane 404
+  if (/\.[a-z0-9]{2,12}$/i.test(p)) return next();     // soubory nechat statice, ať 404 zůstane 404
   return res.redirect(301, '/');
 });
 
