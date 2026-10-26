@@ -111,6 +111,34 @@
     });
   });
 
+  // Na mobilu (jako u tomasvasicek.cz) se sama otočí karta, která je celá vidět a nejblíž středu obrazovky.
+  if (!supportsHover && window.innerWidth < 768 && !reduceMotion) {
+    let ticking = false;
+    let auto = null;
+    const pick = () => {
+      ticking = false;
+      const vh = window.innerHeight;
+      let best = null;
+      let bestDist = Infinity;
+      flipCards.forEach((c) => {
+        const r = c.getBoundingClientRect();
+        const visible = Math.min(r.bottom, vh) - Math.max(r.top, 0);
+        if (visible / r.height < 0.85) return;
+        const dist = Math.abs((r.top + r.bottom) / 2 - vh / 2);
+        if (dist < bestDist) { bestDist = dist; best = c; }
+      });
+      if (best && best !== auto) {
+        flipCards.forEach((c) => { if (c !== best) setFlip(c, false); });
+        setFlip(best, true);
+        auto = best;
+      } else if (!best && auto) {
+        setFlip(auto, false);
+        auto = null;
+      }
+    };
+    window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(pick); } }, { passive: true });
+  }
+
   // ---------- Paralaxa úvodní fotky (jen počítač) ----------
   const heroBg = document.querySelector('.hero-bg');
   if (heroBg && !reduceMotion && supportsHover) {
