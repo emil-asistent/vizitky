@@ -182,6 +182,13 @@ body.menu-open #nav .nav-logo { color: var(--white); }
 .hw:nth-child(1) { animation-delay: .3s; }
 .hw:nth-child(2) { animation-delay: .6s; }
 @keyframes hwIn { to { opacity: 1; transform: translateY(0); } }
+/* titul Bc. visí vlevo od jména, aby jméno zůstalo na středu */
+.hero-jmeno { position: relative; display: inline-block; }
+.hero-titul {
+  position: absolute; right: 100%; top: .12em; margin-right: .3em;
+  font-size: .3em; font-weight: 700; letter-spacing: .02em; line-height: 1;
+  color: var(--teal); text-transform: none;
+}
 .hero-sub {
   font-size: 16px; font-weight: 700; color: var(--teal);
   text-transform: uppercase; letter-spacing: .14em;

@@ -1,6 +1,6 @@
 # Tomáš Kužela, finanční poradce
 
-> Bc. Tomáš Kužela je finanční poradce z Přerova, spolupracuje s poradenskou společností money2u. Finance klientů spravuje přes 14 let (podniká od roku 2012). Řeší hypotéky a úvěry, životní a majetkové pojištění, investice a spoření, penzijní spoření a finanční plán, vše u jednoho člověka. Jeho zásada: „Já radím a vy se rozhodujete.“
+> Bc. Tomáš Kužela je finanční poradce pro Přerov a Prahu, spolupracuje s poradenskou společností money2u. Finance klientů spravuje přes 14 let (podniká od roku 2012). Řeší hypotéky a úvěry, životní a majetkové pojištění, investice a spoření, penzijní spoření a finanční plán, vše u jednoho člověka. Jeho zásada: „Já radím a vy se rozhodujete.“
 
 Web: https://tomaskuzela.eu/
 
@@ -8,7 +8,7 @@ Web: https://tomaskuzela.eu/
 - Telefon: +420 734 114 698
 - E-mail: info@tomaskuzela.eu
 - Kontaktní formulář: https://tomaskuzela.eu/#contact
-- Působnost: Přerov
+- Působnost: Přerov a Praha
 - Fakturační adresa: Hostýnská 3461/11, 750 02 Přerov
 - IČO: 88686761, není plátce DPH
 - Spolupracuje s: money2u (https://money2u.cz)
