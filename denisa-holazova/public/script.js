@@ -68,7 +68,8 @@ const statObserver = new IntersectionObserver(entries => {
     }
   });
 }, { threshold: 0.4 });
-statEls.forEach(el => statObserver.observe(el));
+// V HTML jsou skutečná čísla (pro vyhledávače a AI bez JS), animace je vynuluje a napočítá znovu.
+statEls.forEach(el => { el.textContent = '0'; statObserver.observe(el); });
 
 // ---------- Services flip cards ----------
 // Hover-capable zařízení (desktop) flipuje přes CSS :hover.

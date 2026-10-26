@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Denisa Holazová · finanční poradkyně, hypotéky a úvěry | money2u</title>
-  <meta name="description" content="Denisa Holazová, finanční poradkyně money2u z Frýdku-Místku s působností po celé ČR. Hypotéky, spotřebitelské úvěry a konsolidace, životní pojištění, pojištění auta a majetku, investice a finanční plán. V oboru od roku 2013, přes 850 klientů." />
+  <meta name="description" content="Denisa Holazová, finanční poradkyně money2u z Frýdku-Místku, osobně i online po celé ČR. Hypotéky, úvěry a konsolidace, pojištění, investice. Tel. 737 202 797." />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="author" content="Denisa Holazová" />
   <meta name="geo.region" content="CZ-80" />
@@ -42,11 +42,10 @@
   <meta name="twitter:image" content="https://holazova.cz/assets/og.jpg" />
   <meta name="twitter:image:alt" content="Denisa Holazová, finanční poradkyně" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Poppins:wght@900&display=swap" />
+  <link rel="preload" href="fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="fonts/plus-jakarta-sans-latin-ext.woff2" as="font" type="font/woff2" crossorigin />
 
-  <link rel="stylesheet" href="styles.css?v=2" />
+  <link rel="stylesheet" href="styles.css?v=3" />
 
   <script src="https://cdn.jsdelivr.net/npm/embla-carousel@8.5.2/embla-carousel.umd.js" defer></script>
 
@@ -87,7 +86,7 @@
       },
       "inLanguage": "cs-CZ",
       "datePublished": "2026-10-21",
-      "dateModified": "2026-10-22"
+      "dateModified": "2026-10-26"
     },
     {
       "@type": "ImageObject",
@@ -145,7 +144,12 @@
       },
       "address": {
         "@id": "https://holazova.cz/#adresa"
-      }
+      },
+      "sameAs": [
+        "https://www.patronfinance.cz/poradce/denisa-holazova",
+        "https://www.financnipatron.cz/poradce/denisa-holazova",
+        "https://ares.gov.cz/ekonomicke-subjekty?ico=02207257"
+      ]
     },
     {
       "@type": "Organization",
@@ -343,8 +347,7 @@
         "description": "Nezávazná úvodní konzultace, osobně nebo online."
       },
       "sameAs": [
-        "https://money2u.cz/",
-        "https://reality2u.cz/"
+        "https://ares.gov.cz/ekonomicke-subjekty?ico=02207257"
       ]
     },
     {
@@ -416,7 +419,7 @@
 
   <section id="hero">
     <picture class="hero-bg">
-      <source media="(max-width: 760px)" srcset="assets/denisa-holazova-uvod-mobil-v2.webp" />
+      <source media="(max-width: 760px)" srcset="assets/denisa-holazova-uvod-mobil-1100.webp 1100w, assets/denisa-holazova-uvod-mobil-v2.webp 1500w" sizes="100vw" />
       <img src="assets/denisa-holazova-uvod.webp" alt="Denisa Holazová, finanční poradkyně money2u" fetchpriority="high" decoding="async" />
     </picture>
     <div class="hero-overlay"></div>
@@ -439,8 +442,8 @@
 
   <section id="stats">
     <div class="stats-grid">
-      <div class="stat"><div class="stat-num" data-target="15">0</div><div class="stat-lbl">Let praxe</div></div>
-      <div class="stat"><div class="stat-num" data-target="850">0</div><div class="stat-lbl">Spokojených klientů</div></div>
+      <div class="stat"><div class="stat-num" data-target="15">15+</div><div class="stat-lbl">Let praxe</div></div>
+      <div class="stat"><div class="stat-num" data-target="850">850+</div><div class="stat-lbl">Spokojených klientů</div></div>
       <div class="stat"><div class="stat-num" data-target="100" data-suffix="%">0</div><div class="stat-lbl">Nezávislé poradenství</div></div>
     </div>
   </section>
@@ -497,7 +500,7 @@
             <span class="flip-hint">Otočit ▸</span>
           </div>
           <div class="svc-back">
-            <h3>Spotřebitelské úvěry a konsolidace</h3>
+            <p class="svc-back-title">Spotřebitelské úvěry a konsolidace</p>
             <ul>
               <li>Financování auta, vybavení domácnosti i dalších plánů</li>
               <li><strong>Výběr nejvýhodnějšího řešení</strong>: srovnání úvěrových poskytovatelů přesně podle vašich možností</li>
@@ -517,7 +520,7 @@
             <span class="flip-hint">Otočit ▸</span>
           </div>
           <div class="svc-back">
-            <h3>Hypoteční úvěry</h3>
+            <p class="svc-back-title">Hypoteční úvěry</p>
             <ul>
               <li>Vlastní bydlení, rekonstrukce i refinancování stávající hypotéky</li>
               <li>Srovnání nabídek všech bank na trhu</li>
@@ -537,7 +540,7 @@
             <span class="flip-hint">Otočit ▸</span>
           </div>
           <div class="svc-back">
-            <h3>Zajištění příjmů a pojištění</h3>
+            <p class="svc-back-title">Zajištění příjmů a pojištění</p>
             <ul>
               <li>Životní a úrazové pojištění</li>
               <li>Zajištění schopnosti splácet spotřebitelský nebo hypoteční úvěr</li>
@@ -557,7 +560,7 @@
             <span class="flip-hint">Otočit ▸</span>
           </div>
           <div class="svc-back">
-            <h3>Pojištění majetku a vozidel</h3>
+            <p class="svc-back-title">Pojištění majetku a vozidel</p>
             <ul>
               <li><strong>Havarijní pojištění a povinné ručení</strong>: srovnání napříč trhem, optimální limity krytí i asistenční služby</li>
               <li><strong>Majetek a odpovědnost</strong>: nemovitost, domácnost i pojištění „na blbost“ podle aktuální hodnoty majetku, bez podpojištění</li>
@@ -576,7 +579,7 @@
             <span class="flip-hint">Otočit ▸</span>
           </div>
           <div class="svc-back">
-            <h3>Investice a zhodnocení financí</h3>
+            <p class="svc-back-title">Investice a zhodnocení financí</p>
             <ul>
               <li>Nenechte své úspory požírat inflací</li>
               <li>Investiční strategie na míru vašim cílům a postoji k riziku</li>
@@ -596,7 +599,7 @@
             <span class="flip-hint">Otočit ▸</span>
           </div>
           <div class="svc-back">
-            <h3>Komplexní finanční plánování</h3>
+            <p class="svc-back-title">Komplexní finanční plánování</p>
             <ul>
               <li>Finanční zdraví v dlouhodobém horizontu</li>
               <li>Analýza vašich příjmů a výdajů</li>
@@ -631,7 +634,7 @@
 
       <div class="about-bio">
         <div class="about-photo">
-          <img src="assets/denisa-holazova-portret-1400.webp" srcset="assets/denisa-holazova-portret-800.webp 800w, assets/denisa-holazova-portret-1400.webp 1400w" sizes="(max-width: 760px) 100vw, 45vw" alt="Portrét Denisy Holazové, finanční poradkyně a obchodní ředitelky money2u" loading="lazy" decoding="async" />
+          <img src="assets/denisa-holazova-portret-1400.webp" srcset="assets/denisa-holazova-portret-500.webp 500w, assets/denisa-holazova-portret-800.webp 800w, assets/denisa-holazova-portret-1400.webp 1400w" sizes="(max-width: 760px) 100vw, 45vw" alt="Portrét Denisy Holazové, finanční poradkyně a obchodní ředitelky money2u" loading="lazy" decoding="async" />
         </div>
         <div class="about-text">
           <p>Finančnímu poradenství se věnuji od roku <strong>2013</strong>. Za tu dobu jsem pomohla více než <strong>850 spokojeným klientům</strong> projít klíčovými životními kroky: od koupě prvního bydlení a zvýhodnění nevýhodných úvěrů přes bezpečné investování až po zajištění rodiny či kvalitní a cenově dostupné pojištění auta nebo majetku.</p>
@@ -823,6 +826,6 @@
     <span>Domluvit konzultaci</span>
   </a>
 
-  <script src="script.js?v=2"></script>
+  <script src="script.js?v=3"></script>
 </body>
 </html>
