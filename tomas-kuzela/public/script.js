@@ -22,7 +22,17 @@
   };
   ham.addEventListener('click', () => setMenu(!mobNav.classList.contains('open')));
   mobNav.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && mobNav.classList.contains('open')) { setMenu(false); ham.focus(); } });
+  document.addEventListener('keydown', (e) => {
+    if (!mobNav.classList.contains('open')) return;
+    if (e.key === 'Escape') { setMenu(false); ham.focus(); return; }
+    if (e.key === 'Tab') {
+      // fokus drží uvnitř otevřeného menu (odkazy + tlačítko zavřít)
+      const items = [ham].concat(Array.from(mobNav.querySelectorAll('a')));
+      const i = items.indexOf(document.activeElement);
+      if (e.shiftKey && i <= 0) { e.preventDefault(); items[items.length - 1].focus(); }
+      else if (!e.shiftKey && i === items.length - 1) { e.preventDefault(); items[0].focus(); }
+    }
+  });
   window.addEventListener('resize', () => { if (window.innerWidth > 768 && mobNav.classList.contains('open')) setMenu(false); });
 
   // ---------- Rok v patičce ----------
@@ -83,19 +93,20 @@
   // Počítač otáčí přes :hover v CSS. Dotyková zařízení (mobil, iPad) otáčí klepnutím,
   // klávesnice Enterem nebo mezerníkem (a :focus-within).
   const flipCards = document.querySelectorAll('.flip-card');
+  const setFlip = (card, on) => { card.classList.toggle('flipped', on); card.setAttribute('aria-pressed', String(on)); };
   flipCards.forEach((card) => {
     if (!supportsHover) {
       card.addEventListener('click', (e) => {
         if (e.target.closest('a')) return;
         const willFlip = !card.classList.contains('flipped');
-        flipCards.forEach((c) => { if (c !== card) c.classList.remove('flipped'); });
-        card.classList.toggle('flipped', willFlip);
+        flipCards.forEach((c) => { if (c !== card) setFlip(c, false); });
+        setFlip(card, willFlip);
       });
     }
     card.addEventListener('keydown', (e) => {
       if ((e.key === 'Enter' || e.key === ' ') && e.target === card) {
         e.preventDefault();
-        card.classList.toggle('flipped');
+        setFlip(card, !card.classList.contains('flipped'));
       }
     });
   });
@@ -124,6 +135,7 @@
     let cur = 0;
     let timer = null;
     let visible = false;
+    let paused = false;
     const dots = [];
     for (let i = 0; i < total; i++) {
       const d = document.createElement('button');
@@ -141,7 +153,11 @@
       Array.prototype.forEach.call(slides.children, (s, i) => s.setAttribute('aria-hidden', i === cur ? 'false' : 'true'));
     }
     function stop() { if (timer) { clearInterval(timer); timer = null; } }
-    function restart() { stop(); if (visible && !reduceMotion) timer = setInterval(() => go(cur + 1), 5000); }
+    function restart() { stop(); if (visible && !paused && !reduceMotion) timer = setInterval(() => go(cur + 1), 5000); }
+    wrap.addEventListener('mouseenter', () => { paused = true; stop(); });
+    wrap.addEventListener('mouseleave', () => { paused = false; restart(); });
+    wrap.addEventListener('focusin', () => { paused = true; stop(); });
+    wrap.addEventListener('focusout', (e) => { if (!wrap.contains(e.relatedTarget)) { paused = false; restart(); } });
     document.getElementById('cPrev').addEventListener('click', () => { go(cur - 1); restart(); });
     document.getElementById('cNext').addEventListener('click', () => { go(cur + 1); restart(); });
 
@@ -169,7 +185,7 @@
     const note = document.getElementById('formNote');
     const btn = document.getElementById('contactSubmit');
     const label = btn ? btn.textContent : 'Odeslat zprávu';
-    const show = (text, type) => { note.hidden = false; note.dataset.type = type; note.textContent = text; };
+    const show = (text, type) => { note.dataset.type = type; note.textContent = text; };
     const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
     let sending = false;
 
@@ -182,9 +198,9 @@
         email: String(d.get('email') || '').trim(),
         phone: String(d.get('phone') || '').trim(),
         msg: String(d.get('msg') || '').trim(),
-        company: String(d.get('company') || '').trim(),
+        company: String(d.get('hp_kontrola') || '').trim(),   // past na boty, člověk ji nevidí
       };
-      if (!payload.name || !payload.email || !payload.msg) { show('Vyplňte prosím jméno, e-mail a zprávu.', 'error'); return; }
+      if (!payload.name || !payload.email || !payload.msg) { show('Vyplňte prosím jméno, e-mail a\u00a0zprávu.', 'error'); return; }
       if (!isEmail(payload.email)) { show('Zkontrolujte prosím e-mailovou adresu.', 'error'); return; }
 
       sending = true;
@@ -201,7 +217,7 @@
         form.reset();
         show('Děkuji, zpráva dorazila. Ozvu se vám co nejdřív.', 'ok');
       } catch (err) {
-        show('Zprávu se teď nepodařilo odeslat. Zkuste to prosím znovu, nebo mi zavolejte na 734 114 698.', 'error');
+        show('Zprávu se teď nepodařilo odeslat. Zkuste to prosím znovu, nebo mi zavolejte na\u00a0734\u00a0114\u00a0698.', 'error');
       } finally {
         sending = false;
         if (btn) { btn.disabled = false; btn.textContent = label; }

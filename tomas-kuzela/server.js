@@ -30,7 +30,23 @@ const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(v || '').trim())
 
 app.get('/api/health', (_req, res) => res.json({ ok: true, mailTo: !!MAIL_TO }));
 
+// Ochrana formuláře: jen z vlastního webu a nejvýš pár zpráv za čtvrt hodiny z jedné adresy.
+const ALLOWED_HOSTS = new Set([CANONICAL_HOST, 'www.' + CANONICAL_HOST, 'tomas-kuzela.gomatela.cz', 'localhost', '127.0.0.1']);
+const hits = new Map();                                                   // ip -> [časy odeslání]
+const LIMIT = 5, WINDOW_MS = 15 * 60 * 1000;
+setInterval(() => { const t = Date.now() - WINDOW_MS; for (const [k, v] of hits) { const r = v.filter((x) => x > t); r.length ? hits.set(k, r) : hits.delete(k); } }, WINDOW_MS).unref();
+
 app.post('/api/contact', async (req, res) => {
+  const origin = req.get('origin') || req.get('referer') || '';
+  let originHost = '';
+  try { originHost = new URL(origin).hostname; } catch (_) { /* bez Origin (např. curl) */ }
+  if (originHost && !ALLOWED_HOSTS.has(originHost)) return res.status(403).json({ ok: false, error: 'origin' });
+
+  const ip = req.get('cf-connecting-ip') || req.ip || 'neznamá';
+  const now = Date.now();
+  const recent = (hits.get(ip) || []).filter((t) => t > now - WINDOW_MS);
+  if (recent.length >= LIMIT) return res.status(429).json({ ok: false, error: 'too_many' });
+
   const data = req.body || {};
   if (data.company) return res.json({ ok: true });                      // honeypot → tváříme se jako úspěch
 
@@ -42,6 +58,7 @@ app.post('/api/contact', async (req, res) => {
   if (!name || !email || !msg) return res.status(400).json({ ok: false, error: 'missing_fields' });
   if (!isEmail(email))         return res.status(400).json({ ok: false, error: 'bad_email' });
   if (!MAIL_TO)                return res.status(500).json({ ok: false, error: 'no_recipient' });
+  recent.push(now); hits.set(ip, recent);
 
   const transport = nodemailer.createTransport({
     host: process.env.SMTP_HOST || 'mail.gomatela.cz',
@@ -73,7 +90,7 @@ app.post('/api/contact', async (req, res) => {
     await transport.sendMail({
       from: MAIL_FROM,
       to: MAIL_TO,
-      replyTo: `"${name.replace(/"/g, '')}" <${email}>`,
+      replyTo: { name, address: email },
       subject, text, html,
     });
     return res.json({ ok: true });
@@ -90,8 +107,9 @@ app.use((req, res, next) => {
   if (req.method !== 'GET' && req.method !== 'HEAD') return next();
   const p = req.path.replace(/\/+$/, '').toLowerCase();
   if (!p) return next();                              // kořen servíruje statika
+  if (p === '/index.html' || p === '/index') return res.redirect(301, '/');
+  if (p.startsWith('/api/')) return res.status(404).json({ ok: false, error: 'not_found' });
   if (LEGACY[p]) return res.redirect(301, LEGACY[p]);
-  if (p.startsWith('/api/')) return next();           // API má vlastní routy
   if (/\.[a-z0-9]{2,12}$/i.test(p)) return next();     // soubory nechat statice, ať 404 zůstane 404
   return res.redirect(301, '/');
 });
