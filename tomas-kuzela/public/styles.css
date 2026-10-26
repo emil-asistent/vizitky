@@ -185,8 +185,8 @@ body.menu-open #nav .nav-logo { color: var(--white); }
 /* titul Bc. visí vlevo od jména, aby jméno zůstalo na středu */
 .hero-jmeno { position: relative; display: inline-block; }
 .hero-titul {
-  position: absolute; right: 100%; top: .12em; margin-right: .3em;
-  font-size: .3em; font-weight: 700; letter-spacing: .02em; line-height: 1;
+  position: absolute; right: 100%; bottom: .1em; margin-right: .22em;
+  font-size: .34em; font-weight: 800; letter-spacing: 0; line-height: 1;
   color: var(--teal); text-transform: none;
 }
 .hero-sub {
