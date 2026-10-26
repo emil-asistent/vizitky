@@ -1,0 +1,30 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# Vyhledávače a AI asistenti jsou výslovně vítáni.
+User-agent: Googlebot
+User-agent: Bingbot
+User-agent: SeznamBot
+User-agent: DuckDuckBot
+User-agent: Applebot
+User-agent: Applebot-Extended
+User-agent: Google-Extended
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: anthropic-ai
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: DuckAssistBot
+User-agent: MistralAI-User
+User-agent: CCBot
+Allow: /
+Disallow: /api/
+
+Sitemap: https://tomaskuzela.eu/sitemap.xml
+
+# Shrnutí pro AI: https://tomaskuzela.eu/llms.txt
