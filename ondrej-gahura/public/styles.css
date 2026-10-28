@@ -289,11 +289,11 @@ textarea:focus-visible,
 .hero-content h1 {
   font-family: var(--font-main);
   font-weight: 800;
-  font-size: clamp(38px, 4.3vw, 62px);
-  line-height: 1.1;
-  letter-spacing: -0.025em;
-  margin-bottom: 28px;
-  max-width: 15ch;  /* claim Ondřeje: na PC dva až tři řádky */
+  font-size: clamp(52px, 6.4vw, 96px);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  margin-bottom: 22px;
+  max-width: 9ch;  /* jméno na dva řádky jako u ostatních vizitek */
   text-shadow: 0 2px 24px rgba(13, 31, 58, .4);
 }
 .hero-content h1 em {
@@ -303,8 +303,10 @@ textarea:focus-visible,
 }
 
 .hero-sub {
-  font-size: clamp(16px, 1.25vw, 19px);
-  color: rgba(255,255,255,.82);
+  font-size: clamp(17px, 1.5vw, 22px);
+  font-weight: 600 !important;
+  letter-spacing: .01em;
+  color: rgba(255,255,255,.9);
   max-width: 520px;
   line-height: 1.55;
   font-weight: 400;
@@ -383,7 +385,7 @@ textarea:focus-visible,
   margin: 0 auto;
   padding: 0 24px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 40px;
   text-align: center;
 }
@@ -487,6 +489,8 @@ h2 {
   grid-template-columns: repeat(2, 1fr);
   gap: 24px;
 }
+.svc-grid--3 { grid-template-columns: repeat(3, 1fr); }
+.svc-grid--3 .svc-card { min-height: 420px; }
 .svc-card {
   position: relative;
   perspective: 1500px;
@@ -1114,7 +1118,7 @@ footer {
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 980px) {
   .why-grid { grid-template-columns: 1fr; }
-  .svc-grid { grid-template-columns: 1fr; }
+  .svc-grid, .svc-grid--3 { grid-template-columns: 1fr; }
   .process-grid { grid-template-columns: repeat(2, 1fr); }
   .process-grid::before { display: none; }
   .contact-grid { grid-template-columns: 1fr; gap: 40px; }
@@ -1163,7 +1167,7 @@ footer {
 
   /* ----- STATS - 3 ve sloupcích, kompaktní ----- */
   #stats { padding: 32px 0; }
-  .stats-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 16px; }
+  .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 0 16px; }
   .stat-num { font-size: 32px; letter-spacing: -.02em; }
   .stat-lbl { margin-top: 8px; font-size: 10px; letter-spacing: .06em; line-height: 1.25; }
 
@@ -1535,8 +1539,8 @@ footer {
   }
   .hero-eyebrow { display: none; }    /* jméno už je v navu - eyebrow je redundantní */
   .hero-content h1 {
-    font-size: clamp(26px, 6.5vw, 42px);
-    line-height: 1.15;
+    font-size: clamp(40px, 11vw, 60px);
+    line-height: 1.05;
     margin-bottom: 14px;
     max-width: 100%;
   }
@@ -1577,7 +1581,7 @@ footer {
   .hero-ctas .btn-primary, .hero-ctas .btn-ghost {
     width: 220px; max-width: 80%; justify-content: center; padding: 13px 16px; font-size: 14px;
   }
-  .hero-content h1 { font-size: clamp(22px, 6vw, 32px); line-height: 1.18; }
+  .hero-content h1 { font-size: clamp(36px, 10.5vw, 46px); line-height: 1.05; }
   h2 { font-size: clamp(28px, 7.5vw, 40px); }
   .nav-inner { padding: 0 16px; }
   .container { padding: 0 16px; }
@@ -1591,4 +1595,11 @@ footer {
   .process-num { width: 48px; height: 48px; font-size: 16px; }
   .process-step h3 { font-size: 15px; }
   .process-step p { font-size: 12.5px; }
+}
+
+/* 4 čísla na úzkém mobilu do 2 × 2 */
+@media (max-width: 560px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); row-gap: 22px; }
+  .stat-num { font-size: 34px; }
+  .stat-lbl { font-size: 10.5px; }
 }
