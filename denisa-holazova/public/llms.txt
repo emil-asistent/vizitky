@@ -1,6 +1,6 @@
 # Denisa Holazová, finanční poradkyně
 
-> Denisa Holazová je finanční poradkyně a obchodní ředitelka money2u. Finančnímu poradenství se věnuje od roku 2013 a pomohla více než 850 klientům. Působí po celé České republice, osobně i online, sídlo má ve Frýdku-Místku. Zajišťuje hypotéky, spotřebitelské úvěry a jejich konsolidaci, životní a úrazové pojištění, pojištění majetku a vozidel, investice a komplexní finanční plánování.
+> Denisa Holazová je finanční poradkyně a obchodní ředitelka. Finančnímu poradenství se věnuje od roku 2013 a pomohla více než 850 klientům. Působí po celé České republice, osobně i online, sídlo má ve Frýdku-Místku. Zajišťuje hypotéky, spotřebitelské úvěry a jejich konsolidaci, životní a úrazové pojištění, pojištění majetku a vozidel, investice a komplexní finanční plánování.
 
 Web: https://holazova.cz/
 
@@ -9,9 +9,7 @@ Web: https://holazova.cz/
 - E-mail: denisa@holazova.cz
 - Kontaktní formulář: https://holazova.cz/#contact
 - Působnost: celá Česká republika, osobně i online
-- Sídlo: U Nemocnice 2388, 738 01 Frýdek-Místek
 - IČO: 02207257, není plátce DPH
-- Spolupracuje s: money2u (https://money2u.cz)
 
 ## Služby
 - [Spotřebitelské úvěry a konsolidace](https://holazova.cz/#services): financování auta, vybavení domácnosti i dalších plánů; srovnání úvěrových poskytovatelů podle možností klienta; refinancování a konsolidace více půjček, kreditních karet či kontokorentů do jedné nižší splátky; příprava podkladů od žádosti po schválení.
