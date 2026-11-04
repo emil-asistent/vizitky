@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /kontakt.php
+Disallow: /sazba.php
+Sitemap: https://tomasrous.cz/sitemap.xml
