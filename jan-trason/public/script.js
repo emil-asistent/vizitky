@@ -1,0 +1,266 @@
+// ---------- NAV scroll ----------
+const nav = document.getElementById('nav');
+const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 30);
+onScroll();
+window.addEventListener('scroll', onScroll, { passive: true });
+
+// ---------- Mobile menu ----------
+const ham = document.getElementById('ham');
+const mobNav = document.getElementById('mob-nav');
+const backdrop = document.getElementById('mobBackdrop');
+const closeMenu = () => {
+  mobNav.classList.remove('open');
+  ham.classList.remove('open');
+  nav.classList.remove('menu-open');
+  if (backdrop) backdrop.classList.remove('show');
+};
+ham.addEventListener('click', () => {
+  const open = mobNav.classList.toggle('open');
+  ham.classList.toggle('open', open);
+  nav.classList.toggle('menu-open', open);
+  if (backdrop) backdrop.classList.toggle('show', open);
+});
+mobNav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+if (backdrop) backdrop.addEventListener('click', closeMenu);
+
+// ---------- Year ----------
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// ---------- Mobile sticky CTA ----------
+const mobCta = document.getElementById('mobileCta');
+if (mobCta) {
+  const hero = document.getElementById('hero');
+  const contact = document.getElementById('contact');
+  const checkCta = () => {
+    const heroBottom = hero.getBoundingClientRect().bottom;
+    const contactTop = contact.getBoundingClientRect().top;
+    const inHero = heroBottom > 100;
+    const nearContact = contactTop < window.innerHeight + 80;
+    mobCta.classList.toggle('show', !inHero && !nearContact);
+  };
+  checkCta();
+  window.addEventListener('scroll', checkCta, { passive: true });
+  window.addEventListener('resize', checkCta);
+}
+
+// ---------- Stats counter ----------
+const statEls = document.querySelectorAll('.stat-num[data-target]');   // textové hodnoty (ČR) se nepočítají
+const animateStat = el => {
+  const target = parseInt(el.dataset.target, 10);
+  const suffix = el.dataset.suffix ?? '+';
+  const dur = 1600;
+  const start = performance.now();
+  const tick = now => {
+    const t = Math.min((now - start) / dur, 1);
+    const eased = 1 - Math.pow(1 - t, 3);
+    const val = Math.round(target * eased);
+    el.textContent = val + (t === 1 ? suffix : '');
+    if (t < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+};
+
+const statObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      animateStat(e.target);
+      statObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.4 });
+// V HTML jsou skutečná čísla (pro vyhledávače a AI bez JS), animace je vynuluje a napočítá znovu.
+statEls.forEach(el => { el.textContent = '0'; statObserver.observe(el); });
+
+// ---------- Services flip cards ----------
+// Hover-capable zařízení (desktop) flipuje přes CSS :hover.
+// Touch zařízení (mobil/tablet) bez hoveru používají tap.
+const supportsHover = window.matchMedia('(hover: hover)').matches;
+if (!supportsHover) {
+  document.querySelectorAll('.svc-card').forEach(card => {
+    card.addEventListener('click', e => {
+      if (e.target.closest('a')) return;
+      card.classList.toggle('flipped');
+    });
+  });
+}
+
+// ---------- Services mobile slider (Embla Carousel) ----------
+const svcViewport = document.querySelector('.svc-viewport');
+const svcDots = document.querySelectorAll('#svcDots button');
+let emblaInstance = null;
+
+const initEmbla = () => {
+  const isMobile = window.matchMedia('(max-width: 760px)').matches;
+
+  // Pokud existuje instance a už nejsme na mobile → destroy
+  if (emblaInstance && !isMobile) {
+    emblaInstance.destroy();
+    emblaInstance = null;
+    if (svcViewport) {
+      const grid = svcViewport.querySelector('.svc-grid');
+      if (grid) grid.style.transform = '';
+    }
+    return;
+  }
+  if (emblaInstance || !isMobile) return;
+  if (!svcViewport || typeof EmblaCarousel !== 'function') return;
+
+  emblaInstance = EmblaCarousel(svcViewport, {
+    loop: false,
+    align: 'center',
+    containScroll: 'trimSnaps',
+    dragFree: false,
+    duration: 22,
+    dragThreshold: 6,
+  });
+
+  const updateDots = () => {
+    const idx = emblaInstance.selectedScrollSnap();
+    svcDots.forEach((d, i) => d.classList.toggle('active', i === idx));
+  };
+  emblaInstance.on('select', updateDots);
+  emblaInstance.on('init', updateDots);
+  updateDots();
+
+  svcDots.forEach((dot, i) =>
+    dot.addEventListener('click', () => emblaInstance && emblaInstance.scrollTo(i))
+  );
+};
+
+// Init až je Embla načtená (defer script)
+if (document.readyState === 'complete') {
+  initEmbla();
+} else {
+  window.addEventListener('load', initEmbla);
+}
+window.addEventListener('resize', initEmbla);
+
+// ---------- Gallery carousel ----------
+const gSlides = document.querySelectorAll('.gallery-slide');
+const gDots = document.querySelectorAll('#galleryDots button');
+const gPrev = document.getElementById('galPrev');
+const gNext = document.getElementById('galNext');
+const gInner = document.querySelector('.gallery-inner');
+if (gSlides.length && gInner) {
+  let gIdx = 0;
+  let gTimer;
+  const AUTO_MS = 5500;
+
+  const gGo = (i) => {
+    gSlides[gIdx].classList.remove('active');
+    gDots[gIdx].classList.remove('active');
+    gIdx = (i + gSlides.length) % gSlides.length;
+    gSlides[gIdx].classList.add('active');
+    gDots[gIdx].classList.add('active');
+  };
+  const gNextFn = () => gGo(gIdx + 1);
+  const gPrevFn = () => gGo(gIdx - 1);
+  const gStart = () => { clearInterval(gTimer); gTimer = setInterval(gNextFn, AUTO_MS); };
+  const gStop = () => clearInterval(gTimer);
+
+  gNext.addEventListener('click', () => { gNextFn(); gStart(); });
+  gPrev.addEventListener('click', () => { gPrevFn(); gStart(); });
+  gDots.forEach(d => d.addEventListener('click', () => {
+    gGo(parseInt(d.dataset.i, 10));
+    gStart();
+  }));
+  // Autoplay běží pořád (bez pauzy na hover), automatické i klikací.
+
+  // Touch swipe
+  let touchStartX = 0;
+  gInner.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  gInner.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) { dx > 0 ? gPrevFn() : gNextFn(); gStart(); }
+  });
+
+  // Start autoplay až když je vidět
+  const gObs = new IntersectionObserver(es => {
+    es.forEach(e => e.isIntersecting ? gStart() : gStop());
+  }, { threshold: 0.2 });
+  gObs.observe(gInner);
+}
+
+// ---------- Process line animation ----------
+const processGrid = document.querySelector('.process-grid');
+if (processGrid) {
+  const procObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('animate');
+        procObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  procObs.observe(processGrid);
+}
+
+// ---------- Reveal on scroll ----------
+const revealEls = document.querySelectorAll('h2, .lead, .why-card, .svc-card, .process-step, .stat, .about-photo, .about-text > p, .about-quote, .pillar, .about-personal, .about-cta, .contact-info, .contact-form');
+revealEls.forEach(el => el.classList.add('reveal'));
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      revealObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.15 });
+revealEls.forEach(el => revealObserver.observe(el));
+
+// ---------- Contact form (přímé odeslání na e-mail) ----------
+const form = document.getElementById('contactForm');
+const note = document.getElementById('formNote');
+const submitBtn = document.getElementById('contactSubmit');
+
+const showNote = (msg, type = 'info') => {
+  note.hidden = false;
+  note.dataset.type = type;
+  note.textContent = msg;
+};
+
+const isEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+  const data = new FormData(form);
+  const payload = {
+    name: (data.get('name') || '').toString().trim(),
+    email: (data.get('email') || '').toString().trim(),
+    phone: (data.get('phone') || '').toString().trim(),
+    msg: (data.get('msg') || '').toString().trim(),
+    company: (data.get('company') || '').toString().trim(), // honeypot
+  };
+
+  if (!payload.name || !payload.email || !payload.msg) {
+    showNote('Vyplňte prosím jméno, e-mail a zprávu.', 'error');
+    return;
+  }
+  if (!isEmail(payload.email)) {
+    showNote('Zkontrolujte e-mailovou adresu.', 'error');
+    return;
+  }
+
+  const btnLabel = submitBtn ? submitBtn.textContent : '';
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Odesílám…'; }
+  showNote('Odesílám vaši zprávu…', 'info');
+
+  try {
+    const resp = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const out = await resp.json().catch(() => ({}));
+    if (resp.ok && out.ok) {
+      form.reset();
+      showNote('Děkuji, vaše zpráva byla odeslána. Ozvu se vám co nejdříve.', 'success');
+    } else {
+      throw new Error(out.error || 'send_failed');
+    }
+  } catch (err) {
+    showNote('Zprávu se teď nepodařilo odeslat. Zkuste to prosím znovu, nebo mi zavolejte na +420 737 202 797.', 'error');
+  } finally {
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = btnLabel; }
+  }
+});
