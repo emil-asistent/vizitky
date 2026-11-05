@@ -11,12 +11,14 @@ const backdrop = document.getElementById('mobBackdrop');
 const closeMenu = () => {
   mobNav.classList.remove('open');
   ham.classList.remove('open');
+  ham.setAttribute('aria-expanded', 'false');
   nav.classList.remove('menu-open');
   if (backdrop) backdrop.classList.remove('show');
 };
 ham.addEventListener('click', () => {
   const open = mobNav.classList.toggle('open');
   ham.classList.toggle('open', open);
+  ham.setAttribute('aria-expanded', String(open));
   nav.classList.toggle('menu-open', open);
   if (backdrop) backdrop.classList.toggle('show', open);
 });
