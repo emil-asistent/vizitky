@@ -28,7 +28,43 @@ const esc = (s) => String(s || '')
   .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(v || '').trim());
 
-app.get('/api/health', (_req, res) => res.json({ ok: true, mailTo: !!MAIL_TO }));
+const createTransport = () => nodemailer.createTransport({
+  host: process.env.SMTP_HOST || 'mail.gomatela.cz',
+  port: Number(process.env.SMTP_PORT || 465),
+  secure: String(process.env.SMTP_SECURE || '1') === '1' || Number(process.env.SMTP_PORT || 465) === 465,
+  auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+  connectionTimeout: 12000, greetingTimeout: 8000, socketTimeout: 20000,
+});
+
+// Dočasná chyba pošty (např. 454 při náporu na server) se opakuje, trvalé odmítnutí 5xx ne.
+const RETRY_WAITS_MS = [0, 2000, 6000];
+async function sendWithRetry(mail) {
+  let lastError;
+  for (const wait of RETRY_WAITS_MS) {
+    if (wait) await new Promise((resolve) => setTimeout(resolve, wait));
+    try {
+      return await createTransport().sendMail(mail);
+    } catch (e) {
+      lastError = e;
+      console.error('contact send attempt failed:', (e && e.responseCode) || (e && e.code) || 'unknown');
+      if (e && e.responseCode >= 500) break;
+    }
+  }
+  throw lastError;
+}
+
+// ?deep=1 ověří i přihlášení do pošty (pro hlídač, výsledek se drží minutu, ať to nejde zneužít).
+let smtpCheck = { at: 0, ok: false };
+app.get('/api/health', async (req, res) => {
+  if (req.query.deep !== '1') return res.json({ ok: true, mailTo: !!MAIL_TO });
+  if (Date.now() - smtpCheck.at > 60 * 1000) {
+    let ok = false;
+    try { ok = await createTransport().verify(); } catch (e) { console.error('smtp verify failed:', (e && e.responseCode) || (e && e.code) || 'unknown'); }
+    smtpCheck = { at: Date.now(), ok: !!ok };
+  }
+  const ok = smtpCheck.ok && !!MAIL_TO;
+  return res.status(ok ? 200 : 503).json({ ok, mailTo: !!MAIL_TO, smtp: smtpCheck.ok ? 'verified' : 'failed' });
+});
 
 // Ochrana formuláře: jen z vlastního webu a nejvýš pár zpráv za čtvrt hodiny z jedné adresy.
 const ALLOWED_HOSTS = new Set([CANONICAL_HOST, 'www.' + CANONICAL_HOST, 'tomas-kuzela.gomatela.cz', 'localhost', '127.0.0.1']);
@@ -39,8 +75,8 @@ setInterval(() => { const t = Date.now() - WINDOW_MS; for (const [k, v] of hits)
 app.post('/api/contact', async (req, res) => {
   const origin = req.get('origin') || req.get('referer') || '';
   let originHost = '';
-  try { originHost = new URL(origin).hostname; } catch (_) { /* bez Origin (např. curl) */ }
-  if (originHost && !ALLOWED_HOSTS.has(originHost)) return res.status(403).json({ ok: false, error: 'origin' });
+  try { originHost = new URL(origin).hostname; } catch (_) { /* bez Origin: prohlížeč ho u formuláře posílá vždy, takže robot */ }
+  if (!ALLOWED_HOSTS.has(originHost)) return res.status(403).json({ ok: false, error: 'origin' });
 
   const ip = req.get('cf-connecting-ip') || req.ip || 'neznamá';
   const now = Date.now();
@@ -50,23 +86,16 @@ app.post('/api/contact', async (req, res) => {
   const data = req.body || {};
   if (data.company) return res.json({ ok: true });                      // honeypot → tváříme se jako úspěch
 
-  const name  = String(data.name  || '').trim().slice(0, 200);
-  const email = String(data.email || '').trim().slice(0, 200);
-  const phone = String(data.phone || '').trim().slice(0, 60);
+  const oneLine = (v) => String(v || '').replace(/[\r\n]+/g, ' ').trim();
+  const name  = oneLine(data.name).slice(0, 200);
+  const email = oneLine(data.email).slice(0, 200);
+  const phone = oneLine(data.phone).slice(0, 60);
   const msg   = String(data.msg   || '').trim().slice(0, 5000);
 
   if (!name || !email || !msg) return res.status(400).json({ ok: false, error: 'missing_fields' });
   if (!isEmail(email))         return res.status(400).json({ ok: false, error: 'bad_email' });
   if (!MAIL_TO)                return res.status(500).json({ ok: false, error: 'no_recipient' });
   recent.push(now); hits.set(ip, recent);
-
-  const transport = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'mail.gomatela.cz',
-    port: Number(process.env.SMTP_PORT || 465),
-    secure: String(process.env.SMTP_SECURE || '1') === '1' || Number(process.env.SMTP_PORT || 465) === 465,
-    auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
-    connectionTimeout: 12000, greetingTimeout: 8000, socketTimeout: 20000,
-  });
 
   const subject = `Nová poptávka z webu od ${name}`;
   const text =
@@ -87,7 +116,7 @@ app.post('/api/contact', async (req, res) => {
     `</div>`;
 
   try {
-    await transport.sendMail({
+    await sendWithRetry({
       from: MAIL_FROM,
       to: MAIL_TO,
       replyTo: { name, address: email },
