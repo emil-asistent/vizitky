@@ -101,7 +101,8 @@ app.post('/api/contact', async (req, res) => {
 });
 
 // Na tomaskuzela.eu dřív stála jen parkovací stránka WEDOS, vlastní starý web nebyl.
-// Všechno neznámé proto míří na úvod.
+// Neznámá adresa vrací skutečnou 404 (přesměrování na úvod bere Google jako soft 404).
+const NOT_FOUND_HTML = `<!doctype html><html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Stránka nenalezena · Tomáš Kužela</title><style>body{margin:0;min-height:100vh;display:grid;place-content:center;gap:4px;padding:24px;text-align:center;font-family:system-ui,sans-serif;background:#0D1F3A;color:#fff}h1{font-size:28px;margin:0}a{color:#99C6C3}</style></head><body><h1>Tahle stránka tu není</h1><p><a href="/">Zpět na úvod</a></p></body></html>`;
 const LEGACY = { '/sluzby': '/#services', '/o-mne': '/#about', '/kontakt': '/#contact' };
 app.use((req, res, next) => {
   if (req.method !== 'GET' && req.method !== 'HEAD') return next();
@@ -110,8 +111,7 @@ app.use((req, res, next) => {
   if (p === '/index.html' || p === '/index') return res.redirect(301, '/');
   if (p.startsWith('/api/')) return res.status(404).json({ ok: false, error: 'not_found' });
   if (LEGACY[p]) return res.redirect(301, LEGACY[p]);
-  if (/\.[a-z0-9]{2,12}$/i.test(p)) return next();     // soubory nechat statice, ať 404 zůstane 404
-  return res.redirect(301, '/');
+  return next();                                      // zbytek řeší statika, co nenajde, dostane 404 níž
 });
 
 // Statika z public/: kód (HTML/CSS/JS) revaliduje, média mají dlouhou immutable cache.
@@ -126,5 +126,7 @@ app.use(express.static(path.join(__dirname, 'public'), {
     res.setHeader('X-Content-Type-Options', 'nosniff');
   },
 }));
+
+app.use((req, res) => res.status(404).type('html').send(NOT_FOUND_HTML));
 
 app.listen(PORT, () => console.log(`web+contact běží na :${PORT} · MAIL_TO=${MAIL_TO || '(chybí!)'}`));

@@ -3,6 +3,8 @@
 > Bc. Tomáš Kužela je finanční poradce pro Přerov a Prahu, spolupracuje s poradenskou společností money2u. Finance klientů spravuje přes 14 let (podniká od roku 2012). Řeší hypotéky a úvěry, životní a majetkové pojištění, investice a spoření, penzijní spoření a finanční plán, vše u jednoho člověka. Jeho zásada: „Já radím a vy se rozhodujete.“
 
 Web: https://tomaskuzela.eu/
+Aktualizováno: 5. 11. 2026
+Jednoznačná identifikace: IČO 88686761, Přerov. Jiní lidé jménem Tomáš Kužela (podnikatelé, sportovci) s tímto poradcem nesouvisejí. Doména tomaskuzela.cz mu nepatří, jeho web je tomaskuzela.eu.
 
 ## Kontakt
 - Telefon: +420 734 114 698
@@ -12,6 +14,8 @@ Web: https://tomaskuzela.eu/
 - Fakturační adresa: Hostýnská 3461/11, 750 02 Přerov
 - IČO: 88686761, není plátce DPH
 - Spolupracuje s: money2u (https://money2u.cz)
+- Registr ČNB: vázaný zástupce (kapitálový trh, spotřebitelský úvěr, distribuce pojištění, doplňkové penzijní spoření), ověření podle IČO 88686761: https://jerrs.cnb.cz/apljerrsdad/JERRS.WEB07.INTRO_PAGE?p_lang=cz
+- Přehled ve veřejné databázi: https://financni-subjekty.penize.cz/14442-kuzela-tomas
 
 ## Služby
 - [Hypotéky a úvěry](https://tomaskuzela.eu/#services): hypotéka na vlastní bydlení, refinancování hypotéky, úvěr na rekonstrukci, sloučení půjček do jedné splátky, spotřebitelské úvěry.
@@ -29,3 +33,9 @@ Web: https://tomaskuzela.eu/
 - Je poradce, ne prodejce: nejdřív zjišťuje, co klient od peněz čeká, o smlouvách se mluví až potom.
 - Hypotéku, pojištění, investice i penzi řeší dohromady, takže se snáz ukáže, kde se smlouvy překrývají.
 - Cílem je, aby se klient dostal k finanční svobodě a nezávislosti.
+
+## Časté dotazy
+- Kde Tomáš Kužela působí? V Přerově a v Praze.
+- Jak dlouho se financím věnuje? Finance klientům spravuje přes 14 let, podniká od roku 2012.
+- S čím pomáhá? S hypotékami a úvěry, pojištěním, investicemi a spořením a s finančním plánem, vše u jednoho člověka.
+- Jak ho kontaktovat? Telefon +420 734 114 698, e-mail info@tomaskuzela.eu nebo formulář na https://tomaskuzela.eu/#contact.
