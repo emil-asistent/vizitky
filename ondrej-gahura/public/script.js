@@ -73,19 +73,6 @@ const statObserver = new IntersectionObserver(entries => {
 // V HTML jsou skutečná čísla (pro vyhledávače a AI bez JS), animace je vynuluje a napočítá znovu.
 statEls.forEach(el => { el.textContent = '0'; statObserver.observe(el); });
 
-// ---------- Services flip cards ----------
-// Hover-capable zařízení (desktop) flipuje přes CSS :hover.
-// Touch zařízení (mobil/tablet) bez hoveru používají tap.
-const supportsHover = window.matchMedia('(hover: hover)').matches;
-if (!supportsHover) {
-  document.querySelectorAll('.svc-card').forEach(card => {
-    card.addEventListener('click', e => {
-      if (e.target.closest('a')) return;
-      card.classList.toggle('flipped');
-    });
-  });
-}
-
 // ---------- Services mobile slider (Embla Carousel) ----------
 const svcViewport = document.querySelector('.svc-viewport');
 const svcDots = document.querySelectorAll('#svcDots button');

@@ -385,7 +385,8 @@ textarea:focus-visible,
   margin: 0 auto;
   padding: 0 24px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 760px;
   gap: 40px;
   text-align: center;
 }
@@ -435,7 +436,7 @@ h2 {
 #why { background: var(--cream); }
 .why-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 24px;
 }
 .why-card {
@@ -478,55 +479,36 @@ h2 {
 }
 .why-card p { color: var(--muted); font-size: 15px; }
 
-/* ---------- SERVICES (flip cards) ---------- */
+/* ---------- SERVICES (karty se seznamem rovnou vidět, bez otáčení) ---------- */
 .svc-dots { display: none; }       /* dots jen na mobile */
 #services { background: var(--teal); color: var(--navy); }
 #services .eyebrow { color: var(--navy); }
 #services .eyebrow::before { background: var(--navy); }
-#services .lead { color: rgba(13, 31, 58, .75); }
+#services h2 { margin-bottom: 56px; }
 .svc-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 24px;
 }
 .svc-grid--3 { grid-template-columns: repeat(3, 1fr); }
-.svc-grid--3 .svc-card { min-height: 420px; }
 .svc-card {
-  position: relative;
-  perspective: 1500px;
-  min-height: 360px;
-  cursor: pointer;
-}
-.svc-front, .svc-back {
-  position: absolute; inset: 0;
-  border-radius: var(--radius);
-  padding: 40px;
-  -webkit-backface-visibility: hidden;  /* Safari/iPad bez prefixu ukazoval rub karty zrcadlově */
-  backface-visibility: hidden;
-  transform: rotateY(0deg);
-  /* strana se přepne v půlce otočky, takže rub nikdy není vidět zrcadlově ani tam, kde backface-visibility nefunguje */
-  transition: transform .7s cubic-bezier(.5,.1,.3,1), opacity 0s linear .3s;
   display: flex; flex-direction: column;
-}
-.svc-front {
   background: var(--white);
   border: 1px solid var(--line);
-  justify-content: space-between;
-  align-items: flex-start;
+  border-radius: var(--radius);
+  padding: 40px;
+  transition: transform .3s, box-shadow .3s, border-color .3s;
 }
-.svc-front:hover { border-color: var(--teal); }
-.svc-back {
-  background: var(--navy);
-  color: var(--white);
-  transform: rotateY(180deg);
-  opacity: 0;
+.svc-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px rgba(13,31,58,.12);
+  border-color: var(--navy);
 }
-@media (hover: hover) {
-  .svc-card:hover .svc-front { transform: rotateY(-180deg); opacity: 0; }
-  .svc-card:hover .svc-back { transform: rotateY(0); opacity: 1; }
+.svc-front {
+  display: flex; flex-direction: column; align-items: flex-start;
+  margin-bottom: 26px;
 }
-.svc-card.flipped .svc-front { transform: rotateY(-180deg); opacity: 0; }
-.svc-card.flipped .svc-back { transform: rotateY(0); opacity: 1; }
+.svc-back { display: flex; flex-direction: column; flex: 1; }
 
 .svc-icon {
   width: 64px; height: 64px;
@@ -541,29 +523,21 @@ h2 {
   font-size: 26px; font-weight: 800; line-height: 1.15;
   max-width: 280px;
 }
-.flip-hint {
-  font-size: 13px; letter-spacing: .12em; text-transform: uppercase;
-  color: var(--teal-dark); font-weight: 700; margin-top: 24px;
-}
-.svc-back-title {
-  font-size: 22px; font-weight: 800; margin-bottom: 18px;
-  color: var(--teal);
-}
 .svc-back ul {
   list-style: none; padding: 0; flex: 1;
-  display: flex; flex-direction: column; gap: 10px;
-  font-size: 14px;
-  color: rgba(255,255,255,.85);
+  display: flex; flex-direction: column; gap: 11px;
+  font-size: 15px;
+  color: rgba(13, 31, 58, .8);
 }
 .svc-back li { position: relative; padding-left: 18px; }
 .svc-back li::before {
-  content: ''; position: absolute; left: 0; top: 8px;
-  width: 6px; height: 6px; background: var(--teal); border-radius: 50%;
+  content: ''; position: absolute; left: 0; top: 9px;
+  width: 6px; height: 6px; background: var(--teal-dark); border-radius: 50%;
 }
 .btn-link {
   display: inline-flex; align-items: center; gap: 8px;
-  margin-top: 18px;
-  color: var(--teal); font-weight: 700; font-size: 14px;
+  margin-top: 26px;
+  color: var(--teal-dark); font-weight: 700; font-size: 14px;
   letter-spacing: .04em;
   transition: gap .2s;
 }
@@ -1126,6 +1100,9 @@ footer {
 .reveal.in { opacity: 1; transform: none; }
 
 /* ---------- RESPONSIVE ---------- */
+@media (max-width: 1200px) {
+  .why-grid { grid-template-columns: repeat(2, 1fr); }
+}
 @media (max-width: 980px) {
   .why-grid { grid-template-columns: 1fr; }
   .svc-grid, .svc-grid--3 { grid-template-columns: 1fr; }
@@ -1177,7 +1154,7 @@ footer {
 
   /* ----- STATS - 3 ve sloupcích, kompaktní ----- */
   #stats { padding: 32px 0; }
-  .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 0 16px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 0 16px; }
   .stat-num { font-size: 32px; letter-spacing: -.02em; }
   .stat-lbl { margin-top: 8px; font-size: 10px; letter-spacing: .06em; line-height: 1.25; }
 
@@ -1219,6 +1196,7 @@ footer {
   /* ----- SERVICES - horizontální swipe karty (mobile-native) ----- */
   #services { overflow: hidden; }
   #services .container { padding-left: 0; padding-right: 0; }
+  #services h2 { margin-bottom: 28px; }
   #services .eyebrow,
   #services h2,
   #services .lead {
@@ -1251,6 +1229,8 @@ footer {
   .svc-card {
     flex: 0 0 calc(100% - 56px);   /* full width minus peek of next card */
     min-height: auto;
+    padding: 0;
+    transform: none !important;
     perspective: none;
     cursor: default;
     background: var(--white);
@@ -1286,6 +1266,7 @@ footer {
     flex-direction: row;          /* ikona vlevo, nadpis vpravo */
     align-items: center;
     gap: 12px;
+    margin-bottom: 0;
     padding: 16px 18px 6px;
     background: transparent;
     border-bottom: none;
@@ -1301,7 +1282,6 @@ footer {
     flex: 1;
     max-width: none;
   }
-  .svc-front .flip-hint { display: none; }
   .svc-icon {
     width: 40px;
     height: 40px;
@@ -1316,7 +1296,6 @@ footer {
     padding: 6px 18px 16px;
     flex: 1;
   }
-  .svc-back-title { display: none; }   /* nadpis je už ve front, schováme duplikát */
   .svc-back ul {
     gap: 5px;
     font-size: 13px;
@@ -1609,7 +1588,7 @@ footer {
   .process-step p { font-size: 12.5px; }
 }
 
-/* 4 čísla na úzkém mobilu do 2 × 2 */
+/* 2 čísla na úzkém mobilu */
 @media (max-width: 560px) {
   .stats-grid { grid-template-columns: repeat(2, 1fr); row-gap: 22px; }
   .stat-num { font-size: 34px; }
