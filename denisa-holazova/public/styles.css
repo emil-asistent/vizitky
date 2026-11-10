@@ -901,6 +901,9 @@ h2 {
   box-shadow: 0 12px 30px rgba(13,31,58,.25);
 }
 .contact-form button { margin-top: 6px; align-self: flex-start; }
+.form-privacy { margin: -4px 0 0; font-size: 12px; line-height: 1.4; }
+.form-privacy a { color: rgba(13, 31, 58, .72); text-decoration: underline; text-underline-offset: 2px; }
+.form-privacy a:hover { color: var(--navy); }
 .form-note {
   font-size: 14px;
   padding: 12px 16px;
