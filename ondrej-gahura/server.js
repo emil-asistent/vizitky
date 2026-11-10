@@ -109,6 +109,7 @@ app.use((req, res, next) => {
   const p = req.path.replace(/\/+$/, '').toLowerCase();
   if (!p) return next();                              // kořen servíruje statika
   if (p === '/index.html' || p === '/index') return res.redirect(301, '/');
+  if (p.endsWith('.html')) return res.redirect(301, p.slice(0, -5));   // čisté adresy bez .html
   if (p.startsWith('/api/')) return res.status(404).json({ ok: false, error: 'not_found' });
   if (LEGACY[p]) return res.redirect(301, LEGACY[p]);
   return next();                                      // zbytek řeší statika, co nenajde, dostane 404 níž
