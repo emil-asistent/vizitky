@@ -248,7 +248,7 @@ form.addEventListener('submit', async e => {
       throw new Error(out.error || 'send_failed');
     }
   } catch (err) {
-    showNote('Zprávu se teď nepodařilo odeslat. Zkuste to prosím znovu, nebo mi zavolejte na +420 737 202 797.', 'error');
+    showNote('Zprávu se teď nepodařilo odeslat. Zkuste to prosím znovu, nebo mi zavolejte na +420 777 109 784.', 'error');
   } finally {
     if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = btnLabel; }
   }

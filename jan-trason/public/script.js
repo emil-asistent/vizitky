@@ -245,7 +245,7 @@
         form.reset();
         show('Děkuji, zpráva dorazila. Ozvu se vám co nejdřív.', 'ok');
       } catch (err) {
-        show('Zprávu se teď nepodařilo odeslat. Zkuste to prosím znovu, nebo mi zavolejte na\u00a0734\u00a0114\u00a0698.', 'error');
+        show('Zprávu se teď nepodařilo odeslat. Zkuste to prosím znovu, nebo mi zavolejte na\u00a0604\u00a0298\u00a0927.', 'error');
       } finally {
         sending = false;
         if (btn) { btn.disabled = false; btn.textContent = label; }
