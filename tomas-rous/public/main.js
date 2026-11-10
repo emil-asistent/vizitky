@@ -16,7 +16,9 @@
   document.querySelectorAll('a[data-tema]').forEach(function(a){a.addEventListener('click',function(){var sel=document.getElementById('tema');if(sel){sel.value=a.getAttribute('data-tema');}});});
   /* lepivá lišta na mobilu */
   var sc=document.querySelector('.sticky-cta'), hero=document.getElementById('uvod');
-  if(sc&&hero){var kontakt=document.getElementById('kontakt');var upd=function(){var y=window.scrollY,past=y>hero.offsetHeight-80,inK=kontakt&&y+window.innerHeight>kontakt.offsetTop+200;sc.classList.toggle('show',past&&!inK&&!h.classList.contains('open'));};upd();window.addEventListener('scroll',upd,{passive:true});b.addEventListener('click',upd);}
+  /* lišta Zavolat/Napsat: na telefonu (kde v hlavičce není tlačítko „Domluvit konzultaci“) je vidět hned po načtení – první obrazovka
+     by jinak neměla žádný kontakt; na tabletu jako dosud až po odrolování úvodu. Skrytá u kontaktu a při otevřeném menu. */
+  if(sc&&hero){var kontakt=document.getElementById('kontakt'),headCta=document.querySelector('.nav-right .btn-sm');var upd=function(){var y=window.scrollY,inK=kontakt&&y+window.innerHeight>kontakt.offsetTop+200,past=!(headCta&&headCta.offsetParent!==null)||y>hero.offsetHeight-80;sc.classList.toggle('show',past&&!inK&&!h.classList.contains('open'));};upd();window.addEventListener('scroll',upd,{passive:true});window.addEventListener('resize',upd,{passive:true});b.addEventListener('click',upd);}
   /* kalkulačky */
   (function(){
     var RET=[[15, 7.0, "dyn"], [8, 5.0, "bal"], [0, 3.0, "con"]], RATES={"hypoteka": 5.0, "platnost": "2026-10-20", "zdroj": "výchozí hodnota (Tomáš); ostrý web stahuje průměrnou sazbu nových hypoték z ČNB"}, TX={"result_a": "Mohli byste mít přibližně", "result_a_sub": "z toho vložíte {vklad}, zhodnocení by udělalo {vynos}", "result_b": "Měsíčně odkládat přibližně", "result_b_sub": "potřebný kapitál {kapital} – počítáme s čerpáním 4 % ročně, aby renta vydržela", "strategy": {"dyn": "Modelový výnos {r} % ročně – na {n} počítáme s dynamickou strategií (akcie).", "bal": "Modelový výnos {r} % ročně – na {n} počítáme s vyváženou strategií.", "con": "Modelový výnos {r} % ročně – na {n} počítáme s konzervativní strategií."}, "age_err": "Věk, od kterého chcete rentu, musí být vyšší než Váš současný věk."};
@@ -48,14 +50,16 @@
       var mode='a';
       function ret(years){for(var k=0;k<RET.length;k++){if(years>=RET[k][0]){return RET[k];}}return RET[RET.length-1];}
       function roky(n){return n+'\u00a0'+(n===1?'rok':(n<5?'roky':'let'));}
+      /* modelový výnos „p % ročně“ → měsíční výnos tak, aby vklad za 12 měsíců vzrostl přesně o p % (ne p/12 – to by dalo efektivně víc) */
+      function mrate(p){return Math.pow(1+p/100,1/12)-1;}
       function fvLump(L,r,n){return L*Math.pow(1+r,n);} function fvMonthly(M,r,n){return r>0?M*(Math.pow(1+r,n)-1)/r:M*n;}
       function calcI(){var lab=document.getElementById('i-label'),out=document.getElementById('i-vysledek'),sub=document.getElementById('i-sub'),st=document.getElementById('i-strategie');
-        if(mode==='a'){var L=iv['i-jednorazove'](),M=iv['i-mesicne'](),y=iv['i-roky'](),R=ret(y),r=R[1]/100/12,n=y*12;var fv=fvLump(L,r,n)+fvMonthly(M,r,n),vklad=L+M*n;
+        if(mode==='a'){var L=iv['i-jednorazove'](),M=iv['i-mesicne'](),y=iv['i-roky'](),R=ret(y),r=mrate(R[1]),n=y*12;var fv=fvLump(L,r,n)+fvMonthly(M,r,n),vklad=L+M*n;
           lab.textContent=TX.result_a;out.textContent=fmt(fv);sub.innerHTML=TX.result_a_sub.replace('{vklad}','<b>'+fmt(vklad)+'</b>').replace('{vynos}','<b>'+fmt(fv-vklad)+'</b>');
           st.textContent=TX.strategy[R[2]].replace('{r}',String(R[1]).replace('.',',')).replace('{n}',roky(y));}
         else{var renta=iv['r-renta'](),vek=iv['r-vek'](),od=iv['r-od']();
           if(od<=vek){lab.textContent=TX.result_b;out.textContent='–';sub.textContent='';st.textContent=TX.age_err;return;}
-          var y2=od-vek,R2=ret(y2),r2=R2[1]/100/12,n2=y2*12;var kap=renta*12/0.04;var M2=r2>0?kap*r2/(Math.pow(1+r2,n2)-1):kap/n2;
+          var y2=od-vek,R2=ret(y2),r2=mrate(R2[1]),n2=y2*12;var kap=renta*12/0.04;var M2=r2>0?kap*r2/(Math.pow(1+r2,n2)-1):kap/n2;
           lab.textContent=TX.result_b;out.textContent=fmt(M2);sub.innerHTML=TX.result_b_sub.replace('{kapital}','<b>'+fmt(kap)+'</b>');
           st.textContent=TX.strategy[R2[2]].replace('{r}',String(R2[1]).replace('.',',')).replace('{n}',roky(y2));}}
       inv.querySelectorAll('.seg button').forEach(function(bt){bt.addEventListener('click',function(){mode=bt.dataset.mode;inv.querySelectorAll('.seg button').forEach(function(x){x.setAttribute('aria-selected',x===bt?'true':'false');});inv.querySelector('.mode-a').hidden=mode!=='a';inv.querySelector('.mode-b').hidden=mode!=='b';calcI();});});
@@ -64,9 +68,11 @@
   window.addEventListener('beforeprint',function(){document.querySelectorAll('details.svc').forEach(function(d){d.removeAttribute('name');d.open=true;});});
   window.addEventListener('afterprint',function(){document.querySelectorAll('details.svc').forEach(function(d){d.open=false;d.setAttribute('name','sluzba');});});
   /* formulář */
-  var f=document.getElementById('kontaktni-formular'), m=document.getElementById('form-hlaska'), rule=document.getElementById('pravidlo-kontakt');
+  var f=document.getElementById('kontaktni-formular'), m=document.getElementById('form-hlaska'), rule=document.getElementById('pravidlo-kontakt'), T0=Date.now();
   if(f&&m){
-    function show(cls,text){m.textContent=text;m.className='form-msg '+cls;m.setAttribute('role',cls==='err'?'alert':'status');m.hidden=false;m.scrollIntoView({block:'center'});}
+    /* text hlášky: slova se spojovníkem (e-mail) se nesmí zalomit za spojovníkem */
+    function setText(el,text){el.textContent='';String(text).split(/([A-Za-zÀ-ž]+-[A-Za-zÀ-ž]+)/).forEach(function(part,i){if(!part){return;}if(i%2){var s=document.createElement('span');s.className='nw';s.textContent=part;el.appendChild(s);}else{el.appendChild(document.createTextNode(part));}});}
+    function show(cls,text){setText(m,text);m.className='form-msg '+cls;m.setAttribute('role',cls==='err'?'alert':'status');m.hidden=false;m.scrollIntoView({block:'center'});}
     var why='';
     function mark(el,bad){el.classList.toggle('invalid',bad);if(bad){el.setAttribute('aria-invalid','true');}else{el.removeAttribute('aria-invalid');}}
     function valid(){var ok=true,first=null,nameBad=false;why='';
@@ -80,19 +86,23 @@
       if(!ok&&first){try{first.focus({preventScroll:true});}catch(e){first.focus();}first.scrollIntoView({block:'center'});}
       return ok;}
     f.addEventListener('submit',function(e){
-      if(!valid()){e.preventDefault();m.textContent=why;m.className='form-msg err';m.setAttribute('role','alert');m.hidden=false;return;}
+      if(!valid()){e.preventDefault();setText(m,why);m.className='form-msg err';m.setAttribute('role','alert');m.hidden=false;return;}
       if(!f.getAttribute('action')){e.preventDefault();show('','Toto je náhled\u00a0– formulář se neodesílá. Na ostrém webu půjde zpráva na\u00a0info@tomasrous.cz.');return;}
+      /* ochrana proti robotům: jak dlouho je stránka otevřená (sekundy) – nezávisle na hodinách zařízení */
+      var ft=document.getElementById('form-t');if(ft){ft.value=String(Math.max(0,Math.floor((window.performance&&performance.now?performance.now():(Date.now()-T0))/1000)));}
       if(!window.fetch){return;}
       e.preventDefault();var btn=f.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='Odesílám…';
-      fetch(f.getAttribute('action'),{method:'POST',body:new FormData(f),headers:{'X-Requested-With':'fetch'}}).then(function(r){return r.json();}).then(function(j){
+      var fail=function(){show('err','Zprávu se nepodařilo odeslat. Zkuste to znovu, napište na info@tomasrous.cz nebo zavolejte na +420 776 206 850.');btn.disabled=false;btn.textContent='Odeslat zprávu';};
+      var opt={method:'POST',body:new FormData(f),headers:{'X-Requested-With':'fetch'}},timer=null;
+      if(window.AbortController){var ac=new AbortController();opt.signal=ac.signal;timer=setTimeout(function(){ac.abort();},30000);}   /* server neodpovídá → po 30 s chybová hláška místo nekonečného čekání */
+      fetch(f.getAttribute('action'),opt).then(function(r){return r.json();}).then(function(j){
+        if(timer){clearTimeout(timer);}
         if(j&&j.ok){var d=document.createElement('div');d.className='form-done';d.innerHTML='<h4>Děkuji, zpráva dorazila.</h4><p>Ozvu se&nbsp;Vám&nbsp;– zavolám nebo napíšu podle toho, co jste uvedli.</p>';f.replaceWith(d);d.scrollIntoView({block:'center'});}
-        else{show('err','Zprávu se nepodařilo odeslat. Zkuste to znovu, napište na info@tomasrous.cz nebo zavolejte na +420 776 206 850.');btn.disabled=false;btn.textContent='Odeslat zprávu';}
-      }).catch(function(){show('err','Zprávu se nepodařilo odeslat. Zkuste to znovu, napište na info@tomasrous.cz nebo zavolejte na +420 776 206 850.');btn.disabled=false;btn.textContent='Odeslat zprávu';});
+        else{fail();}
+      }).catch(function(){if(timer){clearTimeout(timer);}fail();});
     });
     var q=new URLSearchParams(location.search);
     if(q.get('odeslano')==='1'){show('ok','Děkuji, zpráva dorazila. Ozvu se Vám – zavolám nebo napíšu podle toho, co jste uvedli.');}else if(q.get('chyba')==='1'){show('err','Zprávu se nepodařilo odeslat. Zkuste to znovu, napište na info@tomasrous.cz nebo zavolejte na +420 776 206 850.');}
     if(q.get('odeslano')||q.get('chyba')){try{history.replaceState(null,'',location.pathname+'#kontakt');}catch(e){}}
   }
 })();
-
-(function(){var t=document.getElementById('form-t');if(t){t.value=Math.floor(Date.now()/1000);}})();

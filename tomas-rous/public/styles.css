@@ -47,6 +47,7 @@ p{margin:0;text-wrap:pretty}
 a{color:var(--acc,var(--gold-dark))}
 :focus-visible{outline:3px solid var(--fg,var(--ink));outline-offset:3px}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.nw{white-space:nowrap}
 .wrap{max-width:var(--wrap);margin:0 auto;padding-left:var(--gutter);padding-right:var(--gutter)}
 .sec{padding-top:var(--sec);padding-bottom:var(--sec)}
 .sand-sec{background:var(--sand)}

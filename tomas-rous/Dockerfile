@@ -1,4 +1,4 @@
-# tomasrous.cz – web 1:1 podle klientova ZIPu v5.5 (public/ = složka 02-web beze změny)
+# tomasrous.cz – web 1:1 podle klientova ZIPu v5.6 (public/ = složka web beze změny)
 FROM php:8.3-apache
 RUN a2enmod rewrite headers deflate remoteip \
  && apt-get update && apt-get install -y --no-install-recommends msmtp-mta ca-certificates && rm -rf /var/lib/apt/lists/*
