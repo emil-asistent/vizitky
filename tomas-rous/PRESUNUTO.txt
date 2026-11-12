@@ -1,0 +1,3 @@
+Web tomasrous.cz se od 12. 11. 2026 vyvíjí a nasazuje ze samostatného soukromého repozitáře
+emil-asistent/tomasrous-web (Coolify app 4uqivggxswsixiebojbzaklo, deploy klíč + webhook, push do main = nasazení).
+Tady nic neupravovat. Historie do 12. 11. zůstává v gitu tohoto repa (tag rous-v5.6-pred-seo).
