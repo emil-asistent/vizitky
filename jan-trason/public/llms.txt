@@ -1,6 +1,6 @@
 # Ing. Jan Třasoň, finanční poradce
 
-> Ing. Jan Třasoň je finanční poradce z Přerova spolupracující s money2u. Má přes 13 let praxe a víc než 700 klientů. Pomáhá s pojištěním, investicemi, hypotékami a úvěry, firemním pojištěním a firemními úvěry. Působí hlavně na střední Moravě, klienty má po celé republice a schůzky nabízí osobně i online.
+> Ing. Jan Třasoň je finanční poradce z Přerova. Má přes 13 let praxe a víc než 700 klientů. Pomáhá s pojištěním, investicemi, hypotékami a úvěry, firemním pojištěním a firemními úvěry. Působí hlavně na střední Moravě, klienty má po celé republice a schůzky nabízí osobně i online.
 
 Web: https://trason.cz/
 
@@ -11,7 +11,6 @@ Web: https://trason.cz/
 - Adresa provozovny: Na Hrázi 60, 750 02 Přerov
 - Působnost: osobně hlavně střední Morava, online celá Česká republika
 - IČO: 02103150, není plátce DPH
-- Spolupracuje s: money2u (https://money2u.cz)
 
 ## Služby
 - [Pojištění](https://trason.cz/#services): životní a úrazové pojištění, pojištění nemovitosti a domácnosti, vozidel, odpovědnosti, cestovní pojištění.

@@ -154,59 +154,6 @@
     }, { passive: true });
   }
 
-  // ---------- Galerie money2u ----------
-  const slides = document.getElementById('carouselSlides');
-  const dotsWrap = document.getElementById('carouselDots');
-  const wrap = document.getElementById('carouselWrap');
-  if (slides && dotsWrap && wrap) {
-    const total = slides.children.length;
-    let cur = 0;
-    let timer = null;
-    let visible = false;
-    let paused = false;
-    const dots = [];
-    for (let i = 0; i < total; i++) {
-      const d = document.createElement('button');
-      d.type = 'button';
-      d.className = 'cdot';
-      d.setAttribute('aria-label', 'Snímek ' + (i + 1));
-      d.addEventListener('click', () => { go(i); restart(); });
-      dotsWrap.appendChild(d);
-      dots.push(d);
-    }
-    function go(n) {
-      cur = (n + total) % total;
-      slides.style.transform = 'translateX(-' + (cur * 100) + '%)';
-      dots.forEach((d, i) => d.setAttribute('aria-current', i === cur ? 'true' : 'false'));
-      Array.prototype.forEach.call(slides.children, (s, i) => s.setAttribute('aria-hidden', i === cur ? 'false' : 'true'));
-    }
-    function stop() { if (timer) { clearInterval(timer); timer = null; } }
-    function restart() { stop(); if (visible && !paused && !reduceMotion) timer = setInterval(() => go(cur + 1), 5000); }
-    wrap.addEventListener('mouseenter', () => { paused = true; stop(); });
-    wrap.addEventListener('mouseleave', () => { paused = false; restart(); });
-    wrap.addEventListener('focusin', () => { paused = true; stop(); });
-    wrap.addEventListener('focusout', (e) => { if (!wrap.contains(e.relatedTarget)) { paused = false; restart(); } });
-    document.getElementById('cPrev').addEventListener('click', () => { go(cur - 1); restart(); });
-    document.getElementById('cNext').addEventListener('click', () => { go(cur + 1); restart(); });
-
-    let startX = 0;
-    let startY = 0;
-    wrap.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; startY = e.touches[0].clientY; }, { passive: true });
-    wrap.addEventListener('touchend', (e) => {
-      const dx = e.changedTouches[0].clientX - startX;
-      const dy = e.changedTouches[0].clientY - startY;
-      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { go(dx < 0 ? cur + 1 : cur - 1); restart(); }
-    }, { passive: true });
-
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver((entries) => {
-        entries.forEach((e) => { visible = e.isIntersecting; restart(); });
-      }, { threshold: 0.2 }).observe(wrap);
-    }
-    document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else restart(); });
-    go(0);
-  }
-
   // ---------- Kontaktní formulář → /api/contact ----------
   const form = document.getElementById('contactForm');
   if (form) {

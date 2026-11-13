@@ -1,0 +1,10 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Třasoň;Jan;;Ing.;
+FN:Ing. Jan Třasoň
+TITLE:Finanční poradce
+TEL;TYPE=CELL,VOICE:+420604298927
+EMAIL;TYPE=INTERNET:jan@trason.cz
+URL:https://trason.cz
+ADR;TYPE=WORK:;;Na Hrázi 60;Přerov;;750 02;Česko
+END:VCARD
