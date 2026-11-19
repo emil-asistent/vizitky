@@ -190,7 +190,7 @@ textarea:focus-visible,
 }
 .hero-bg img {
   object-fit: cover;
-  object-position: 54% 34%;  /* růžová fotka - oddálená, hlava výš (schváleno) */
+  object-position: 54% 12%;  /* stojící v černé vestě (výměna 19. 11. 2026) */
   animation: heroZoom 14s ease-out forwards;
 }
 @keyframes heroZoom {
