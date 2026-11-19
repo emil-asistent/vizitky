@@ -18,6 +18,12 @@ const esc = (s) => String(s || '')
   .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(v || '').trim());
 
+// Náhled na *.gomatela.cz nesmí do vyhledávačů, ostrá michaelakroupova.cz beze změny.
+app.use((req, res, next) => {
+  if (/\.gomatela\.cz$/i.test(req.hostname || '')) res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+  next();
+});
+
 app.get('/api/health', (_req, res) => res.json({ ok: true, mailTo: !!MAIL_TO }));
 
 app.post('/api/contact', async (req, res) => {
