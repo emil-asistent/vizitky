@@ -1,5 +1,6 @@
 // Sestaví statické stránky do public/. Spuštění: node src/build.mjs
 import { writeFileSync, readFileSync } from 'node:fs';
+const LOGO = JSON.parse(readFileSync(new URL('./logo/logo.json', import.meta.url)));
 import { SITE, RATES, CATS } from './data.mjs';
 
 const OUT = new URL('../public/', import.meta.url);
@@ -31,7 +32,9 @@ const ICONS = {
 };
 const icon = (n, cls = '') => `<svg class="ic ${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]}</svg>`;
 
-const logo = (cls = '') => `<a href="/" class="logo ${cls}" aria-label="FérSazby, úvod"><span class="logo-fer">fér</span><span class="logo-sazby">sazby</span><span class="logo-dot" aria-hidden="true"></span></a>`;
+// Logo: „fér“ s fajfkou místo čárky nad é + „sazby“ + tečka. Barvy přes CSS (.lf / .ls).
+const logoSvg = (cls = '') => `<svg class="logo-svg ${cls}" viewBox="${LOGO.viewBox}" role="img" aria-label="FérSazby"><path class="lf" d="${LOGO.fer}"/><path class="lf-tick" fill="none" stroke-width="${Math.round(LOGO.tickW)}" stroke-linecap="round" stroke-linejoin="round" d="${LOGO.tick}"/><path class="ls" d="${LOGO.sazby}"/><circle class="lf" cx="${LOGO.dot[0]}" cy="${LOGO.dot[1]}" r="${LOGO.dot[2]}"/></svg>`;
+const logo = (cls = '') => `<a href="/" class="logo ${cls}" aria-label="FérSazby, úvod">${logoSvg()}</a>`;
 
 // ---------- hlava, hlavička, patička ----------
 const head = ({ title, desc, path, extraHead = '' }) => `<!doctype html>
@@ -64,12 +67,12 @@ const header = (active = '', solid = false) => `
     <nav class="head-nav" aria-label="Hlavní nabídka">
       ${CATS.map((c) => `<a href="/${c.slug}"${active === c.key ? ' aria-current="page"' : ''}>${c.short}</a>`).join('')}
     </nav>
-    <a class="head-call" href="${SITE.phoneHref}">${icon('phone')}<span>${SITE.phone.replace('+420 ', '')}</span></a>
+    <a class="head-call" href="${SITE.phoneHref}">${icon('phone')}<span>${SITE.phone}</span></a>
     <button class="head-burger" type="button" aria-expanded="false" aria-controls="mobmenu" aria-label="Menu"><span></span><span></span></button>
   </div>
   <div class="mobmenu" id="mobmenu" hidden>
     ${CATS.map((c) => `<a href="/${c.slug}">${icon(c.icon)}<span>${c.name}</span>${icon('arrow', 'ic-go')}</a>`).join('')}
-    <a class="mobmenu-call" href="${SITE.phoneHref}">${icon('phone')} Zavolat ${SITE.phone.replace('+420 ', '')}</a>
+    <a class="mobmenu-call" href="${SITE.phoneHref}">${icon('phone')} Zavolat ${SITE.phone}</a>
   </div>
 </header>`;
 
@@ -225,7 +228,7 @@ const about = () => `
         <div><dt>850+</dt><dd>spokojených klientů</dd></div>
         <div><dt>10</dt><dd>bank ve srovnání</dd></div>
       </dl>
-      <a class="btn btn-ghost-light" href="${SITE.phoneHref}">${icon('phone')}<span>Zavolejte mi: ${SITE.phone.replace('+420 ', '')}</span></a>
+      <a class="btn btn-ghost-light" href="${SITE.phoneHref}">${icon('phone')}<span>Zavolejte mi: ${SITE.phone}</span></a>
     </div>
   </div>
 </section>`;
@@ -418,7 +421,7 @@ ${header()}
     </picture>
     <div class="hero-in wrap">
       <div class="hero-txt">
-        <p class="hero-brand" aria-hidden="true"><span>fér</span>sazby<i></i></p>
+        <p class="hero-brand" aria-hidden="true">${logoSvg('logo-hero')}</p>
         <h1>Sazba, která je k&nbsp;vám <em>prostě&nbsp;fér.</em></h1>
         <p class="hero-lead">Řekněte, kolik potřebujete. Srovnám banky, vyjednám sazbu a vy jen podepíšete.</p>
         <ul class="hero-proof">

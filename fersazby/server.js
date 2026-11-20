@@ -171,7 +171,7 @@ app.post('/api/poptavka/overit', async (req, res) => {
   if (!lead) return fail(res, 410, 'Platnost kódu vypršela. Odešlete prosím formulář znovu.');
   if (++lead.tries > 5) { pending.delete(id); return fail(res, 429, 'Příliš mnoho pokusů. Odešlete prosím formulář znovu.'); }
   if (String(kod) !== lead.code) return fail(res, 400, `Kód nesedí. Zbývá pokusů: ${5 - lead.tries}.`);
-  try { await sendLead(lead); } catch (e) { console.error(e); return fail(res, 502, 'Poptávku se nepodařilo doručit. Zavolejte prosím na 737 202 797.'); }
+  try { await sendLead(lead); } catch (e) { console.error(e); return fail(res, 502, 'Poptávku se nepodařilo doručit. Zavolejte prosím na +420 737 202 797.'); }
   pending.delete(id);
   res.json({ ok: true });
 });
