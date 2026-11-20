@@ -30,3 +30,7 @@ Zatím nic.
 - Design: barvy a písma money2u (holazova.cz), vlastní kompozice. Fotky AI přes `obrazek` (zdroje foto-src/, mimo git).
 - Poptávka: formulář → SMS kód (4 číslice, 15 min, 5 pokusů, 3× znovu) → mail. Náhled: SMS_PROVIDER=log (kód se ukáže na webu), maily s [NÁHLED] na PREVIEW_MAIL_TO.
 - Zbývá: SMS brána (BulkGate, účet + kredit), domény fersazby.cz + fersazba.cz (Vojta přes Blueboard) → CF zóna, tunel, schránka info@fersazby.cz v mailcow (po přidání domény restart SOGo + flush memcached), MAIL_TO, přesměrování fersazba.cz. Potvrdit text patičky (vázaná zástupkyně money2u s.r.o., registr ČNB). Meta/Google měření až nakonec.
+
+## 20. 11. 2026 odpoledne
+- Tři návrhy loga (procento s fajfkou, monogram fs, bublina fér), zdroje src/logo/navrhy.py, stránka public/navrhy-loga.html.
+- Pro klientku zvlášť na https://navrhy-loga-fersazby.vercel.app (bez odkazu na web). Vojta jí poslal mail, čeká se na výběr loga. Pak logo do webu + favicon.
