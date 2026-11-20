@@ -1,0 +1,267 @@
+/* FérSazby: kalkulačky, srovnání bank, poptávka s ověřením SMS. Bez knihoven. */
+(() => {
+  'use strict';
+  const $ = (s, el = document) => el.querySelector(s);
+  const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+  const RATES = window.FS_RATES || {};
+  const num = (v) => Number(String(v ?? '').replace(/[^\d]/g, '')) || 0;
+  const fmt = (x) => Math.round(x).toLocaleString('cs-CZ');
+  const kc = (x) => fmt(x) + ' Kč';
+  const pct = (x) => x.toFixed(2).replace('.', ',') + ' %';
+  const pmt = (P, rate, n) => { const r = rate / 100 / 12; if (!P || !n) return 0; return r ? P * r / (1 - (1 + r) ** -n) : P / n; };
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+
+  /* ---------- hlavička ---------- */
+  const head = $('#hlavicka');
+  if (head) {
+    const onScroll = () => head.classList.toggle('scrolled', scrollY > 24);
+    onScroll(); addEventListener('scroll', onScroll, { passive: true });
+    const burger = $('.head-burger', head), menu = $('#mobmenu');
+    burger?.addEventListener('click', () => {
+      const open = burger.getAttribute('aria-expanded') !== 'true';
+      burger.setAttribute('aria-expanded', open);
+      menu.hidden = !open; head.classList.toggle('menu-open', open);
+    });
+  }
+
+  /* ---------- záložky na úvodu ---------- */
+  const tabs = $$('.tabs [role=tab]');
+  const selectTab = (btn, focus) => {
+    tabs.forEach((t) => {
+      const on = t === btn;
+      t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1;
+      $('#' + t.getAttribute('aria-controls')).hidden = !on;
+    });
+    if (focus) btn.focus();
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => selectTab(t));
+    t.addEventListener('keydown', (e) => {
+      const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (d) { e.preventDefault(); selectTab(tabs[(i + d + tabs.length) % tabs.length], true); }
+    });
+  });
+
+  /* ---------- pole s částkou + posuvníky ---------- */
+  const paintRange = (r) => r.style.setProperty('--p', ((r.value - r.min) / (r.max - r.min)) * 100 + '%');
+  const rangeFor = (form, name) => $(`.range[data-for="${name}"]`, form);
+
+  const setVal = (form, name, v, fromRange) => {
+    const inp = form.elements[name]; if (!inp) return;
+    const r = rangeFor(form, name);
+    if (inp.classList.contains('money-in')) {
+      const box = inp.closest('.money');
+      v = clamp(Math.round(v), +box.dataset.min, +box.dataset.max);
+      inp.value = fmt(v);
+    } else {
+      v = clamp(Math.round(v), +inp.min, +inp.max); inp.value = v;
+    }
+    if (r && !fromRange) r.value = clamp(v, +r.min, +r.max);
+    if (r) paintRange(r);
+  };
+
+  $$('form.calc').forEach((form) => {
+    $$('.money', form).forEach((box) => {
+      const inp = $('.money-in', box), name = inp.name, step = +box.dataset.step;
+      $$('.money-btn', box).forEach((b) => b.addEventListener('click', () => { setVal(form, name, num(inp.value) + step * b.dataset.dir); calc(form); }));
+      inp.addEventListener('input', () => {
+        const caret = inp.value.length - inp.selectionStart;
+        const n = num(inp.value); inp.value = n ? fmt(n) : '';
+        const p = Math.max(0, inp.value.length - caret); inp.setSelectionRange(p, p);
+        const r = rangeFor(form, name); if (r) { r.value = clamp(n, +r.min, +r.max); paintRange(r); }
+        calc(form);
+      });
+      inp.addEventListener('blur', () => { setVal(form, name, num(inp.value)); calc(form); });
+    });
+    $$('.term-in input', form).forEach((inp) => {
+      inp.addEventListener('input', () => { const r = rangeFor(form, inp.name); if (r && inp.value) { r.value = clamp(+inp.value, +r.min, +r.max); paintRange(r); } calc(form); });
+      inp.addEventListener('blur', () => { setVal(form, inp.name, +inp.value || +inp.max); calc(form); });
+    });
+    $$('.range', form).forEach((r) => {
+      paintRange(r);
+      r.addEventListener('input', () => { setVal(form, r.dataset.for, +r.value, true); calc(form); });
+    });
+    $$('input[type=radio], select, .txt', form).forEach((el) => el.addEventListener('change', () => calc(form)));
+    form.addEventListener('submit', (e) => { e.preventDefault(); go(form); });
+  });
+
+  /* ---------- výpočet ---------- */
+  const months = (form) => form.elements.roky ? num(form.elements.roky.value) * 12 : num(form.elements.mesice?.value);
+  const state = (form) => {
+    const cat = form.dataset.cat, el = form.elements;
+    const s = { cat };
+    if (cat === 'auto') {
+      s.typ = el.typ.value; s.vuz = el.vuz.value.trim(); s.rok = el.rok.value; s.konec = el.konec.value;
+      return s;
+    }
+    s.castka = num(el.castka.value); s.n = months(form);
+    if (cat === 'konsolidace') s.splatka = num(el.splatka.value);
+    if (cat === 'hypoteka') { s.cena = num(el.cena.value); s.fixace = el.fixace.value; s.roky = num(el.roky.value); }
+    s.rate = RATES[cat].our; s.pay = pmt(s.castka, s.rate, s.n);
+    return s;
+  };
+
+  function calc(form) {
+    const s = state(form);
+    if (s.cat === 'auto') return s;
+    const out = (k, v) => { const o = $(`[data-out="${k}"]`, form); if (o) o.textContent = v; };
+    out('splatka', s.n ? kc(s.pay) : '—');
+    if (s.cat === 'konsolidace') {
+      const save = s.splatka - s.pay;
+      out('uspora', save > 0 ? kc(save) + '/měs.' : 'spočítáme');
+    }
+    if (form.dataset.mode === 'page') renderOffers(s);
+    return s;
+  }
+
+  /* ---------- srovnání bank ---------- */
+  const list = $('[data-o="list"]');
+  function renderOffers(s) {
+    if (!list || !RATES[s.cat]) return;
+    $('[data-o="our-pay"]').textContent = kc(s.pay);
+    const rows = RATES[s.cat].banks.map(([bank, rate]) => ({ bank, rate, pay: pmt(s.castka, rate, s.n) }));
+    const worst = rows.reduce((m, r) => Math.max(m, r.pay), 0);
+    $('[data-o="our-save"]').textContent = worst > s.pay ? `Až o ${kc(worst - s.pay)} měsíčně méně než u nejdražší banky` : '';
+    list.innerHTML = rows.map((r) => `<li><span class="ol-bank">${r.bank}</span><span class="ol-rate"><span class="ol-lab">Sazba</span>${pct(r.rate)}</span><span class="ol-pay"><span class="ol-lab">Splátka</span><b>${kc(r.pay)}</b><small>+${kc(r.pay - s.pay)}</small></span></li>`).join('');
+    const forEl = $('[data-offers-for]');
+    if (forEl) {
+      const term = s.cat === 'hypoteka' ? `${s.roky} let, fixace ${s.fixace} let` : `${s.n} měsíců`;
+      forEl.innerHTML = `Pro <b>${kc(s.castka)}</b> na <b>${term}</b>`;
+    }
+    summary(s);
+  }
+
+  function summary(s) {
+    const box = $('[data-summary]'); if (!box) return;
+    let t = '';
+    if (s.cat === 'auto') t = [s.typ, s.vuz, s.rok && 'rok ' + s.rok, s.konec && 'pojistka končí: ' + s.konec.toLowerCase()].filter(Boolean).join(' · ');
+    else if (s.cat === 'hypoteka') t = `Hypotéka <b>${kc(s.castka)}</b> na nemovitost za ${kc(s.cena)}, ${s.roky} let, fixace ${s.fixace} let, splátka od <b>${kc(s.pay)}</b>`;
+    else if (s.cat === 'konsolidace') t = `Konsolidace <b>${kc(s.castka)}</b>, dnes splácíte ${kc(s.splatka)}, nově od <b>${kc(s.pay)}</b> na ${s.n} měsíců`;
+    else t = `Úvěr <b>${kc(s.castka)}</b> na ${s.n} měsíců, splátka od <b>${kc(s.pay)}</b>`;
+    box.innerHTML = t; box.hidden = !t;
+  }
+
+  /* ---------- přechod z kalkulačky ---------- */
+  const PARAMS = { castka: 'castka', splatka: 'splatka', mesice: 'mesice', cena: 'cena', roky: 'roky', fixace: 'fixace', typ: 'typ', vuz: 'vuz', rok: 'rok', konec: 'konec' };
+  function go(form) {
+    const s = calc(form);
+    if (form.dataset.mode === 'home') {
+      const q = new URLSearchParams();
+      for (const k of Object.keys(PARAMS)) { const el = form.elements[k]; if (el && el.value) q.set(k, el.classList?.contains('money-in') ? num(el.value) : el.value); }
+      location.href = `/${form.dataset.slug}?${q}#${s.cat === 'auto' ? 'formular' : 'nabidky'}`;
+    } else {
+      summary(s);
+      const target = $(s.cat === 'auto' ? '#formular' : '#nabidky');
+      target?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    }
+  }
+
+  $$('form.calc').forEach((f) => calc(f));
+
+  // Podstránka: předvyplnit z URL a hned spočítat.
+  const pageForm = $('form.calc[data-mode="page"]');
+  if (pageForm) {
+    const q = new URLSearchParams(location.search);
+    for (const k of Object.keys(PARAMS)) {
+      if (!q.has(k)) continue;
+      const el = pageForm.elements[k]; if (!el) continue;
+      if (el instanceof RadioNodeList || el.type === 'radio') { $$(`input[name="${k}"]`, pageForm).forEach((r) => { r.checked = r.value === q.get(k); }); }
+      else if (el.classList.contains('money-in') || el.closest('.term-in')) setVal(pageForm, k, num(q.get(k)));
+      else el.value = q.get(k);
+    }
+    const s = calc(pageForm); summary(s);
+  }
+
+  /* ---------- poptávka + SMS ---------- */
+  const lead = $('.lead-form');
+  if (lead) {
+    const sms = $('.sms-form'), done = $('.done');
+    const err = (form, msg) => { const e = $('.form-err', form); e.textContent = msg || ''; e.hidden = !msg; };
+    const busy = (form, on) => { const b = $('button[type=submit]', form); b.disabled = on; b.style.opacity = on ? .6 : ''; };
+    const phoneOk = (v) => /^(\+?420)?[67]\d{8}$/.test(String(v).replace(/[\s-]/g, ''));
+    let leadId = null, resendTimer = null;
+
+    $('#prijem')?.addEventListener('input', (e) => { const n = num(e.target.value); e.target.value = n ? fmt(n) : ''; });
+
+    const validate = () => {
+      let first = null;
+      const mark = (el, bad) => { const host = el.closest('fieldset') || el.closest('.money') || el; host.classList.toggle('invalid', bad); if (bad && !first) first = el; };
+      $$('input[required], select[required]', lead).forEach((el) => {
+        if (el.type === 'radio') { const any = $$(`input[name="${el.name}"]`, lead).some((r) => r.checked); mark(el, !any); }
+        else if (el.type === 'checkbox') mark(el, !el.checked);
+        else if (el.name === 'email') mark(el, !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim()));
+        else if (el.name === 'telefon') mark(el, !phoneOk(el.value));
+        else mark(el, !el.value.trim());
+      });
+      if (first) { first.focus({ preventScroll: true }); first.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
+      return !first;
+    };
+    lead.addEventListener('change', (e) => { const host = e.target.closest('.invalid'); if (host) host.classList.remove('invalid'); });
+
+    const startResend = () => {
+      const b = $('[data-sms-resend]'); let t = 45; b.disabled = true;
+      clearInterval(resendTimer);
+      const tick = () => { b.textContent = t > 0 ? `Poslat kód znovu (${t} s)` : 'Poslat kód znovu'; b.disabled = t > 0; t--; if (t < -1) clearInterval(resendTimer); };
+      tick(); resendTimer = setInterval(tick, 1000);
+    };
+    const showDev = (code) => { const d = $('.sms-dev'); d.hidden = !code; if (code) d.textContent = `Náhled webu: SMS se zatím neposílá, kód je ${code}.`; };
+
+    lead.addEventListener('submit', async (e) => {
+      e.preventDefault(); err(lead);
+      if (!validate()) { err(lead, 'Zkontrolujte prosím zvýrazněná pole.'); return; }
+      const data = Object.fromEntries(new FormData(lead));
+      const calcState = pageForm ? state(pageForm) : {};
+      data.kalkulace = $('[data-summary]')?.textContent || '';
+      data.parametry = calcState;
+      data.stranka = location.pathname;
+      busy(lead, true);
+      try {
+        const r = await fetch('/api/poptavka', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(data) });
+        const j = await r.json();
+        if (!r.ok || !j.ok) throw new Error(j.message || 'Odeslání se nepovedlo, zkuste to prosím znovu nebo zavolejte.');
+        leadId = j.id;
+        $('[data-sms-phone]').textContent = data.telefon;
+        lead.hidden = true; sms.hidden = false; showDev(j.devCode);
+        sms.elements.kod.value = ''; sms.elements.kod.focus({ preventScroll: true });
+        sms.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        startResend();
+      } catch (ex) { err(lead, ex.message); } finally { busy(lead, false); }
+    });
+
+    sms.elements.kod.addEventListener('input', (e) => { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4); if (e.target.value.length === 4) sms.requestSubmit(); });
+
+    sms.addEventListener('submit', async (e) => {
+      e.preventDefault(); err(sms);
+      const kod = sms.elements.kod.value;
+      if (!/^\d{4}$/.test(kod)) { err(sms, 'Kód má 4 číslice.'); return; }
+      busy(sms, true);
+      try {
+        const r = await fetch('/api/poptavka/overit', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id: leadId, kod }) });
+        const j = await r.json();
+        if (!r.ok || !j.ok) throw new Error(j.message || 'Kód nesedí, zkuste to prosím znovu.');
+        sms.hidden = true; done.hidden = false;
+        $('[data-done-phone]').textContent = lead.elements.telefon.value;
+        done.focus(); done.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        window.dataLayer?.push({ event: 'poptavka_overena', kategorie: lead.dataset.cat });
+      } catch (ex) { err(sms, ex.message); sms.elements.kod.select(); } finally { busy(sms, false); }
+    });
+
+    $('[data-sms-resend]').addEventListener('click', async () => {
+      err(sms);
+      try {
+        const r = await fetch('/api/poptavka/znovu', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id: leadId }) });
+        const j = await r.json();
+        if (!r.ok || !j.ok) throw new Error(j.message || 'Kód se nepodařilo poslat.');
+        showDev(j.devCode); startResend();
+      } catch (ex) { err(sms, ex.message); }
+    });
+    $('[data-sms-back]').addEventListener('click', () => { sms.hidden = true; lead.hidden = false; lead.elements.telefon.focus(); });
+  }
+
+  /* ---------- odhalení při scrollu ---------- */
+  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const els = $$('.cats-head, .cat, .steps .h2, .steps-list li, .about-photo, .about-txt, .faq-grid > *, .offers-head, .offer-ours, .offer-list, .lead-side, .lead-card');
+    const io = new IntersectionObserver((ents) => ents.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } }), { rootMargin: '0px 0px -8% 0px' });
+    els.forEach((el, i) => { el.classList.add('rv'); el.style.transitionDelay = (i % 4) * 60 + 'ms'; io.observe(el); });
+  }
+})();
