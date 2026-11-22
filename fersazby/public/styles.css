@@ -312,6 +312,7 @@ select.txt { appearance: none; background: #fff url("data:image/svg+xml,%3Csvg x
 .ol-pay { text-align: right; }
 .ol-pay b { display: block; font-weight: 800; font-size: 16px; line-height: 1.2; }
 .ol-pay small { color: #B2533E; font-weight: 700; font-size: 12.5px; }
+.offer-more { display: none; }
 
 /* ---------- formulář poptávky ---------- */
 .lead-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: clamp(40px, 6vw, 96px); align-items: start; }
@@ -431,7 +432,7 @@ fieldset.invalid span { border-color: #C9533B; }
 .flip-ic .ic { width: 26px; height: 26px; stroke-width: 1.7; }
 .flip-n { font-family: var(--f-num); font-weight: 900; font-size: 44px; line-height: .9; letter-spacing: -.05em; color: var(--teal-2); }
 .flip-front h3 { margin-top: auto; padding-top: 40px; font-size: 24px; letter-spacing: -.025em; line-height: 1.1; }
-.flip-front p { margin-top: 8px; color: var(--muted); font-size: 15px; }
+.flip-front p { margin-top: 8px; color: var(--muted); font-size: 15px; min-height: 3.2em; }
 .flip-go { margin-top: 22px; align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--teal-dark); padding: 6px 0; }
 .flip-go .ic { width: 15px; height: 15px; transition: transform .5s var(--ease); }
 .flip-go:hover .ic { transform: rotate(180deg); }
@@ -608,7 +609,7 @@ textarea.txt { resize: vertical; min-height: 92px; line-height: 1.5; font-weight
   .logo-svg { height: 27px; }
   .head-cta { padding: 10px 15px 10px 13px; font-size: 14px; gap: 7px; }
   .head-cta .ic { width: 16px; height: 16px; }
-  .head-burger { display: grid; place-items: center; gap: 6px; width: 44px; height: 44px; border-radius: 50%; background: rgba(13, 31, 58, .5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+  .head-burger { display: grid; place-items: center; align-content: center; justify-content: center; gap: 6px; width: 44px; height: 44px; border-radius: 50%; background: rgba(13, 31, 58, .5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
   .head-burger span { display: block; width: 18px; height: 2px; background: #fff; border-radius: 2px; transition: transform .25s var(--ease); }
   .scrolled .head-burger, .is-solid .head-burger { background: var(--cream); }
   .scrolled .head-burger span, .is-solid .head-burger span { background: var(--navy); }
@@ -633,6 +634,8 @@ textarea.txt { resize: vertical; min-height: 92px; line-height: 1.5; font-weight
   .hero-txt { min-height: 0; padding: 206px 0 18px; }
   .hero-brand { margin-bottom: 10px; }
   .hero-brand .logo-svg { height: 46px; }
+  .pg-home .site-head:not(.scrolled):not(.menu-open) .logo { opacity: 0; pointer-events: none; }
+  .pg-home .site-head .logo { transition: opacity .3s; }
   .hero h1 { font-size: 22px; max-width: none; }
   .hero-lead { font-size: 15px; margin-top: 6px; }
   .hero-proof { display: none; }
@@ -683,6 +686,8 @@ textarea.txt { resize: vertical; min-height: 92px; line-height: 1.5; font-weight
   .ol-bar { grid-column: 1 / -1; grid-row: 2; height: 10px; }
   .ol-rate { font-size: 15px; }
   .ol-pay { min-width: 84px; }
+  .offer-list.short li:nth-child(n+6) { display: none; }
+  .offer-more:not([hidden]) { display: block; width: 100%; margin: 4px 0 12px; padding: 13px; border-radius: 999px; background: var(--cream); font-weight: 700; font-size: 15px; color: var(--navy); }
   .lead-grid { grid-template-columns: 1fr; gap: 26px; }
   .lead-side { position: static; }
   .lead-side .ticks { display: none; }

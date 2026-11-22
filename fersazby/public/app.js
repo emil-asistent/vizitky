@@ -22,6 +22,11 @@
       burger.setAttribute('aria-expanded', open);
       menu.hidden = !open; head.classList.toggle('menu-open', open);
     });
+    // Odkaz v menu (i kotva na stejné stránce) menu zavře.
+    menu?.addEventListener('click', (e) => {
+      if (!e.target.closest('a')) return;
+      burger.setAttribute('aria-expanded', 'false'); menu.hidden = true; head.classList.remove('menu-open');
+    });
   }
 
   /* ---------- záložky na úvodu ---------- */
@@ -111,6 +116,7 @@
 
   /* ---------- srovnání bank ---------- */
   const list = $('[data-o="list"]');
+  $('[data-o="more"]')?.addEventListener('click', (e) => { list.classList.remove('short'); list.dataset.all = '1'; e.currentTarget.hidden = true; });
   function renderOffers(s) {
     if (!list || !RATES[s.cat]) return;
     $('[data-o="our-pay"]').textContent = kc(s.pay);
@@ -122,6 +128,8 @@
       const base = worst ? (s.pay / worst) * 100 : 0, over = worst ? ((r.pay - s.pay) / worst) * 100 : 0;
       return `<li><span class="ol-bank">${r.bank}</span><span class="ol-bar" role="img" aria-label="Navíc ${kc(r.pay - s.pay)} měsíčně"><i class="b0" style="width:${base.toFixed(1)}%"></i><i class="b1" style="width:${over.toFixed(1)}%;animation-delay:${i * 50}ms"></i></span><span class="ol-rate">${pct(r.rate)}</span><span class="ol-pay"><b>${kc(r.pay)}</b><small>+${kc(r.pay - s.pay)}</small></span></li>`;
     }).join('');
+    const more = $('[data-o="more"]');
+    if (more && !list.dataset.all) { list.classList.add('short'); more.hidden = rows.length <= 5; more.textContent = `Ukázat všech ${rows.length} bank`; }
     const forEl = $('[data-offers-for]');
     if (forEl) {
       const term = s.cat === 'hypoteka' ? `${s.roky} let, fixace ${s.fixace} let` : `${s.n} měsíců`;
@@ -307,7 +315,16 @@
     $('.flip-calc', card).addEventListener('click', () => {
       if (!pageForm) return;
       setVal(pageForm, 'castka', +card.dataset.castka);
-      if (pageForm.elements.mesice) setVal(pageForm, 'mesice', +card.dataset.mesice);
+      if (card.dataset.mesice && pageForm.elements.mesice) setVal(pageForm, 'mesice', +card.dataset.mesice);
+      if (card.dataset.roky && pageForm.elements.roky) {
+        setVal(pageForm, 'roky', +card.dataset.roky);
+        // Cena nemovitosti aspoň tak, aby hypotéka vycházela na 80 %.
+        const cena = num(pageForm.elements.cena.value);
+        if (cena < card.dataset.castka / 0.8) setVal(pageForm, 'cena', Math.ceil(card.dataset.castka / 0.8 / 100000) * 100000);
+      }
+      // Konsolidace: dnešní splátku zná jen klient, pole vyprázdníme a necháme ho ji doplnit.
+      const sp = pageForm.elements.splatka;
+      if (sp) { sp.value = ''; setTimeout(() => sp.focus({ preventScroll: true }), 700); }
       calc(pageForm);
       const k = $('#kalkulacka');
       k.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });

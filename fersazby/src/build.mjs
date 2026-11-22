@@ -18,7 +18,7 @@ const initials = (name) => name.split(/\s+/).map((w) => w[0]).join('');
 
 // Pevné mezery za jednopísmennými předložkami a spojkami (jen v textu, ne v tazích).
 const typo = (html) => html.replace(/>([^<]+)</g, (m, t) =>
-  '>' + t.replace(/(^|[\s(])([vkszouaiVKSZOUAI])\s+/g, '$1$2 ') + '<');
+  '>' + t.replace(/(^|[\s(])([vkszouaiVKSZOUAI])\s+/g, '$1$2 ') + '<');
 
 const ICONS = {
   wallet: '<path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h14a2 2 0 0 1 2 2v3h-4a2 2 0 0 0 0 4h4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5"/>',
@@ -40,6 +40,8 @@ const ICONS = {
   flip: '<path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/>',
   tools: '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/>',
   sofa: '<path d="M4 11V8a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v3"/><path d="M2 13a2 2 0 0 1 4 0v2h12v-2a2 2 0 0 1 4 0v5H2z"/><path d="M5 18v2M19 18v2"/>',
+  card: '<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/>',
+  percent: '<path d="M19 5 5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/>',
   spark: '<path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/>',
 };
 const icon = (n, cls = '') => `<svg class="ic ${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]}</svg>`;
@@ -413,6 +415,7 @@ const offers = (c) => `
       <div class="offer-box">
         <div class="offer-legend" aria-hidden="true"><span class="lg-base">Splátka s fér sazbou</span><span class="lg-over">Co byste u banky platili navíc</span></div>
         <ol class="offer-list" data-o="list"></ol>
+        <button type="button" class="offer-more" data-o="more" hidden>Ukázat všechny banky</button>
       </div>
     </div>
     <p class="fine">Uvedené informace jsou pouze orientační. Konečné parametry se mohou lišit v závislosti na vaší schopnosti splácet a dalších podmínkách. Sazby bank jsou převzaté z veřejných nabídek.</p>
@@ -438,14 +441,16 @@ const uses = (c) => {
   <div class="wrap">
     <div class="sec-head sec-head-split">
       <div>
-        <p class="eyebrow">Na co to bude?</p>
+        <p class="eyebrow">${u.kicker}</p>
         <h2 class="h2">${u.h}</h2>
       </div>
       <p class="sec-lead">${u.p}</p>
     </div>
     <div class="uses-grid">
-      ${u.items.map((it, i) => `
-      <article class="flip" data-castka="${it.castka}" data-mesice="${it.mesice}">
+      ${u.items.map((it, i) => {
+        const n = it.roky ? it.roky * 12 : it.mesice;
+        return `
+      <article class="flip" data-castka="${it.castka}" ${it.roky ? `data-roky="${it.roky}"` : `data-mesice="${it.mesice}"`}>
         <div class="flip-in">
           <div class="flip-front">
             <div class="flip-top"><span class="flip-ic">${icon(it.icon)}</span><span class="flip-n">0${i + 1}</span></div>
@@ -455,8 +460,8 @@ const uses = (c) => {
           </div>
           <div class="flip-back" aria-hidden="true" inert>
             <p class="flip-k">Třeba takhle</p>
-            <p class="flip-sum">${fmt(it.castka)}&nbsp;Kč <span>na ${it.mesice} měsíců</span></p>
-            <p class="flip-pay"><span>splátka od</span>${kc(pmt(it.castka, RATES[c.key].our, it.mesice))}</p>
+            <p class="flip-sum">${fmt(it.castka)}&nbsp;Kč <span>na ${it.roky ? it.roky + ' let' : it.mesice + ' měsíců'}</span></p>
+            <p class="flip-pay"><span>splátka od</span>${kc(pmt(it.castka, RATES[c.key].our, n))}</p>
             <p class="flip-txt">${it.back}</p>
             <div class="flip-act">
               <button type="button" class="flip-calc">Spočítat moje číslo${icon('arrow')}</button>
@@ -464,7 +469,8 @@ const uses = (c) => {
             </div>
           </div>
         </div>
-      </article>`).join('')}
+      </article>`;
+      }).join('')}
     </div>
   </div>
 </section>`;
