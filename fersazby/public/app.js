@@ -90,10 +90,6 @@
   const state = (form) => {
     const cat = form.dataset.cat, el = form.elements;
     const s = { cat };
-    if (cat === 'auto') {
-      s.typ = el.typ.value; s.vuz = el.vuz.value.trim(); s.rok = el.rok.value; s.konec = el.konec.value;
-      return s;
-    }
     s.castka = num(el.castka.value); s.n = months(form);
     if (cat === 'konsolidace') s.splatka = num(el.splatka.value);
     if (cat === 'hypoteka') { s.cena = num(el.cena.value); s.fixace = el.fixace.value; s.roky = num(el.roky.value); }
@@ -103,7 +99,6 @@
 
   function calc(form) {
     const s = state(form);
-    if (s.cat === 'auto') return s;
     const out = (k, v) => { const o = $(`[data-out="${k}"]`, form); if (o) o.textContent = v; };
     out('splatka', s.n ? kc(s.pay) : '—');
     if (s.cat === 'konsolidace') {
@@ -122,7 +117,11 @@
     const rows = RATES[s.cat].banks.map(([bank, rate]) => ({ bank, rate, pay: pmt(s.castka, rate, s.n) }));
     const worst = rows.reduce((m, r) => Math.max(m, r.pay), 0);
     $('[data-o="our-save"]').textContent = worst > s.pay ? `Až o ${kc(worst - s.pay)} měsíčně méně než u nejdražší banky` : '';
-    list.innerHTML = rows.map((r) => `<li><span class="ol-bank">${r.bank}</span><span class="ol-rate"><span class="ol-lab">Sazba</span>${pct(r.rate)}</span><span class="ol-pay"><span class="ol-lab">Splátka</span><b>${kc(r.pay)}</b><small>+${kc(r.pay - s.pay)}</small></span></li>`).join('');
+    // Pruh: tyrkysová část = splátka s fér sazbou, šrafovaná = kolik byste u banky platili navíc.
+    list.innerHTML = rows.map((r, i) => {
+      const base = worst ? (s.pay / worst) * 100 : 0, over = worst ? ((r.pay - s.pay) / worst) * 100 : 0;
+      return `<li><span class="ol-bank">${r.bank}</span><span class="ol-bar" role="img" aria-label="Navíc ${kc(r.pay - s.pay)} měsíčně"><i class="b0" style="width:${base.toFixed(1)}%"></i><i class="b1" style="width:${over.toFixed(1)}%;animation-delay:${i * 50}ms"></i></span><span class="ol-rate">${pct(r.rate)}</span><span class="ol-pay"><b>${kc(r.pay)}</b><small>+${kc(r.pay - s.pay)}</small></span></li>`;
+    }).join('');
     const forEl = $('[data-offers-for]');
     if (forEl) {
       const term = s.cat === 'hypoteka' ? `${s.roky} let, fixace ${s.fixace} let` : `${s.n} měsíců`;
@@ -134,24 +133,23 @@
   function summary(s) {
     const box = $('[data-summary]'); if (!box) return;
     let t = '';
-    if (s.cat === 'auto') t = [s.typ, s.vuz, s.rok && 'rok ' + s.rok, s.konec && 'pojistka končí: ' + s.konec.toLowerCase()].filter(Boolean).join(' · ');
-    else if (s.cat === 'hypoteka') t = `Hypotéka <b>${kc(s.castka)}</b> na nemovitost za ${kc(s.cena)}, ${s.roky} let, fixace ${s.fixace} let, splátka od <b>${kc(s.pay)}</b>`;
+    if (s.cat === 'hypoteka') t = `Hypotéka <b>${kc(s.castka)}</b> na nemovitost za ${kc(s.cena)}, ${s.roky} let, fixace ${s.fixace} let, splátka od <b>${kc(s.pay)}</b>`;
     else if (s.cat === 'konsolidace') t = `Konsolidace <b>${kc(s.castka)}</b>, dnes splácíte ${kc(s.splatka)}, nově od <b>${kc(s.pay)}</b> na ${s.n} měsíců`;
     else t = `Úvěr <b>${kc(s.castka)}</b> na ${s.n} měsíců, splátka od <b>${kc(s.pay)}</b>`;
     box.innerHTML = t; box.hidden = !t;
   }
 
   /* ---------- přechod z kalkulačky ---------- */
-  const PARAMS = { castka: 'castka', splatka: 'splatka', mesice: 'mesice', cena: 'cena', roky: 'roky', fixace: 'fixace', typ: 'typ', vuz: 'vuz', rok: 'rok', konec: 'konec' };
+  const PARAMS = { castka: 'castka', splatka: 'splatka', mesice: 'mesice', cena: 'cena', roky: 'roky', fixace: 'fixace' };
   function go(form) {
     const s = calc(form);
     if (form.dataset.mode === 'home') {
       const q = new URLSearchParams();
       for (const k of Object.keys(PARAMS)) { const el = form.elements[k]; if (el && el.value) q.set(k, el.classList?.contains('money-in') ? num(el.value) : el.value); }
-      location.href = `/${form.dataset.slug}?${q}#${s.cat === 'auto' ? 'formular' : 'nabidky'}`;
+      location.href = `/${form.dataset.slug}?${q}#nabidky`;
     } else {
       summary(s);
-      const target = $(s.cat === 'auto' ? '#formular' : '#nabidky');
+      const target = $('#nabidky');
       target?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
     }
   }
@@ -258,10 +256,108 @@
     $('[data-sms-back]').addEventListener('click', () => { sms.hidden = true; lead.hidden = false; lead.elements.telefon.focus(); });
   }
 
+  /* ---------- recenze: posun, filtr, rozbalení ---------- */
+  $$('.rv').forEach((sec) => {
+    const rail = $('.rv-rail', sec), bar = $('.rv-bar span', sec);
+    const prev = $('.rv-arr[data-dir="-1"]', sec), next = $('.rv-arr[data-dir="1"]', sec);
+    const cards = () => $$('.rv-card:not([hidden])', rail);
+    const sync = () => {
+      const max = rail.scrollWidth - rail.clientWidth;
+      const vis = Math.min(1, rail.clientWidth / Math.max(rail.scrollWidth, 1));
+      const w = Math.max(vis * 100, 8);
+      bar.style.width = w + '%';
+      bar.style.transform = `translateX(${max > 0 ? (rail.scrollLeft / max) * (100 / w - 1) * 100 : 0}%)`;
+      prev.disabled = rail.scrollLeft < 4; next.disabled = rail.scrollLeft > max - 4;
+    };
+    const step = () => { const c = cards()[0]; return c ? c.offsetWidth + 18 : 300; };
+    // „Celý příběh“ jen u karet, kde se text nevejde.
+    const clampCheck = () => cards().forEach((c) => {
+      if (c.classList.contains('open')) return;
+      const p = $('blockquote p', c), b = $('.rv-more', c);
+      b.hidden = p.scrollHeight <= p.clientHeight + 2;
+    });
+    $$('.rv-arr', sec).forEach((b) => b.addEventListener('click', () => rail.scrollBy({ left: step() * b.dataset.dir, behavior: 'smooth' })));
+    rail.addEventListener('scroll', sync, { passive: true });
+    addEventListener('resize', () => { clampCheck(); sync(); });
+    $$('.rv-more', sec).forEach((b) => b.addEventListener('click', () => {
+      const c = b.closest('.rv-card'), open = c.classList.toggle('open');
+      b.textContent = open ? 'Sbalit' : 'Celý příběh'; b.setAttribute('aria-expanded', open);
+      sync();
+    }));
+    $$('.rv-filter button', sec).forEach((b) => b.addEventListener('click', () => {
+      $$('.rv-filter button', sec).forEach((x) => x.setAttribute('aria-pressed', x === b));
+      $$('.rv-card', rail).forEach((c) => { c.hidden = !!b.dataset.f && c.dataset.cat !== b.dataset.f; });
+      rail.scrollTo({ left: 0 }); clampCheck(); sync();
+    }));
+    clampCheck(); sync();
+    if (document.fonts) document.fonts.ready.then(() => { clampCheck(); sync(); });
+  });
+
+  /* ---------- otočné karty „Na co to bude“ ---------- */
+  $$('.flip').forEach((card) => {
+    const back = $('.flip-back', card), go = $('.flip-go', card);
+    const set = (on) => {
+      card.classList.toggle('on', on);
+      back.toggleAttribute('inert', !on); back.setAttribute('aria-hidden', String(!on));
+      go.setAttribute('aria-expanded', String(on));
+      (on ? $('.flip-calc', card) : go).focus({ preventScroll: true });
+    };
+    go.addEventListener('click', () => set(true));
+    $('.flip-close', card).addEventListener('click', () => set(false));
+    $('.flip-calc', card).addEventListener('click', () => {
+      if (!pageForm) return;
+      setVal(pageForm, 'castka', +card.dataset.castka);
+      if (pageForm.elements.mesice) setVal(pageForm, 'mesice', +card.dataset.mesice);
+      calc(pageForm);
+      const k = $('#kalkulacka');
+      k.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+      k.classList.add('pulse');
+      setTimeout(() => k.classList.add('pulse-off'), 900);
+      setTimeout(() => k.classList.remove('pulse', 'pulse-off'), 1700);
+    });
+  });
+
+  /* ---------- kontakt ---------- */
+  const kt = $('.kt-form');
+  if (kt) {
+    const t0 = Date.now();
+    const q = new URLSearchParams(location.search).get('tema');
+    const pre = q && $$('input[name="tema"]', kt).find((r) => r.value === q);
+    if (pre) pre.checked = true;
+    const err = (msg) => { const e = $('.form-err', kt); e.textContent = msg || ''; e.hidden = !msg; };
+    const unmark = (e) => { const h = e.target.closest('.invalid'); if (h) h.classList.toggle('invalid', false); };
+    kt.addEventListener('change', unmark);
+    kt.addEventListener('input', unmark);
+    kt.addEventListener('submit', async (e) => {
+      e.preventDefault(); err();
+      let first = null;
+      const mark = (el, bad) => { const host = el.type === 'radio' ? el.closest('fieldset') : el; host.classList.toggle('invalid', bad); if (bad && !first) first = el; };
+      const f = kt.elements;
+      mark(f.jmeno, f.jmeno.value.trim().length < 2);
+      mark(f.email, !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.value.trim()));
+      mark(f.telefon, String(f.telefon.value).replace(/\D/g, '').length < 9);
+      mark($('input[name="tema"]', kt), !f.tema.value);
+      if (first) { err('Doplňte prosím zvýrazněná pole.'); first.focus({ preventScroll: true }); first.scrollIntoView({ block: 'center', behavior: 'smooth' }); return; }
+      const data = Object.fromEntries(new FormData(kt));
+      data.ms = Date.now() - t0;
+      const btn = $('button[type=submit]', kt); btn.disabled = true; btn.style.opacity = .6;
+      try {
+        const r = await fetch('/api/kontakt', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(data) });
+        const j = await r.json().catch(() => ({}));
+        if (!r.ok || !j.ok) throw new Error(j.message || 'Odeslání se nepovedlo. Zkuste to prosím znovu nebo napište na info@fersazby.cz.');
+        const done = $('.kt-done');
+        $('[data-kt-mail]').textContent = data.email;
+        kt.hidden = true; done.hidden = false; done.focus();
+        done.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        if (window.dataLayer) window.dataLayer.push({ event: 'kontakt_odeslan', tema: data.tema });
+      } catch (ex) { err(ex.message); } finally { btn.disabled = false; btn.style.opacity = ''; }
+    });
+  }
+
   /* ---------- odhalení při scrollu ---------- */
   if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const els = $$('.cats-head, .cat, .steps .h2, .steps-list li, .about-photo, .about-txt, .faq-grid > *, .offers-head, .offer-ours, .offer-list, .lead-side, .lead-card');
+    const els = $$('.cats-head, .cat, .sec-head, .road li, .about-photo, .about-txt, .faq-grid > *, .offers-head, .offer-ours, .offer-box, .lead-side, .lead-card, .flip, .vs-table, .rv-head');
     const io = new IntersectionObserver((ents) => ents.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } }), { rootMargin: '0px 0px -8% 0px' });
-    els.forEach((el, i) => { el.classList.add('rv'); el.style.transitionDelay = (i % 4) * 60 + 'ms'; io.observe(el); });
+    els.forEach((el, i) => { el.classList.add('reveal'); el.style.transitionDelay = (i % 4) * 60 + 'ms'; io.observe(el); });
   }
 })();

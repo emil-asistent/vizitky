@@ -51,7 +51,7 @@ export const CATS = [
     tagline: 'Spotřebitelský úvěr na míru vám',
     title: 'Úvěr na cokoliv | FérSazby',
     desc: 'Spočítejte si úvěr na auto, rekonstrukci nebo cokoliv dalšího. Srovnáme nabídky bank a vyjednáme pro vás fér sazbu od 4,00 %.',
-    h1: 'Úvěr na cokoliv, <em>s fér sazbou</em>',
+    h1: 'Úvěr na cokoliv,<br><em>s fér sazbou</em>',
     lead: 'Hledáte výhodný spotřebitelský úvěr? Nemusíte sami srovnávat banky. Řekněte, kolik potřebujete, a já vám ukážu, kde je sazba opravdu fér.',
     photo: 'uver',
   },
@@ -76,7 +76,8 @@ export const CATS = [
     photo: 'hypo',
   },
   {
-    key: 'auto', slug: 'pojisteni-auta', short: 'Pojištění auta', name: 'Pojištění vozidla',
+    // Pojištění vozidla zatím NE (Denisa 22. 11. 2026: „nechala bych to zatím na nové úvěry, konsolidace, hypotéky“).
+    key: 'auto', active: false, slug: 'pojisteni-auta', short: 'Pojištění auta', name: 'Pojištění vozidla',
     cta: 'Chci fér pojistné pro své auto', icon: 'car',
     tagline: 'Povinné ručení i havarijní pojištění',
     title: 'Pojištění auta | FérSazby',
@@ -86,3 +87,6 @@ export const CATS = [
     photo: 'auto',
   },
 ];
+
+// Kategorie, které jsou na webu vidět.
+export const ACTIVE = CATS.filter((c) => c.active !== false);

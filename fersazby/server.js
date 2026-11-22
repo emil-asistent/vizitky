@@ -38,6 +38,9 @@ app.use((req, res, next) => {
   next();
 });
 
+const GONE = { '/pojisteni-auta': '/', '/navrhy-loga': '/' };
+app.get(Object.keys(GONE), (req, res) => res.redirect(301, GONE[req.path]));
+
 app.get('/robots.txt', (req, res) => {
   res.type('text/plain').send(IS_PREVIEW(req.hostname)
     ? 'User-agent: *\nDisallow: /\n'
@@ -105,7 +108,7 @@ async function sendSms(phone, text) {
   console.log(`[sms:log] ${phone}: ${text}`);
 }
 
-const transport = () => nodemailer.createTransport({
+const transport = () => process.env.MAIL_DRY === '1' ? { sendMail: async (m) => console.log('[mail:dry]', JSON.stringify({ to: m.to, subject: m.subject, replyTo: m.replyTo, text: m.text })) } : nodemailer.createTransport({
   host: process.env.SMTP_HOST || 'mail.gomatela.cz',
   port: Number(process.env.SMTP_PORT || 465),
   secure: Number(process.env.SMTP_PORT || 465) === 465,
@@ -185,6 +188,38 @@ app.post('/api/poptavka/znovu', async (req, res) => {
   lead.code = code4(); lead.sends++; lead.lastSend = Date.now(); lead.tries = 0;
   try { await sendSms(lead.phone, `FerSazby: vas overovaci kod je ${lead.code}. Plati 15 minut.`); } catch (e) { console.error(e); return fail(res, 502, 'SMS se nepodařilo odeslat.'); }
   res.json({ ok: true, ...(SMS_PROVIDER === 'log' && lead.preview ? { devCode: lead.code } : {}) });
+});
+
+// ---------- kontakt (krátký formulář z hlavičky, bez SMS) ----------
+const TEMATA = { uver: 'Nový úvěr', konsolidace: 'Konsolidace', hypoteka: 'Hypotéka', jine: 'Něco jiného' };
+app.post('/api/kontakt', async (req, res) => {
+  if (!originOk(req)) return fail(res, 403, 'Odeslání se nepovedlo.');
+  const ip = req.get('cf-connecting-ip') || req.ip;
+  const d = req.body || {};
+  if (d.firma || Number(d.ms) < 2500) return res.json({ ok: true });            // robot: tváříme se, že prošlo
+  const jmeno = String(d.jmeno || '').trim().slice(0, 120);
+  const email = String(d.email || '').trim().slice(0, 200);
+  const tel = String(d.telefon || '').replace(/[^\d+]/g, '').replace(/^00/, '+');
+  const telOk = /^(\+?420)?\d{9}$/.test(tel) || /^\+\d{9,15}$/.test(tel);
+  const tema = TEMATA[d.tema];
+  const zprava = String(d.zprava || '').trim().slice(0, 2000);
+  if (jmeno.length < 2 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !telOk || !tema) return fail(res, 400, 'Vyplňte prosím jméno, e-mail, telefon a s čím potřebujete pomoct.');
+  if (limited('kt:' + ip, 5, 3600e3)) return fail(res, 429, 'Zpráv je teď moc. Zkuste to prosím později nebo napište na info@fersazby.cz.');
+  const phone = /^\+/.test(tel) ? tel : '+420' + tel.slice(-9);
+  const phoneTxt = phone.replace(/^\+420(\d{3})(\d{3})(\d{3})$/, '+420 $1 $2 $3');
+  const preview = IS_PREVIEW(req.hostname);
+  const rows = [['Jméno', jmeno], ['E-mail', email], ['Telefon', phoneTxt], ['S čím pomoct', tema], ['Zpráva', zprava || '—']];
+  const subject = `${preview ? '[NÁHLED] ' : ''}Kontakt: ${tema} – ${jmeno}`;
+  const text = `Nová zpráva z kontaktního formuláře fersazby.cz\n\n${rows.map(([k, v]) => `${k}: ${v}`).join('\n')}\n`;
+  const html = `<div style="font-family:Arial,sans-serif;color:#0D1F3A;line-height:1.5;font-size:15px">
+<p style="margin:0 0 4px;color:#2D7A76;font-weight:bold;letter-spacing:.1em;font-size:12px;text-transform:uppercase">fersazby.cz · kontaktní formulář</p>
+<h2 style="margin:0 0 16px">${esc(tema)}: ${esc(jmeno)}</h2>
+<table style="border-collapse:collapse">${rows.map(([k, v]) => `<tr><td style="padding:5px 16px 5px 0;color:#5b6b80;vertical-align:top">${esc(k)}</td><td style="padding:5px 0;white-space:pre-wrap"><b>${esc(v)}</b></td></tr>`).join('')}</table>
+<p style="margin-top:20px"><a href="tel:${esc(phone)}" style="background:#0D1F3A;color:#fff;padding:10px 18px;border-radius:999px;text-decoration:none">Zavolat ${esc(phoneTxt)}</a> &nbsp; <a href="mailto:${esc(email)}" style="color:#2D7A76">Odpovědět mailem</a></p></div>`;
+  try {
+    await transport().sendMail({ from: MAIL_FROM, to: preview ? (process.env.PREVIEW_MAIL_TO || MAIL_TO) : MAIL_TO, replyTo: email, subject, text, html });
+  } catch (e) { console.error(e); return fail(res, 502, 'Zprávu se nepodařilo odeslat. Napište prosím na info@fersazby.cz.'); }
+  res.json({ ok: true });
 });
 
 app.use((req, res) => res.status(404).sendFile(path.join(__dirname, 'public', '404.html')));
