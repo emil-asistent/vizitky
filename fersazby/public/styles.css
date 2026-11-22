@@ -544,7 +544,7 @@ textarea.txt { resize: vertical; min-height: 92px; line-height: 1.5; font-weight
   .rv-card blockquote p { font-size: 15px; -webkit-line-clamp: 7; }
   .uses-grid { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: calc(var(--gut) * -1); padding: 4px var(--gut) 8px; scroll-padding-inline: var(--gut); scrollbar-width: none; }
   .uses-grid::-webkit-scrollbar { display: none; }
-  .flip { flex: 0 0 78vw; scroll-snap-align: start; }
+  .flip { flex: 0 0 min(78vw, 340px); scroll-snap-align: start; }
   .flip-front, .flip-back { min-height: 340px; padding: 22px; }
   .flip-front h3 { font-size: 22px; }
   .flip-sum { font-size: 24px; }

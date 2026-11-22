@@ -304,14 +304,15 @@
   /* ---------- otočné karty „Na co to bude“ ---------- */
   $$('.flip').forEach((card) => {
     const back = $('.flip-back', card), go = $('.flip-go', card);
-    const set = (on) => {
+    const set = (on, kb) => {
       card.classList.toggle('on', on);
       back.toggleAttribute('inert', !on); back.setAttribute('aria-hidden', String(!on));
       go.setAttribute('aria-expanded', String(on));
-      (on ? $('.flip-calc', card) : go).focus({ preventScroll: true });
+      // Fokus přesouváme jen při ovládání klávesnicí (jinak Safari kreslí obrys po ťuknutí).
+      if (kb) (on ? $('.flip-calc', card) : go).focus({ preventScroll: true });
     };
-    go.addEventListener('click', () => set(true));
-    $('.flip-close', card).addEventListener('click', () => set(false));
+    go.addEventListener('click', (e) => set(true, e.detail === 0));
+    $('.flip-close', card).addEventListener('click', (e) => set(false, e.detail === 0));
     $('.flip-calc', card).addEventListener('click', () => {
       if (!pageForm) return;
       setVal(pageForm, 'castka', +card.dataset.castka);
