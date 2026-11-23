@@ -208,6 +208,99 @@ const homeCalc = () => `
   <p class="calc-note">${icon('lock')} Nezávazně a zdarma. Údaje nikam neposíláme, dokud sami nechcete.</p>
 </div>`;
 
+// ---------- hero úvodu v2 (23. 11. 2026 večer) ----------
+// Vychází z původního hera (fotka rodiny přes celou výšku, bílá kalkulačka dole), jen dotažené:
+// jedna značka nahoře (velké logo je přímo v hlavičce), velký nadpis, slib od Denisy
+// a kalkulačka jako kartotéka: tři záložky se sazbou, stejně stavěná pole a tmavý výsledek s tlačítkem.
+const hvBox = (name, label, val, min, max, step, unit, id, ends, cls = '') => `
+<div class="hv-f ${cls}">
+  <label class="hv-l" for="${name}-${id}">${label}</label>
+  <div class="money hv-box" data-min="${min}" data-max="${max}" data-step="${step}">
+    <button type="button" class="money-btn" data-dir="-1" aria-label="Méně">${icon('minus')}</button>
+    <input id="${name}-${id}" name="${name}" class="money-in" type="text" inputmode="numeric" autocomplete="off" value="${fmt(val)}">
+    <span class="money-u">${unit}</span>
+    <button type="button" class="money-btn" data-dir="1" aria-label="Více">${icon('plus')}</button>
+  </div>
+  <input class="range" type="range" min="${min}" max="${max}" step="${unit === 'Kč' ? step : 1}" value="${val}" data-for="${name}" aria-label="${label}, posuvník" tabindex="-1">
+  <div class="range-ends"><span>${ends[0]}</span><span>${ends[1]}</span></div>
+</div>`;
+const HV = {
+  uver: (id) => hvBox('castka', 'Kolik potřebujete?', 300000, 20000, 2500000, 10000, 'Kč', id, ['20 tis.', '2,5 mil.'])
+    + hvBox('mesice', 'Splatnost', 240, 12, 240, 12, 'měs.', id, ['12 měs.', '240 měs.']),
+  konsolidace: (id) => hvBox('castka', 'Kolik celkem dlužíte?', 500000, 50000, 3000000, 10000, 'Kč', id, ['50 tis.', '3 mil.'])
+    + hvBox('splatka', 'Kolik teď měsíčně splácíte?', 9500, 500, 80000, 100, 'Kč', id, ['500 Kč', '80 tis.'])
+    + hvBox('mesice', 'Nová splatnost', 240, 12, 240, 12, 'měs.', id, ['12 měs.', '240 měs.']),
+  hypoteka: (id) => hvBox('cena', 'Cena nemovitosti', 5000000, 500000, 30000000, 100000, 'Kč', id, ['0,5 mil.', '30 mil.'], 'hv-slim')
+    + hvBox('castka', 'Výše hypotéky', 4000000, 300000, 25000000, 100000, 'Kč', id, ['0,3 mil.', '25 mil.'], 'hv-slim')
+    + hvBox('roky', 'Splatnost', 30, 5, 30, 1, 'let', id, ['5 let', '30 let'], 'hv-slim hv-roky')
+    + `
+<div class="hv-f hv-fix">
+  <span class="hv-l" id="fix-${id}">Fixace <small>v letech</small></span>
+  <div class="seg" role="radiogroup" aria-labelledby="fix-${id}">
+    ${[3, 5, 7, 10].map((y) => `<label><input type="radio" name="fixace" value="${y}"${y === 5 ? ' checked' : ''}><span>${y}</span></label>`).join('')}
+  </div>
+  <span class="hv-fix-n">Jak dlouho vám banka sazbu podrží.</span>
+</div>`,
+};
+const HV_INIT = { uver: [300000, 240], konsolidace: [500000, 240], hypoteka: [4000000, 360] };
+const HV_BANKS = new Set(ACTIVE.flatMap((c) => RATES[c.key].banks.map((b) => b[0]))).size;
+const hvRes = (c) => {
+  const k = c.key, r = RATES[k], [P, n] = HV_INIT[k];
+  const pay = pmt(P, r.our, n);
+  const worst = Math.max(...r.banks.map(([, x]) => pmt(P, x, n)));
+  const second = k === 'konsolidace'
+    ? `<p class="hv-diff hv-save" data-hv="uspora">Ušetříte až <b>${kc(9500 - pay)}</b> měsíčně</p>`
+    : `<p class="hv-diff">o&nbsp;<b data-out="rozdil">${kc(worst - pay)}</b> měsíčně méně než u&nbsp;nejdražší banky</p>`;
+  return `
+  <div class="hv-res">
+    <div class="hv-res-top">
+      <div class="hv-pay"><span class="hv-k">${k === 'konsolidace' ? 'Nová splátka od' : 'Splátka od'}</span><span class="hv-big"><b class="hv-n" data-roll="splatka">${fmt(pay)}</b><i>Kč</i></span></div>
+      <div class="hv-rate"><span class="hv-k">Sazba od</span><b>${pct(r.our)}</b></div>
+    </div>
+    ${second}
+    <button class="btn btn-go" type="submit"><span>${c.cta}</span>${icon('arrow')}</button>
+  </div>`;
+};
+const hvPanel = (c) => {
+  const id = 'h-' + c.key;
+  return `
+<form class="calc hv-calc hv-${c.key}" data-cat="${c.key}" data-slug="${c.slug}" data-mode="home" id="calc-${id}" role="tabpanel" aria-labelledby="tab-${c.key}"${c.key !== ACTIVE[0].key ? ' hidden' : ''} novalidate>
+  <div class="hv-main">
+    <div class="hv-fields">${HV[c.key](id)}</div>
+    <p class="hv-note">${icon('lock')}<span>Nezávazně a&nbsp;zdarma</span><span>Srovnání ${HV_BANKS} bank</span><span>Údaje nikam neposíláme, dokud sami nechcete</span></p>
+  </div>
+  ${hvRes(c)}
+</form>`;
+};
+const heroV2 = () => `
+<section class="hv">
+  <div class="hv-bg">
+    <picture class="hv-pic">
+      <source media="(max-width: 860px)" srcset="/assets/hero-m-900.webp">
+      <img src="/assets/hero-rodina-1672.webp" alt="Spokojená rodina doma na gauči" width="1672" height="941" fetchpriority="high">
+    </picture>
+  </div>
+  <div class="wrap hv-in">
+    <div class="hv-txt">
+      <p class="hv-brand">${logoSvg('logo-hero')}</p>
+      <h1>Sazba, která<br class="hv-br"> je k&nbsp;vám<br class="hv-br"> <em>prostě&nbsp;fér.</em></h1>
+      <figure class="hv-say">
+        <img src="/assets/denisa-avatar-192.webp" alt="" width="192" height="192">
+        <blockquote>Řekněte, kolik potřebujete. Srovnám banky, vyjednám sazbu a&nbsp;vy jen podepíšete.</blockquote>
+        <figcaption><b>${SITE.person}</b>, ${SITE.personRole}</figcaption>
+      </figure>
+    </div>
+    <div class="hv-card" id="spocitat">
+      <div class="hv-tabs tabs" role="tablist" aria-label="Co chcete spočítat">
+        ${ACTIVE.map((c, i) => `<button type="button" role="tab" id="tab-${c.key}" aria-controls="calc-h-${c.key}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-tab="${c.key}">${icon(c.icon)}<span class="hv-tn"><span class="hv-tl">${c.name}</span><span class="hv-ts">${c.short}</span></span><span class="hv-tr">od ${pct(RATES[c.key].our)}</span></button>`).join('')}
+      </div>
+      <div class="hv-body">
+        ${ACTIVE.map(hvPanel).join('')}
+      </div>
+    </div>
+  </div>
+</section>`;
+
 // ---------- sdílené sekce ----------
 const STEPS = [
   ['Spočítejte si to', 'Kalkulačka hned ukáže, jak vychází splátka u jednotlivých bank.'],
@@ -548,29 +641,11 @@ const ld = () => `<script type="application/ld+json">${JSON.stringify({
   ],
 })}</script>`;
 
-const home = () => typo(`${head({ title: 'FérSazby.cz | Úvěr, konsolidace a hypotéka za fér sazbu', desc: 'Spočítejte si úvěr, konsolidaci nebo hypotéku a podívejte se, kolik byste platili u jednotlivých bank. Fér sazba od 3,99 %. Denisa Holazová.', path: '/', extraHead: ld() + '\n<link rel="preload" as="image" href="/assets/hero-1600.webp" media="(min-width: 861px)">\n<link rel="preload" as="image" href="/assets/hero-m-900.webp" media="(max-width: 860px)">' })}
+const home = () => typo(`${head({ title: 'FérSazby.cz | Úvěr, konsolidace a hypotéka za fér sazbu', desc: 'Spočítejte si úvěr, konsolidaci nebo hypotéku a podívejte se, kolik byste platili u jednotlivých bank. Fér sazba od 3,99 %. Denisa Holazová.', path: '/', extraHead: ld() + '\n<link rel="preload" as="image" href="/assets/hero-rodina-1672.webp" media="(min-width: 861px)">\n<link rel="preload" as="image" href="/assets/hero-m-900.webp" media="(max-width: 860px)">' })}
 <body class="pg-home">
 ${header()}
 <main id="obsah">
-  <section class="hero">
-    <picture class="hero-bg">
-      <source media="(max-width: 860px)" srcset="/assets/hero-m-900.webp">
-      <img src="/assets/hero-1600.webp" alt="Spokojená rodina doma na gauči" width="1600" height="900" fetchpriority="high">
-    </picture>
-    <div class="hero-in wrap">
-      <div class="hero-txt">
-        <p class="hero-brand">${logoSvg('logo-hero')}</p>
-        <h1>Sazba, která je k&nbsp;vám <em>prostě&nbsp;fér.</em></h1>
-        <p class="hero-lead">Řekněte, kolik potřebujete. Srovnám banky, vyjednám sazbu a vy jen podepíšete.</p>
-        <ul class="hero-proof">
-          <li><b>${pct(RATES.hypoteka.our)}</b><span>hypotéka od</span></li>
-          <li><b>${pct(RATES.uver.our)}</b><span>úvěr od</span></li>
-          <li><b>10</b><span>bank ve srovnání</span></li>
-        </ul>
-      </div>
-      ${homeCalc()}
-    </div>
-  </section>
+  ${heroV2()}
   ${homeCats()}
   ${reviews()}
   ${steps()}

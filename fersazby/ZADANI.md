@@ -60,3 +60,17 @@ Prošlo se všech 7 stránek na 1440 px (44 obrazovek). Hlavní slabiny:
 Plán po sekcích: 1) hero úvodu: zkoušel jsem světlou i modrou verzi s kalkulačkou ve větě a fotkou s maskou, Vojta obě odmítl (rozmazané přechody, hrana fotky, „slabé“). Vráceno na PŮVODNÍ hero, to se mu líbí nejvíc. Hero úvodu dál neměnit bez jeho pokynu, 2) hero podstránek ve stejném jazyce, 3) srovnání bank, 4) kategorie na úvodu, 5) recenze, 6) kroky + O mně, 7) formulář poptávky, 8) FAQ a patička.
 Patička: dole „© rok FérSazby.cz“ a „Web od Gomatela“ (drobně jako BASES).
 Domény fersazby.cz a fersazba.cz Vojta koupil 23. 11. na Blueboardu (mail na info@gomatela.cz).
+
+## 23. 11. 2026 pozdě večer: hero úvodu v2 (Vojta: „pracovat na původní verzi, kalkulačka se mi líbí, ale je tam spousta mezer“)
+Původní verze je uložená: git značka `hero-puvodni-2026-11-23` a zmrazená kopie na náhledu `/puvodni` (soubory `public/puvodni.html` + `public/puvodni-soubory/`). Návrat: `git checkout hero-puvodni-2026-11-23 -- src/build.mjs public/app.js public/styles.css` a build.
+Co bylo na původní slabé (měřeno na 1440×780, 1366×650, 1280×720, 1920×1080): logo dvakrát nad sebou, nadpis menší než logo, text přes obličej maminky a dcery, tlačítko kalkulačky na běžném notebooku pod okrajem obrazovky, tři čísla (3,99 % / 4,00 % / 10) dublovala kalkulačku, výsledek splátky v malé šedé krabičce, při přepnutí záložky karta skákala výškou.
+Nová stavba (`heroV2` v build.mjs, styly `.hv-*` na konci styles.css):
+- Jedno velké logo přímo v hlavičce (po odscrollování se zmenší do lišty), na mobilu zůstává značka přes fotku jako dřív.
+- Výška, kde začíná kalkulačka (`--Y`), se počítá z výšky okna, takže celá kalkulačka i s tlačítkem je vidět na první obrazovce. Od `--Y` se odvozuje velikost fotky i nadpisu a šířka textu (`--tw`), aby text nikdy nelezl do obličejů.
+- Fotka rodiny v plném rozlišení (1672 px), vlevo plynule přechází do modré jako v původní verzi, obličeje čisté. Žádné masky, žádné rozmazání.
+- Úvodní věta je podepsaná Denisou (portrét v kolečku).
+- Kalkulačka jako kartotéka: tři záložky se sazbou („od 4,00 %“), aktivní srůstá s kartou. Pole mají stejnou stavbu (částka i splatnost s − a +, posuvník, krajní hodnoty). Splatnost výchozí 240 měsíců, jde přepsat ručně (Denisa).
+- Tmavý výsledek: velká splátka s přetáčením číslic, sazba, „o X Kč měsíčně méně než u nejdražší banky“ (u konsolidace „Ušetříte až“), tlačítko s Denisiným textem.
+- Karta má ve všech třech záložkách stejnou výšku.
+Ověřeno: Chrome 1280–2560 px, tablet 1024, mobil 390 a 360, jádro Safari (WebKit), všechny stránky bez chyb, odeslání kalkulačky přenese čísla na podstránku.
+Zdroj fotky má jen 1672 px (AI, GPT), na retině je lehce měkká; zvětšení přes SeedVR2 by bylo placené (haléře), neděláno.

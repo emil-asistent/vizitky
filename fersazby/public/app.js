@@ -10,6 +10,49 @@
   const pct = (x) => x.toFixed(2).replace('.', ',') + ' %';
   const pmt = (P, rate, n) => { const r = rate / 100 / 12; if (!P || !n) return 0; return r ? P * r / (1 - (1 + r) ** -n) : P / n; };
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- přetáčení číslic u velké splátky v hero ---------- */
+  const COL = '<span class="rd-c">' + [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((d) => `<span>${d}</span>`).join('') + '</span>';
+  let digitW = null;   // šířky číslic v em, ať „1“ nezabírá tolik místa co „8“
+  const measureDigits = (el) => {
+    const cs = getComputedStyle(el), c = document.createElement('canvas').getContext('2d');
+    c.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+    const fs = parseFloat(cs.fontSize) || 1;
+    digitW = [...'0123456789'].map((d) => c.measureText(d).width / fs);
+  };
+  const cellsOf = (el) => [...(el.querySelector('.rdw')?.children || [])];
+  const sizeCells = (el, chars) => cellsOf(el).forEach((cell, i) => {
+    if (cell.classList.contains('rd')) cell.style.width = (digitW[+chars[i]] - 0.03).toFixed(3) + 'em';
+  });
+  const turnCells = (el, chars) => cellsOf(el).forEach((cell, i) => {
+    if (cell.classList.contains('rd')) cell.firstChild.style.transform = `translateY(-${+chars[i] * 10}%)`;
+  });
+  function roll(el, txt) {
+    if (still) { el.textContent = txt; return; }
+    if (el.dataset.v === txt) return;
+    if (!digitW) measureDigits(el);
+    const chars = [...txt], sig = chars.map((c) => (/\d/.test(c) ? 'd' : 's')).join('');
+    const first = !el.dataset.sig, fresh = el.dataset.sig !== sig;
+    if (fresh) {
+      // Při první kresbě se číslice rozjedou z nul (číslo „naskočí“), při změně počtu číslic se jen přepíšou.
+      el.dataset.sig = sig;
+      el.innerHTML = '<span class="hv-sr"></span><span class="rdw" aria-hidden="true">'
+        + chars.map((c) => (/\d/.test(c) ? `<span class="rd${first ? '' : ' now'}">${COL}</span>` : '<span class="rs"></span>')).join('') + '</span>';
+    }
+    el.dataset.v = txt; el.firstChild.textContent = txt;
+    sizeCells(el, chars);
+    if (first) setTimeout(() => turnCells(el, [...el.dataset.v]), 500);
+    else turnCells(el, chars);
+    if (fresh && !first) requestAnimationFrame(() => requestAnimationFrame(() => cellsOf(el).forEach((c) => c.classList.remove('now'))));
+  }
+  // Až se načte písmo, šířky číslic se přeměří (před tím se měřilo náhradním písmem).
+  document.fonts?.ready.then(() => {
+    const els = $$('[data-roll]').filter((el) => el.dataset.v && el.dataset.sig);
+    if (!els.length) return;
+    measureDigits(els[0]);
+    els.forEach((el) => sizeCells(el, [...el.dataset.v]));
+  });
 
   /* ---------- hlavička ---------- */
   const head = $('#hlavicka');
@@ -29,15 +72,21 @@
     });
   }
 
+  /* ---------- hero úvodu: fotka se při rolování posouvá o něco pomaleji než zbytek ---------- */
+  const hvPic = $('.hv-pic');
+  if (hvPic && !still && matchMedia('(min-width: 861px)').matches) {
+    let queued = false;
+    const move = () => { queued = false; hvPic.style.transform = `translate3d(0, ${(Math.min(scrollY, 900) * 0.14).toFixed(1)}px, 0)`; };
+    addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(move); } }, { passive: true });
+  }
+
   /* ---------- záložky na úvodu ---------- */
   const tabs = $$('.tabs [role=tab]');
   const selectTab = (btn, focus) => {
     tabs.forEach((t) => {
       const on = t === btn;
       t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1;
-      const f = $('#' + t.getAttribute('aria-controls'));
-      f.hidden = !on;
-      if (on) { fitAll(f); calc(f); }
+      $('#' + t.getAttribute('aria-controls')).hidden = !on;
     });
     if (focus) btn.focus();
   };
@@ -48,20 +97,6 @@
       if (d) { e.preventDefault(); selectTab(tabs[(i + d + tabs.length) % tabs.length], true); }
     });
   });
-
-  /* ---------- čísla vepsaná do věty: šířka podle obsahu ---------- */
-  // Šířka přesně podle textu (písmo Poppins má úzkou mezeru, takže „ch“ by nechal díru).
-  const ctx = document.createElement('canvas').getContext('2d');
-  const fit = (inp) => {
-    const cs = getComputedStyle(inp); ctx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
-    ctx.letterSpacing = cs.letterSpacing;
-    const t = inp.tagName === 'SELECT' ? inp.options[inp.selectedIndex].text : inp.value || '0';
-    inp.style.width = Math.ceil(ctx.measureText(t).width + 3) + 'px';
-  };
-  const fitAll = (root) => $$('.inl input, .inl select', root).forEach(fit);
-  ['input', 'change'].forEach((ev) => document.addEventListener(ev, (e) => { if (e.target.closest?.('.inl')) fit(e.target); }));
-  fitAll(document);
-  document.fonts?.ready.then(() => fitAll(document));
 
   /* ---------- pole s částkou + posuvníky ---------- */
   const paintRange = (r) => r.style.setProperty('--p', ((r.value - r.min) / (r.max - r.min)) * 100 + '%');
@@ -77,7 +112,6 @@
     } else {
       v = clamp(Math.round(v), +inp.min, +inp.max); inp.value = v;
     }
-    if (inp.closest('.inl')) fit(inp);
     if (r && !fromRange) r.value = clamp(v, +r.min, +r.max);
     if (r) paintRange(r);
   };
@@ -123,22 +157,19 @@
     const s = state(form);
     const out = (k, v) => { const o = $(`[data-out="${k}"]`, form); if (o) o.textContent = v; };
     out('splatka', s.n ? kc(s.pay) : '—');
-    out('splatka-n', s.n ? fmt(s.pay) : '—');
     if (s.cat === 'konsolidace') {
       const save = s.splatka - s.pay;
       out('uspora', save > 0 ? kc(save) + '/měs.' : 'spočítáme');
-      out('uspora-n', save > 0 ? fmt(save) : '0');
     }
-    // Úvod: velké číslo cvakne a štítek na fotce ukáže rozdíl proti nejdražší bance.
-    if (form.dataset.mode === 'home' && !form.hidden) {
-      const big = $('.sx-num b', form);
-      if (big && big.textContent !== big.dataset.last) { big.dataset.last = big.textContent; big.classList.remove('tick'); void big.offsetWidth; big.classList.add('tick'); }
-      const chip = $('[data-hx="rozdil"]');
-      if (chip && RATES[s.cat]) {
-        const worst = Math.max(...RATES[s.cat].banks.map(([, r]) => pmt(s.castka, r, s.n)));
-        chip.textContent = s.n && worst > s.pay ? '+' + kc(worst - s.pay) : '—';
-      }
+    // Úvod: velké číslo splátky, rozdíl proti nejdražší bance a úspora u konsolidace.
+    const big = $('[data-roll="splatka"]', form);
+    if (big) roll(big, s.n ? fmt(s.pay) : '0');
+    if ($('[data-out="rozdil"]', form) && RATES[s.cat]) {
+      const worst = Math.max(...RATES[s.cat].banks.map(([, r]) => pmt(s.castka, r, s.n)));
+      out('rozdil', kc(Math.max(0, worst - s.pay)));
     }
+    const sv = $('[data-hv="uspora"]', form);
+    if (sv) { const save = s.splatka - s.pay; sv.innerHTML = save > 0 ? `Ušetříte až <b>${kc(save)}</b> měsíčně` : 'Úsporu vám spočítám osobně'; }
     if (form.dataset.mode === 'page') renderOffers(s);
     return s;
   }
@@ -296,7 +327,6 @@
   /* ---------- recenze: pomalý samovolný posun dokola, šipky, filtr, rozbalení ---------- */
   // Karty se za railem zopakují (kopie jsou skryté pro čtečky), takže pás jede pořád dokola.
   // Najetí myší posun zastaví, šipky a tažení přepnou na ruční ovládání, po chvíli klidu se zase rozjede.
-  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
   $$('.rv').forEach((sec) => {
     const rail = $('.rv-rail', sec), bar = $('.rv-bar span', sec);
     const prev = $('.rv-arr[data-dir="-1"]', sec), next = $('.rv-arr[data-dir="1"]', sec);
