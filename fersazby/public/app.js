@@ -58,7 +58,7 @@
     const t = inp.tagName === 'SELECT' ? inp.options[inp.selectedIndex].text : inp.value || '0';
     inp.style.width = Math.ceil(ctx.measureText(t).width + 3) + 'px';
   };
-  const fitAll = (root) => $$('.inl input', root).forEach(fit);
+  const fitAll = (root) => $$('.inl input, .inl select', root).forEach(fit);
   ['input', 'change'].forEach((ev) => document.addEventListener(ev, (e) => { if (e.target.closest?.('.inl')) fit(e.target); }));
   fitAll(document);
   document.fonts?.ready.then(() => fitAll(document));

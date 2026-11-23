@@ -778,15 +778,6 @@ textarea.txt { resize: vertical; min-height: 92px; line-height: 1.5; font-weight
 .hx-note .ic { width: 15px; height: 15px; margin-right: 8px; color: var(--teal-dark); }
 .hx-note span + span::before { content: '·'; margin: 0 10px; }
 
-/* Hlavička nad světlým hero: tmavé písmo, logo až po odscrollování (značka je velká v hero). */
-.pg-home .site-head:not(.scrolled):not(.menu-open) .logo { opacity: 0; pointer-events: none; }
-.pg-home .site-head .logo { transition: opacity .3s; }
-.pg-home .site-head:not(.scrolled) .head-nav a, .pg-home .site-head:not(.scrolled) .head-tel { color: var(--navy); }
-.pg-home .site-head:not(.scrolled) .head-nav a::after { background: var(--teal-dark); }
-.pg-home .site-head:not(.scrolled) .head-tel .ic { color: var(--teal-dark); }
-.pg-home .site-head:not(.scrolled) .head-cta { background: var(--navy); color: #fff; }
-.pg-home .site-head:not(.scrolled) .head-cta:hover { background: var(--teal-dark); }
-
 @media (prefers-reduced-motion: no-preference) {
   .hx-main > *, .hx-chip { animation: up .9s var(--ease) both; }
   .hx-main > :nth-child(2) { animation-delay: .07s; }
@@ -832,3 +823,42 @@ textarea.txt { resize: vertical; min-height: 92px; line-height: 1.5; font-weight
   .hx-note { gap: 4px 16px; }
   .hx-note span + span::before { content: none; }
 }
+
+/* ---------- hero úvodu v modré (Vojta 23. 11.: bílá NE, modrá jako holazova.cz) ---------- */
+.hx { --bg: var(--navy); color: #fff; background: radial-gradient(90% 80% at 85% 55%, #1B3354 0%, var(--navy) 60%); }
+.hx-photo { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 30%), linear-gradient(180deg, transparent 0, #000 26%, #000 86%, transparent 100%); mask-image: linear-gradient(90deg, transparent 0, #000 30%), linear-gradient(180deg, transparent 0, #000 26%, #000 86%, transparent 100%); }
+.hx-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(13, 31, 58, .55), rgba(13, 31, 58, 0) 45%), rgba(13, 31, 58, .12); pointer-events: none; }
+.hx-brand .logo-svg { --l-t: var(--teal); --l-r: #fff; --l-f: var(--teal); --l-s: #fff; --l-c: #8FA0B8; }
+.hx h1 em { color: var(--teal); }
+.hx-tabs { background: rgba(255, 255, 255, .08); }
+.hx-tabs button { color: rgba(255, 255, 255, .72); }
+.hx-tabs button:hover { color: #fff; }
+.hx-tabs button[aria-selected="true"] { background: #fff; color: var(--navy); box-shadow: none; }
+.sx-s { color: rgba(255, 255, 255, .78); }
+.sx .inl { border-color: rgba(153, 198, 195, .6); }
+.sx .inl:focus-within { border-color: var(--teal); }
+.sx .inl input, .sx .inl select { color: #fff; }
+.sx .inl select option { color: var(--navy); }
+.sx .inl .money-u { color: var(--teal); }
+.sx-rl { color: rgba(255, 255, 255, .5); }
+.sx-re { color: rgba(255, 255, 255, .4); }
+.sx .range::-webkit-slider-runnable-track { background: linear-gradient(90deg, var(--teal) var(--p), rgba(255, 255, 255, .16) var(--p)); }
+.sx .range::-moz-range-track { background: linear-gradient(90deg, var(--teal) var(--p), rgba(255, 255, 255, .16) var(--p)); }
+.sx .range::-webkit-slider-thumb { background: var(--navy); border-color: #fff; }
+.sx .range::-moz-range-thumb { background: var(--navy); border-color: #fff; }
+.sx-res { border-color: rgba(255, 255, 255, .14); }
+.sx-lab { color: var(--teal); }
+.sx-num > b { color: #fff; }
+.sx-cur small, .sx-sub { color: rgba(255, 255, 255, .6); }
+.sx-sub b { color: #fff; }
+.sx .sx-go { background: var(--teal); color: var(--navy); box-shadow: 0 20px 40px -18px rgba(0, 0, 0, .6); }
+.sx .sx-go:hover { background: #fff; }
+.hx-note { color: rgba(255, 255, 255, .55); }
+.hx-note .ic { color: var(--teal); }
+.hx-chip { background: #fff; color: var(--navy); }
+.hx-chip b { color: #D9573A; }
+.hx-chip-k { color: rgba(13, 31, 58, .55); }
+@media (max-width: 860px) { .hx { background: var(--navy); } }
+.hx-chip { z-index: 2; top: 30%; right: 4%; }
+@media (max-width: 1100px) and (min-width: 861px) { .hx-chip { top: auto; bottom: 8%; } }
+@media (max-width: 860px) { .hx-chip { top: calc(77.5vw - 140px); bottom: auto; } }

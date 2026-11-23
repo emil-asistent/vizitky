@@ -250,8 +250,8 @@ const heroX = () => `
       <source media="(max-width: 860px)" srcset="/assets/hero-m-900.webp">
       <img src="/assets/hero-rodina-1040.webp" alt="Spokojená rodina doma na gauči" width="1040" height="900" fetchpriority="high">
     </picture>
-    <p class="hx-chip" aria-live="polite"><span class="hx-chip-k">U nejdražší banky</span><b data-hx="rozdil">—</b><span class="hx-chip-k">měsíčně navíc</span></p>
   </div>
+  <p class="hx-chip" aria-live="polite"><span class="hx-chip-k">U nejdražší banky</span><b data-hx="rozdil">—</b><span class="hx-chip-k">měsíčně navíc</span></p>
   <div class="wrap hx-in">
     <div class="hx-main">
       <p class="hx-brand">${logoSvg('logo-hero')}</p>
