@@ -20,9 +20,9 @@
 <link rel="manifest" href="/site.webmanifest">
 <link rel="preload" href="/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/poppins-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/styles.css?v=mwtq75q4">
+<link rel="stylesheet" href="/styles.css?v=mwtr8as9">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"FinancialService","@id":"https://fersazby.cz/#sluzba","name":"FérSazby","url":"https://fersazby.cz","email":"info@fersazby.cz","telephone":"+420 737 202 797","areaServed":"CZ","founder":{"@id":"https://fersazby.cz/#denisa"},"description":"Srovnání úvěrů, konsolidací a hypoték."},{"@type":"Person","@id":"https://fersazby.cz/#denisa","name":"Denisa Holazová","jobTitle":"Finanční poradkyně","url":"https://holazova.cz","sameAs":["https://holazova.cz"]}]}</script>
-<link rel="preload" as="image" href="/assets/hero-rodina-1040.webp" media="(min-width: 861px)">
+<link rel="preload" as="image" href="/assets/hero-1600.webp" media="(min-width: 861px)">
 <link rel="preload" as="image" href="/assets/hero-m-900.webp" media="(max-width: 860px)">
 </head>
 <body class="pg-home">
@@ -51,65 +51,143 @@
   </div>
 </header>
 <main id="obsah">
-  
-<section class="hx">
-  <div class="hx-photo">
-    <picture>
+  <section class="hero">
+    <picture class="hero-bg">
       <source media="(max-width: 860px)" srcset="/assets/hero-m-900.webp">
-      <img src="/assets/hero-rodina-1040.webp" alt="Spokojená rodina doma na gauči" width="1040" height="900" fetchpriority="high">
+      <img src="/assets/hero-1600.webp" alt="Spokojená rodina doma na gauči" width="1600" height="900" fetchpriority="high">
     </picture>
-  </div>
-  <p class="hx-chip" aria-live="polite"><span class="hx-chip-k">U nejdražší banky</span><b data-hx="rozdil">—</b><span class="hx-chip-k">měsíčně navíc</span></p>
-  <div class="wrap hx-in">
-    <div class="hx-main">
-      <p class="hx-brand"><svg class="logo-svg logo-hero" viewBox="0 0 688 130" role="img" aria-label="FérSazby.cz"><use href="#logo-a1"/></svg></p>
-      <h1>Sazba, která je k&nbsp;vám <em>prostě&nbsp;fér.</em></h1>
-      <div class="hx-calc" id="spocitat">
-        <div class="hx-tabs tabs" role="tablist" aria-label="Co chcete spočítat">
-          <button type="button" role="tab" id="tab-uver" aria-controls="calc-h-uver" aria-selected="true" tabindex="0" data-tab="uver">Úvěr</button><button type="button" role="tab" id="tab-konsolidace" aria-controls="calc-h-konsolidace" aria-selected="false" tabindex="-1" data-tab="konsolidace">Konsolidace</button><button type="button" role="tab" id="tab-hypoteka" aria-controls="calc-h-hypoteka" aria-selected="false" tabindex="-1" data-tab="hypoteka">Hypotéka</button>
-        </div>
-        
-<form class="calc sx" data-cat="uver" data-slug="uver-na-cokoliv" data-mode="home" id="calc-h-uver" role="tabpanel" aria-labelledby="tab-uver" novalidate>
-  <p class="sx-s">Potřebuji <span class="money inl" data-min="20000" data-max="2500000" data-step="10000"><input id="castka-h-uver" name="castka" class="money-in" type="text" inputmode="numeric" autocomplete="off" value="300 000" aria-label="Kolik potřebujete"><span class="money-u">Kč</span></span> a&nbsp;splácet chci <span class="term-in inl"><input id="mesice-h-uver" name="mesice" type="number" inputmode="numeric" min="12" max="240" value="240" aria-label="Splatnost v měsících"></span> měsíců.</p>
-  <div class="sx-rs"><label class="sx-r"><span class="sx-rl">Částka</span><input class="range" type="range" min="20000" max="2500000" step="10000" value="300000" data-for="castka" aria-label="Částka, posuvník"><span class="sx-re"><span>20 tis.</span><span>2,5 mil.</span></span></label><label class="sx-r"><span class="sx-rl">Splatnost</span><input class="range" type="range" min="12" max="240" step="1" value="240" data-for="mesice" aria-label="Splatnost, posuvník"><span class="sx-re"><span>12 měs.</span><span>240 měs.</span></span></label></div>
-  <div class="sx-res">
-    <div class="sx-num">
-      <span class="sx-lab">Splátka od</span>
-      <b data-out="splatka-n">—</b><span class="sx-cur">Kč<small>/měs.</small></span>
-      <span class="sx-sub">fér sazba od <b>4,00 %</b></span>
-    </div>
-    <button class="btn btn-go sx-go" type="submit"><span>Chci nový úvěr s fér sazbou</span><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
-  </div>
-</form>
-<form class="calc sx" data-cat="konsolidace" data-slug="konsolidace" data-mode="home" id="calc-h-konsolidace" role="tabpanel" aria-labelledby="tab-konsolidace" hidden novalidate>
-  <p class="sx-s">Dlužím <span class="money inl" data-min="50000" data-max="3000000" data-step="10000"><input id="castka-h-konsolidace" name="castka" class="money-in" type="text" inputmode="numeric" autocomplete="off" value="500 000" aria-label="Kolik celkem dlužíte"><span class="money-u">Kč</span></span>, měsíčně splácím <span class="money inl" data-min="500" data-max="80000" data-step="100"><input id="splatka-h-konsolidace" name="splatka" class="money-in" type="text" inputmode="numeric" autocomplete="off" value="9 500" aria-label="Kolik teď měsíčně splácíte"><span class="money-u">Kč</span></span> a&nbsp;nově chci splácet <span class="term-in inl"><input id="mesice-h-konsolidace" name="mesice" type="number" inputmode="numeric" min="12" max="240" value="240" aria-label="Nová splatnost v měsících"></span> měsíců.</p>
-  <div class="sx-rs"><label class="sx-r"><span class="sx-rl">Dluh</span><input class="range" type="range" min="50000" max="3000000" step="10000" value="500000" data-for="castka" aria-label="Dluh, posuvník"><span class="sx-re"><span>50 tis.</span><span>3 mil.</span></span></label><label class="sx-r"><span class="sx-rl">Dnešní splátky</span><input class="range" type="range" min="500" max="80000" step="100" value="9500" data-for="splatka" aria-label="Dnešní splátky, posuvník"><span class="sx-re"><span>500</span><span>80 tis.</span></span></label><label class="sx-r"><span class="sx-rl">Splatnost</span><input class="range" type="range" min="12" max="240" step="1" value="240" data-for="mesice" aria-label="Splatnost, posuvník"><span class="sx-re"><span>12</span><span>240 měs.</span></span></label></div>
-  <div class="sx-res">
-    <div class="sx-num">
-      <span class="sx-lab">Ušetříte až</span>
-      <b data-out="uspora-n">—</b><span class="sx-cur">Kč<small>/měs.</small></span>
-      <span class="sx-sub">nová splátka od <b data-out="splatka">—</b></span>
-    </div>
-    <button class="btn btn-go sx-go" type="submit"><span>Chci ušetřit na splátkách díky fér konsolidaci</span><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
-  </div>
-</form>
-<form class="calc sx" data-cat="hypoteka" data-slug="hypoteka" data-mode="home" id="calc-h-hypoteka" role="tabpanel" aria-labelledby="tab-hypoteka" hidden novalidate>
-  <p class="sx-s">Kupuji za <span class="money inl" data-min="500000" data-max="30000000" data-step="100000"><input id="cena-h-hypoteka" name="cena" class="money-in" type="text" inputmode="numeric" autocomplete="off" value="5 000 000" aria-label="Cena nemovitosti"><span class="money-u">Kč</span></span>, potřebuji <span class="money inl" data-min="300000" data-max="25000000" data-step="100000"><input id="castka-h-hypoteka" name="castka" class="money-in" type="text" inputmode="numeric" autocomplete="off" value="4 000 000" aria-label="Výše hypotéky"><span class="money-u">Kč</span></span> na <span class="term-in inl"><input id="roky-h-hypoteka" name="roky" type="number" inputmode="numeric" min="5" max="30" value="30" aria-label="Splatnost v letech"></span> let s&nbsp;fixací <span class="sel-in inl"><select name="fixace" aria-label="Fixace"><option value="3">3 let</option><option value="5" selected>5 let</option><option value="7">7 let</option><option value="10">10 let</option></select></span>.</p>
-  <div class="sx-rs"><label class="sx-r"><span class="sx-rl">Cena</span><input class="range" type="range" min="500000" max="30000000" step="100000" value="5000000" data-for="cena" aria-label="Cena, posuvník"><span class="sx-re"><span>0,5</span><span>30 mil.</span></span></label><label class="sx-r"><span class="sx-rl">Hypotéka</span><input class="range" type="range" min="300000" max="25000000" step="100000" value="4000000" data-for="castka" aria-label="Hypotéka, posuvník"><span class="sx-re"><span>0,3</span><span>25 mil.</span></span></label><label class="sx-r"><span class="sx-rl">Splatnost</span><input class="range" type="range" min="5" max="30" step="1" value="30" data-for="roky" aria-label="Splatnost, posuvník"><span class="sx-re"><span>5</span><span>30 let</span></span></label></div>
-  <div class="sx-res">
-    <div class="sx-num">
-      <span class="sx-lab">Splátka od</span>
-      <b data-out="splatka-n">—</b><span class="sx-cur">Kč<small>/měs.</small></span>
-      <span class="sx-sub">fér sazba od <b>3,99 %</b></span>
-    </div>
-    <button class="btn btn-go sx-go" type="submit"><span>Chci fér sazbu na hypotéku</span><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
-  </div>
-</form>
-        <p class="hx-note"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>Nezávazně a&nbsp;zdarma</span><span>10 bank ve srovnání</span><span>Bez registrace</span></p>
+    <div class="hero-in wrap">
+      <div class="hero-txt">
+        <p class="hero-brand"><svg class="logo-svg logo-hero" viewBox="0 0 688 130" role="img" aria-label="FérSazby.cz"><use href="#logo-a1"/></svg></p>
+        <h1>Sazba, která je k&nbsp;vám <em>prostě&nbsp;fér.</em></h1>
+        <p class="hero-lead">Řekněte, kolik potřebujete. Srovnám banky, vyjednám sazbu a vy jen podepíšete.</p>
+        <ul class="hero-proof">
+          <li><b>3,99 %</b><span>hypotéka od</span></li>
+          <li><b>4,00 %</b><span>úvěr od</span></li>
+          <li><b>10</b><span>bank ve srovnání</span></li>
+        </ul>
       </div>
-    </div>
+      
+<div class="calc-card" id="spocitat">
+  <div class="tabs" role="tablist" aria-label="Co chcete spočítat">
+    <button type="button" role="tab" id="tab-uver" aria-controls="calc-h-uver" aria-selected="true" tabindex="0" data-tab="uver"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h14a2 2 0 0 1 2 2v3h-4a2 2 0 0 0 0 4h4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5"/></svg><span>Úvěr</span></button><button type="button" role="tab" id="tab-konsolidace" aria-controls="calc-h-konsolidace" aria-selected="false" tabindex="-1" data-tab="konsolidace"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg><span>Konsolidace</span></button><button type="button" role="tab" id="tab-hypoteka" aria-controls="calc-h-hypoteka" aria-selected="false" tabindex="-1" data-tab="hypoteka"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>Hypotéka</span></button>
   </div>
-</section>
+  
+<form role="tabpanel" aria-labelledby="tab-uver" class="calc" data-cat="uver" data-slug="uver-na-cokoliv" data-mode="home" id="calc-h-uver"  novalidate>
+  <div class="calc-fields">
+    
+<div class="fld">
+  <label class="fld-l" for="castka-h-uver">Kolik potřebujete?</label>
+  <div class="money" data-min="20000" data-max="2500000" data-step="10000">
+    <button type="button" class="money-btn" data-dir="-1" aria-label="Méně"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+    <input id="castka-h-uver" name="castka" class="money-in" type="text" inputmode="numeric" autocomplete="off" value="300 000">
+    <span class="money-u">Kč</span>
+    <button type="button" class="money-btn" data-dir="1" aria-label="Více"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+  </div>
+  <input class="range" type="range" min="20000" max="2500000" step="10000" value="300000" data-for="castka" aria-label="Kolik potřebujete?, posuvník" tabindex="-1">
+</div>
+    
+<div class="fld">
+  <div class="fld-row">
+    <label class="fld-l" for="mesice-h-uver">Splatnost</label>
+    <span class="term-in"><input id="mesice-h-uver" name="mesice" type="number" inputmode="numeric" min="12" max="240" value="240" aria-describedby="mesice-h-uver-u"><span id="mesice-h-uver-u">měs.</span></span>
+  </div>
+  <input class="range" type="range" min="12" max="240" step="1" value="240" data-for="mesice" aria-label="Splatnost, posuvník">
+  <div class="range-ends"><span>12 měs.</span><span>240 měs.</span></div>
+</div></div>
+  <div class="calc-side">
+  <div class="calc-res"><div><span>Splátka od</span><b data-out="splatka">—</b></div><div><span>Sazba od</span><b data-out="sazba">4,00 %</b></div></div>
+  <button class="btn btn-go" type="submit"><span>Chci nový úvěr s fér sazbou</span><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
+  </div>
+</form>
+<form role="tabpanel" aria-labelledby="tab-konsolidace" class="calc" data-cat="konsolidace" data-slug="konsolidace" data-mode="home" id="calc-h-konsolidace" hidden novalidate>
+  <div class="calc-fields">
+    
+<div class="fld">
+  <label class="fld-l" for="castka-h-konsolidace">Kolik celkem dlužíte?</label>
+  <div class="money" data-min="50000" data-max="3000000" data-step="10000">
+    <button type="button" class="money-btn" data-dir="-1" aria-label="Méně"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+    <input id="castka-h-konsolidace" name="castka" class="money-in" type="text" inputmode="numeric" autocomplete="off" value="500 000">
+    <span class="money-u">Kč</span>
+    <button type="button" class="money-btn" data-dir="1" aria-label="Více"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+  </div>
+  <input class="range" type="range" min="50000" max="3000000" step="10000" value="500000" data-for="castka" aria-label="Kolik celkem dlužíte?, posuvník" tabindex="-1">
+</div>
+    
+<div class="fld">
+  <label class="fld-l" for="splatka-h-konsolidace">Kolik teď měsíčně splácíte?</label>
+  <div class="money" data-min="500" data-max="80000" data-step="100">
+    <button type="button" class="money-btn" data-dir="-1" aria-label="Méně"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+    <input id="splatka-h-konsolidace" name="splatka" class="money-in" type="text" inputmode="numeric" autocomplete="off" value="9 500">
+    <span class="money-u">Kč</span>
+    <button type="button" class="money-btn" data-dir="1" aria-label="Více"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+  </div>
+  <input class="range" type="range" min="500" max="80000" step="100" value="9500" data-for="splatka" aria-label="Kolik teď měsíčně splácíte?, posuvník" tabindex="-1">
+</div>
+    
+<div class="fld">
+  <div class="fld-row">
+    <label class="fld-l" for="mesice-h-konsolidace">Nová splatnost</label>
+    <span class="term-in"><input id="mesice-h-konsolidace" name="mesice" type="number" inputmode="numeric" min="12" max="240" value="240" aria-describedby="mesice-h-konsolidace-u"><span id="mesice-h-konsolidace-u">měs.</span></span>
+  </div>
+  <input class="range" type="range" min="12" max="240" step="1" value="240" data-for="mesice" aria-label="Nová splatnost, posuvník">
+  <div class="range-ends"><span>12 měs.</span><span>240 měs.</span></div>
+</div></div>
+  <div class="calc-side">
+  <div class="calc-res"><div><span>Nová splátka od</span><b data-out="splatka">—</b></div><div class="calc-save"><span>Ušetříte až</span><b data-out="uspora">—</b></div></div>
+  <button class="btn btn-go" type="submit"><span>Chci ušetřit na splátkách díky fér konsolidaci</span><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
+  </div>
+</form>
+<form role="tabpanel" aria-labelledby="tab-hypoteka" class="calc" data-cat="hypoteka" data-slug="hypoteka" data-mode="home" id="calc-h-hypoteka" hidden novalidate>
+  <div class="calc-fields">
+    <div class="fld-2">
+    
+<div class="fld">
+  <label class="fld-l" for="cena-h-hypoteka">Cena nemovitosti</label>
+  <div class="money" data-min="500000" data-max="30000000" data-step="100000">
+    <button type="button" class="money-btn" data-dir="-1" aria-label="Méně"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+    <input id="cena-h-hypoteka" name="cena" class="money-in" type="text" inputmode="numeric" autocomplete="off" value="5 000 000">
+    <span class="money-u">Kč</span>
+    <button type="button" class="money-btn" data-dir="1" aria-label="Více"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+  </div>
+  <input class="range" type="range" min="500000" max="30000000" step="100000" value="5000000" data-for="cena" aria-label="Cena nemovitosti, posuvník" tabindex="-1">
+</div>
+    
+<div class="fld">
+  <label class="fld-l" for="castka-h-hypoteka">Výše hypotéky</label>
+  <div class="money" data-min="300000" data-max="25000000" data-step="100000">
+    <button type="button" class="money-btn" data-dir="-1" aria-label="Méně"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+    <input id="castka-h-hypoteka" name="castka" class="money-in" type="text" inputmode="numeric" autocomplete="off" value="4 000 000">
+    <span class="money-u">Kč</span>
+    <button type="button" class="money-btn" data-dir="1" aria-label="Více"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+  </div>
+  <input class="range" type="range" min="300000" max="25000000" step="100000" value="4000000" data-for="castka" aria-label="Výše hypotéky, posuvník" tabindex="-1">
+</div>
+    </div>
+    
+<div class="fld">
+  <div class="fld-row">
+    <label class="fld-l" for="roky-h-hypoteka">Splatnost</label>
+    <span class="term-in"><input id="roky-h-hypoteka" name="roky" type="number" inputmode="numeric" min="5" max="30" value="30" aria-describedby="roky-h-hypoteka-u"><span id="roky-h-hypoteka-u">let</span></span>
+  </div>
+  <input class="range" type="range" min="5" max="30" step="1" value="30" data-for="roky" aria-label="Splatnost, posuvník">
+  <div class="range-ends"><span>5 let</span><span>30 let</span></div>
+</div>
+    <div class="fld fld-fix">
+      <span class="fld-l" id="fix-h-hypoteka">Fixace</span>
+      <div class="seg" role="radiogroup" aria-labelledby="fix-h-hypoteka">
+        <label><input type="radio" name="fixace" value="3"><span>3 let</span></label><label><input type="radio" name="fixace" value="5" checked><span>5 let</span></label><label><input type="radio" name="fixace" value="7"><span>7 let</span></label><label><input type="radio" name="fixace" value="10"><span>10 let</span></label>
+      </div>
+    </div></div>
+  <div class="calc-side">
+  <div class="calc-res"><div><span>Splátka od</span><b data-out="splatka">—</b></div><div><span>Sazba od</span><b data-out="sazba">3,99 %</b></div></div>
+  <button class="btn btn-go" type="submit"><span>Chci fér sazbu na hypotéku</span><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
+  </div>
+</form>
+  <p class="calc-note"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg> Nezávazně a zdarma. Údaje nikam neposíláme, dokud sami nechcete.</p>
+</div>
+    </div>
+  </section>
   
 <section class="sec cats" id="co-resite">
   <div class="wrap">
@@ -444,6 +522,6 @@
 </footer>
 
 <script>window.FS_RATES={"uver":{"our":4,"banks":[["Komerční banka",4.7],["Raiffeisenbank",4.8],["MONETA Money Bank",4.87],["Česká spořitelna",4.97],["mBank",4.99],["ČSOB",6.21],["UniCredit Bank",6.49],["ESSOX",7],["Cofidis",8.7]]},"konsolidace":{"our":4,"banks":[["Komerční banka",4.7],["Raiffeisenbank",4.8],["Česká spořitelna",4.97],["mBank",4.99],["MONETA Money Bank",6.33],["UniCredit Bank",6.49],["ESSOX",7],["ČSOB",8.01],["Cofidis",8.7]]},"hypoteka":{"our":3.99,"banks":[["Raiffeisenbank",4.79],["Česká spořitelna",4.89],["MONETA Money Bank",5.04],["UniCredit Bank",5.09],["mBank",5.29],["Komerční banka",5.49],["ČSOB Hypoteční banka",5.59],["ČSOB",5.99]]}};</script>
-<script src="/app.js?v=mwtq75q4" defer></script>
+<script src="/app.js?v=mwtr8as9" defer></script>
 </body>
 </html>

@@ -57,6 +57,6 @@ Prošlo se všech 7 stránek na 1440 px (44 obrazovek). Hlavní slabiny:
 - Kroky: 5 stejných bílých krabic.
 - Recenze: karty dobré, sekce bez vizuálního kotvení.
 - Formulář poptávky dlouhý sloupec bez rytmu, vlevo prázdno.
-Plán po sekcích: 1) hero úvodu (HOTOVO 23. 11.: světlé hero, rodina splývá se stěnou, kalkulačka jako věta s vepsanými čísly, velké živé číslo splátky, štítek „u nejdražší banky +X Kč“), 2) hero podstránek ve stejném jazyce, 3) srovnání bank, 4) kategorie na úvodu, 5) recenze, 6) kroky + O mně, 7) formulář poptávky, 8) FAQ a patička.
+Plán po sekcích: 1) hero úvodu: zkoušel jsem světlou i modrou verzi s kalkulačkou ve větě a fotkou s maskou, Vojta obě odmítl (rozmazané přechody, hrana fotky, „slabé“). Vráceno na PŮVODNÍ hero, to se mu líbí nejvíc. Hero úvodu dál neměnit bez jeho pokynu, 2) hero podstránek ve stejném jazyce, 3) srovnání bank, 4) kategorie na úvodu, 5) recenze, 6) kroky + O mně, 7) formulář poptávky, 8) FAQ a patička.
 Patička: dole „© rok FérSazby.cz“ a „Web od Gomatela“ (drobně jako BASES).
 Domény fersazby.cz a fersazba.cz Vojta koupil 23. 11. na Blueboardu (mail na info@gomatela.cz).
