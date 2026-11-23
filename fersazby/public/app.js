@@ -35,7 +35,9 @@
     tabs.forEach((t) => {
       const on = t === btn;
       t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1;
-      $('#' + t.getAttribute('aria-controls')).hidden = !on;
+      const f = $('#' + t.getAttribute('aria-controls'));
+      f.hidden = !on;
+      if (on) { fitAll(f); calc(f); }
     });
     if (focus) btn.focus();
   };
@@ -46,6 +48,20 @@
       if (d) { e.preventDefault(); selectTab(tabs[(i + d + tabs.length) % tabs.length], true); }
     });
   });
+
+  /* ---------- čísla vepsaná do věty: šířka podle obsahu ---------- */
+  // Šířka přesně podle textu (písmo Poppins má úzkou mezeru, takže „ch“ by nechal díru).
+  const ctx = document.createElement('canvas').getContext('2d');
+  const fit = (inp) => {
+    const cs = getComputedStyle(inp); ctx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+    ctx.letterSpacing = cs.letterSpacing;
+    const t = inp.tagName === 'SELECT' ? inp.options[inp.selectedIndex].text : inp.value || '0';
+    inp.style.width = Math.ceil(ctx.measureText(t).width + 3) + 'px';
+  };
+  const fitAll = (root) => $$('.inl input', root).forEach(fit);
+  ['input', 'change'].forEach((ev) => document.addEventListener(ev, (e) => { if (e.target.closest?.('.inl')) fit(e.target); }));
+  fitAll(document);
+  document.fonts?.ready.then(() => fitAll(document));
 
   /* ---------- pole s částkou + posuvníky ---------- */
   const paintRange = (r) => r.style.setProperty('--p', ((r.value - r.min) / (r.max - r.min)) * 100 + '%');
@@ -61,6 +77,7 @@
     } else {
       v = clamp(Math.round(v), +inp.min, +inp.max); inp.value = v;
     }
+    if (inp.closest('.inl')) fit(inp);
     if (r && !fromRange) r.value = clamp(v, +r.min, +r.max);
     if (r) paintRange(r);
   };
@@ -106,9 +123,21 @@
     const s = state(form);
     const out = (k, v) => { const o = $(`[data-out="${k}"]`, form); if (o) o.textContent = v; };
     out('splatka', s.n ? kc(s.pay) : '—');
+    out('splatka-n', s.n ? fmt(s.pay) : '—');
     if (s.cat === 'konsolidace') {
       const save = s.splatka - s.pay;
       out('uspora', save > 0 ? kc(save) + '/měs.' : 'spočítáme');
+      out('uspora-n', save > 0 ? fmt(save) : '0');
+    }
+    // Úvod: velké číslo cvakne a štítek na fotce ukáže rozdíl proti nejdražší bance.
+    if (form.dataset.mode === 'home' && !form.hidden) {
+      const big = $('.sx-num b', form);
+      if (big && big.textContent !== big.dataset.last) { big.dataset.last = big.textContent; big.classList.remove('tick'); void big.offsetWidth; big.classList.add('tick'); }
+      const chip = $('[data-hx="rozdil"]');
+      if (chip && RATES[s.cat]) {
+        const worst = Math.max(...RATES[s.cat].banks.map(([, r]) => pmt(s.castka, r, s.n)));
+        chip.textContent = s.n && worst > s.pay ? '+' + kc(worst - s.pay) : '—';
+      }
     }
     if (form.dataset.mode === 'page') renderOffers(s);
     return s;

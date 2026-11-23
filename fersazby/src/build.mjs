@@ -125,7 +125,13 @@ const footer = () => `
   </div>
   <div class="wrap foot-legal">
     <p>${SITE.person}, IČ ${SITE.ico}, vázaná zástupkyně společnosti ${SITE.represented} (IČ ${SITE.representedIco}), zapsaná v registru České národní banky. Uvedené sazby a splátky jsou orientační, konečné podmínky stanoví banka podle vaší situace.</p>
-    <p><a href="/ochrana-osobnich-udaju">Ochrana osobních údajů</a> · © ${new Date().getFullYear()} ${SITE.name}</p>
+    <p><a href="/ochrana-osobnich-udaju">Ochrana osobních údajů</a></p>
+  </div>
+  <div class="foot-sig">
+    <div class="wrap foot-sig-in">
+      <span>© ${new Date().getFullYear()} FérSazby.cz</span>
+      <a href="https://gomatela.cz" target="_blank" rel="noopener">Web od <b>Gomatela</b><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2 10.2 3.6v4.8L6 10.8 1.8 8.4V3.6z"/></svg></a>
+    </div>
   </div>
 </footer>`;
 
@@ -201,6 +207,65 @@ const homeCalc = () => `
   ${ACTIVE.map((c) => calcPanel(c, `h-${c.key}`, 'home').replace('<form ', `<form role="tabpanel" aria-labelledby="tab-${c.key}" `)).join('')}
   <p class="calc-note">${icon('lock')} Nezávazně a zdarma. Údaje nikam neposíláme, dokud sami nechcete.</p>
 </div>`;
+
+// ---------- hero úvodu: kalkulačka jako věta ----------
+// Čísla se píšou rovnou do věty, pod ní tenké posuvníky (Denisa: zobáček na splatnosti, výchozí 240 měsíců).
+const inlMoney = (name, label, val, min, max, step, id) => `<span class="money inl" data-min="${min}" data-max="${max}" data-step="${step}"><input id="${name}-${id}" name="${name}" class="money-in" type="text" inputmode="numeric" autocomplete="off" value="${fmt(val)}" aria-label="${label}"><span class="money-u">Kč</span></span>`;
+const inlTerm = (name, label, val, min, max, id) => `<span class="term-in inl"><input id="${name}-${id}" name="${name}" type="number" inputmode="numeric" min="${min}" max="${max}" value="${val}" aria-label="${label}"></span>`;
+const slim = (name, label, val, min, max, step, ends) => `<label class="sx-r"><span class="sx-rl">${label}</span><input class="range" type="range" min="${min}" max="${max}" step="${step}" value="${val}" data-for="${name}" aria-label="${label}, posuvník"><span class="sx-re"><span>${ends[0]}</span><span>${ends[1]}</span></span></label>`;
+const SENT = {
+  uver: (id) => ({
+    s: `Potřebuji ${inlMoney('castka', 'Kolik potřebujete', 300000, 20000, 2500000, 10000, id)} a&nbsp;splácet chci ${inlTerm('mesice', 'Splatnost v měsících', 240, 12, 240, id)} měsíců.`,
+    r: slim('castka', 'Částka', 300000, 20000, 2500000, 10000, ['20 tis.', '2,5 mil.']) + slim('mesice', 'Splatnost', 240, 12, 240, 1, ['12 měs.', '240 měs.']),
+  }),
+  konsolidace: (id) => ({
+    s: `Dlužím ${inlMoney('castka', 'Kolik celkem dlužíte', 500000, 50000, 3000000, 10000, id)}, měsíčně splácím ${inlMoney('splatka', 'Kolik teď měsíčně splácíte', 9500, 500, 80000, 100, id)} a&nbsp;nově chci splácet ${inlTerm('mesice', 'Nová splatnost v měsících', 240, 12, 240, id)} měsíců.`,
+    r: slim('castka', 'Dluh', 500000, 50000, 3000000, 10000, ['50 tis.', '3 mil.']) + slim('splatka', 'Dnešní splátky', 9500, 500, 80000, 100, ['500', '80 tis.']) + slim('mesice', 'Splatnost', 240, 12, 240, 1, ['12', '240 měs.']),
+  }),
+  hypoteka: (id) => ({
+    s: `Kupuji za ${inlMoney('cena', 'Cena nemovitosti', 5000000, 500000, 30000000, 100000, id)}, potřebuji ${inlMoney('castka', 'Výše hypotéky', 4000000, 300000, 25000000, 100000, id)} na ${inlTerm('roky', 'Splatnost v letech', 30, 5, 30, id)} let s&nbsp;fixací <span class="sel-in inl"><select name="fixace" aria-label="Fixace">${[3, 5, 7, 10].map((y) => `<option value="${y}"${y === 5 ? ' selected' : ''}>${y} let</option>`).join('')}</select></span>.`,
+    r: slim('cena', 'Cena', 5000000, 500000, 30000000, 100000, ['0,5', '30 mil.']) + slim('castka', 'Hypotéka', 4000000, 300000, 25000000, 100000, ['0,3', '25 mil.']) + slim('roky', 'Splatnost', 30, 5, 30, 1, ['5', '30 let']),
+  }),
+};
+const hxPanel = (c) => {
+  const id = 'h-' + c.key, f = SENT[c.key](id), kons = c.key === 'konsolidace';
+  return `
+<form class="calc sx" data-cat="${c.key}" data-slug="${c.slug}" data-mode="home" id="calc-${id}" role="tabpanel" aria-labelledby="tab-${c.key}"${c.key !== ACTIVE[0].key ? ' hidden' : ''} novalidate>
+  <p class="sx-s">${f.s}</p>
+  <div class="sx-rs">${f.r}</div>
+  <div class="sx-res">
+    <div class="sx-num">
+      <span class="sx-lab">${kons ? 'Ušetříte až' : 'Splátka od'}</span>
+      <b data-out="${kons ? 'uspora-n' : 'splatka-n'}">—</b><span class="sx-cur">Kč<small>/měs.</small></span>
+      <span class="sx-sub">${kons ? 'nová splátka od <b data-out="splatka">—</b>' : `fér sazba od <b>${pct(RATES[c.key].our)}</b>`}</span>
+    </div>
+    <button class="btn btn-go sx-go" type="submit"><span>${c.cta}</span>${icon('arrow')}</button>
+  </div>
+</form>`;
+};
+const heroX = () => `
+<section class="hx">
+  <div class="hx-photo">
+    <picture>
+      <source media="(max-width: 860px)" srcset="/assets/hero-m-900.webp">
+      <img src="/assets/hero-rodina-1040.webp" alt="Spokojená rodina doma na gauči" width="1040" height="900" fetchpriority="high">
+    </picture>
+    <p class="hx-chip" aria-live="polite"><span class="hx-chip-k">U nejdražší banky</span><b data-hx="rozdil">—</b><span class="hx-chip-k">měsíčně navíc</span></p>
+  </div>
+  <div class="wrap hx-in">
+    <div class="hx-main">
+      <p class="hx-brand">${logoSvg('logo-hero')}</p>
+      <h1>Sazba, která je k&nbsp;vám <em>prostě&nbsp;fér.</em></h1>
+      <div class="hx-calc" id="spocitat">
+        <div class="hx-tabs tabs" role="tablist" aria-label="Co chcete spočítat">
+          ${ACTIVE.map((c, i) => `<button type="button" role="tab" id="tab-${c.key}" aria-controls="calc-h-${c.key}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-tab="${c.key}">${c.short}</button>`).join('')}
+        </div>
+        ${ACTIVE.map(hxPanel).join('')}
+        <p class="hx-note">${icon('lock')}<span>Nezávazně a&nbsp;zdarma</span><span>${new Set(ACTIVE.flatMap((c) => RATES[c.key].banks.map((b) => b[0]))).size} bank ve srovnání</span><span>Bez registrace</span></p>
+      </div>
+    </div>
+  </div>
+</section>`;
 
 // ---------- sdílené sekce ----------
 const STEPS = [
@@ -542,29 +607,11 @@ const ld = () => `<script type="application/ld+json">${JSON.stringify({
   ],
 })}</script>`;
 
-const home = () => typo(`${head({ title: 'FérSazby.cz | Úvěr, konsolidace a hypotéka za fér sazbu', desc: 'Spočítejte si úvěr, konsolidaci nebo hypotéku a podívejte se, kolik byste platili u jednotlivých bank. Fér sazba od 3,99 %. Denisa Holazová.', path: '/', extraHead: ld() + '\n<link rel="preload" as="image" href="/assets/hero-1600.webp" media="(min-width: 861px)">\n<link rel="preload" as="image" href="/assets/hero-m-900.webp" media="(max-width: 860px)">' })}
+const home = () => typo(`${head({ title: 'FérSazby.cz | Úvěr, konsolidace a hypotéka za fér sazbu', desc: 'Spočítejte si úvěr, konsolidaci nebo hypotéku a podívejte se, kolik byste platili u jednotlivých bank. Fér sazba od 3,99 %. Denisa Holazová.', path: '/', extraHead: ld() + '\n<link rel="preload" as="image" href="/assets/hero-rodina-1040.webp" media="(min-width: 861px)">\n<link rel="preload" as="image" href="/assets/hero-m-900.webp" media="(max-width: 860px)">' })}
 <body class="pg-home">
 ${header()}
 <main id="obsah">
-  <section class="hero">
-    <picture class="hero-bg">
-      <source media="(max-width: 860px)" srcset="/assets/hero-m-900.webp">
-      <img src="/assets/hero-1600.webp" alt="Spokojená rodina doma na gauči" width="1600" height="900" fetchpriority="high">
-    </picture>
-    <div class="hero-in wrap">
-      <div class="hero-txt">
-        <p class="hero-brand">${logoSvg('logo-hero')}</p>
-        <h1>Sazba, která je k&nbsp;vám <em>prostě&nbsp;fér.</em></h1>
-        <p class="hero-lead">Řekněte, kolik potřebujete. Srovnám banky, vyjednám sazbu a vy jen podepíšete.</p>
-        <ul class="hero-proof">
-          <li><b>${pct(RATES.hypoteka.our)}</b><span>hypotéka od</span></li>
-          <li><b>${pct(RATES.uver.our)}</b><span>úvěr od</span></li>
-          <li><b>10</b><span>bank ve srovnání</span></li>
-        </ul>
-      </div>
-      ${homeCalc()}
-    </div>
-  </section>
+  ${heroX()}
   ${homeCats()}
   ${reviews()}
   ${steps()}

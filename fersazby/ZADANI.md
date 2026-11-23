@@ -46,3 +46,17 @@ Hotovo na náhledu fersazby.gomatela.cz (commity 1d3514c, 0369a43):
 - Podstránky (všechny tři, nejvíc dotažený Úvěr): citace z recenze v úvodu, tyrkysový pruh s čísly, srovnání bank s pruhy „kolik navíc“ (mobil 5 bank + tlačítko), recenze, formulář, otočné karty „na co“ (zadní strana = příklad splátky + předvyplní kalkulačku), Sami v bance × S FérSazby, kroky jako money2u průběh, FAQ, pruh „Napsat přes Kontakt“. Texty sekcí v `src/obsah.mjs`.
 - Lighthouse Úvěr (lokál, mobil): výkon 96, přístupnost 100, best practices 100.
 Vojta 23. 11.: recenze Petra V. a Jan P. (zmiňují pojištění auta) zatím nechat, ZEPTAT SE DENISY, až jí půjde nástřel. Telefon všude, kde dává smysl (hlavička, mobilní menu, Kontakt, pruh na konci stránek, patička). Kontakt bez SMS ok. Oprava překlepu nenabídla ok.
+
+## 23. 11. 2026 večer: kritický průchod na počítači a plán (Vojta: „slabé, trochu AI, chci awwwards“)
+Prošlo se všech 7 stránek na 1440 px (44 obrazovek). Hlavní slabiny:
+- Všechny podstránky mají stejnou šablonu hera (tmavá fotka s přechodem, nadpis vlevo, bílá karta s kalkulačkou vpravo) a pod tím řadu sekcí se stejným rytmem: čárka, malý nadpis, velký nadpis, mřížka karet. Tohle dělá ten „AI“ dojem.
+- Úvod: logo dvakrát nad sebou (hlavička a hero), malý nadpis, kalkulačka jako bílá lišta ze SaaS.
+- Karty kategorií na úvodu mají nesourodé výšky a čísla (od 4,00 % vedle obřího od 3,99 %).
+- Pruh s čísly (4,00 % / 9 / 15+ / 850+) se opakuje s O mně, čísla bez kontextu.
+- „Na co to bude“: 4 stejné karty s ikonou a velkým číslem 01–04, prázdné místo uprostřed karty.
+- Kroky: 5 stejných bílých krabic.
+- Recenze: karty dobré, sekce bez vizuálního kotvení.
+- Formulář poptávky dlouhý sloupec bez rytmu, vlevo prázdno.
+Plán po sekcích: 1) hero úvodu (HOTOVO 23. 11.: světlé hero, rodina splývá se stěnou, kalkulačka jako věta s vepsanými čísly, velké živé číslo splátky, štítek „u nejdražší banky +X Kč“), 2) hero podstránek ve stejném jazyce, 3) srovnání bank, 4) kategorie na úvodu, 5) recenze, 6) kroky + O mně, 7) formulář poptávky, 8) FAQ a patička.
+Patička: dole „© rok FérSazby.cz“ a „Web od Gomatela“ (drobně jako BASES).
+Domény fersazby.cz a fersazba.cz Vojta koupil 23. 11. na Blueboardu (mail na info@gomatela.cz).
