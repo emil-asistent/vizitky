@@ -90,13 +90,17 @@ ${logoSprite()}
       ${ACTIVE.map((c) => `<a href="/${c.slug}"${active === c.key ? ' aria-current="page"' : ''}>${c.short}</a>`).join('')}
       <a href="/#recenze">Recenze</a>
     </nav>
-    <a class="head-cta" href="/kontakt"${active === 'kontakt' ? ' aria-current="page"' : ''}>${icon('chat')}<span>Kontakt</span></a>
+    <div class="head-act">
+      <a class="head-tel" href="${SITE.phoneHref}" aria-label="Zavolat ${SITE.phone}">${icon('phone')}<span>${SITE.phone}</span></a>
+      <a class="head-cta" href="/kontakt"${active === 'kontakt' ? ' aria-current="page"' : ''}>${icon('chat')}<span>Kontakt</span></a>
+    </div>
     <button class="head-burger" type="button" aria-expanded="false" aria-controls="mobmenu" aria-label="Menu"><span></span><span></span></button>
   </div>
   <div class="mobmenu" id="mobmenu" hidden>
     ${ACTIVE.map((c) => `<a href="/${c.slug}">${icon(c.icon)}<span>${c.name}</span>${icon('arrow', 'ic-go')}</a>`).join('')}
     <a href="/#recenze">${icon('chat')}<span>Recenze klientů</span>${icon('arrow', 'ic-go')}</a>
     <a class="mobmenu-cta" href="/kontakt">${icon('send')} Napsat přes Kontakt</a>
+    <a class="mobmenu-tel" href="${SITE.phoneHref}">${icon('phone')} Zavolat ${SITE.phone}</a>
     <a class="mobmenu-mail" href="mailto:${SITE.email}">${SITE.email}</a>
   </div>
 </header>`;
@@ -269,7 +273,7 @@ const contactBand = (tema = '') => `
   <div class="wrap cband-in">
     <div>
       <p class="cband-h">Raději se nejdřív na něco zeptat?</p>
-      <p class="cband-p">Napište pár slov, zpráva mi přijde rovnou do mailu.</p>
+      <p class="cband-p">Napište pár slov, nebo zavolejte na <a href="${SITE.phoneHref}">${SITE.phone}</a>.</p>
     </div>
     <a class="btn cband-btn" href="/kontakt${tema ? '?tema=' + tema : ''}">${icon('send')}<span>Napsat přes Kontakt</span></a>
   </div>
@@ -620,10 +624,10 @@ ${header('kontakt', true)}
       <div class="kt-txt">
         <p class="eyebrow eyebrow-light">Kontakt</p>
         <h1>Napište, s čím<br><em>potřebujete pomoct</em></h1>
-        <p class="kt-lead">Čtyři políčka a jedno tlačítko. Zpráva mi přijde rovnou do mailu a ozvu se vám. Žádný e-mail si psát nemusíte.</p>
+        <p class="kt-lead">Čtyři políčka a jedno tlačítko. Zpráva mi přijde rovnou do mailu a ozvu se vám. Žádný e-mail si psát nemusíte. Když spěcháte, zavolejte.</p>
         <figure class="kt-who">
           <img src="/assets/denisa-holazova-portret-500.webp" alt="" width="500" height="625" loading="lazy">
-          <figcaption><b>${SITE.person}</b><span>${SITE.personRole}</span><a href="mailto:${SITE.email}">${icon('mail')}${SITE.email}</a></figcaption>
+          <figcaption><b>${SITE.person}</b><span>${SITE.personRole}</span><a href="${SITE.phoneHref}">${icon('phone')}${SITE.phone}</a><a href="mailto:${SITE.email}">${icon('mail')}${SITE.email}</a></figcaption>
         </figure>
       </div>
       <div class="kt-card">

@@ -39,10 +39,10 @@ Zatím nic.
 Rozhodnutí Denisy (mail 22. 11., podklady/denisa-2026-11-22/): logo A1, v hlavičce Kontakt → krátký formulář, pojištění vozidla ZATÍM NE, recenze jen z jejího souboru (26 ks).
 Hotovo na náhledu fersazby.gomatela.cz (commity 1d3514c, 0369a43):
 - Logo A1 všude: `src/logo/web_a1.py` → `logo-a1.json` → jeden `<symbol>` na stránku, barvy přes CSS proměnné (--l-t/r/f/s/c). Favicony, apple-touch, manifest a og.jpg ze znaku / s A1.
-- Hlavička: Úvěr, Konsolidace, Hypotéka, Recenze + tlačítko Kontakt (telefon z hlavičky pryč, zůstal v patičce). Na mobilu Kontakt + menu.
+- Hlavička: Úvěr, Konsolidace, Hypotéka, Recenze + tlačítko Kontakt (vedle Kontaktu i telefon, na tabletu jen ikona). Na mobilu Kontakt + menu.
 - /kontakt: jméno, e-mail, telefon, téma (4 dlaždice, ?tema= předvybere), nepovinná zpráva, Odeslat. Bez SMS (Denisa chtěla jedno tlačítko). `/api/kontakt`: honeypot + min. 2,5 s + 5/h z IP; na náhledu jde na PREVIEW_MAIL_TO (vojta@gomatela.cz). MAIL_DRY=1 = jen log (testy).
 - Pojištění: kategorie `active: false` v data.mjs (návrat = smazat), /pojisteni-auta a /navrhy-loga → 301 na /.
 - Recenze `src/recenze.mjs` (doslova, jen bez uvozovek, oprava „nenabidla“), na úvodu všech 26 s filtrem, na podstránkách jen jejich kategorie (úvěr 10, konsolidace 11, hypotéka 5).
 - Podstránky (všechny tři, nejvíc dotažený Úvěr): citace z recenze v úvodu, tyrkysový pruh s čísly, srovnání bank s pruhy „kolik navíc“ (mobil 5 bank + tlačítko), recenze, formulář, otočné karty „na co“ (zadní strana = příklad splátky + předvyplní kalkulačku), Sami v bance × S FérSazby, kroky jako money2u průběh, FAQ, pruh „Napsat přes Kontakt“. Texty sekcí v `src/obsah.mjs`.
 - Lighthouse Úvěr (lokál, mobil): výkon 96, přístupnost 100, best practices 100.
-Otevřené pro Vojtu: recenze Petra V. a Jan P. zmiňují pojištění auta (nechány); telefon v patičce nechat?; Kontakt bez SMS ověření ok?
+Vojta 23. 11.: recenze Petra V. a Jan P. (zmiňují pojištění auta) zatím nechat, ZEPTAT SE DENISY, až jí půjde nástřel. Telefon všude, kde dává smysl (hlavička, mobilní menu, Kontakt, pruh na konci stránek, patička). Kontakt bez SMS ok. Oprava překlepu nenabídla ok.
