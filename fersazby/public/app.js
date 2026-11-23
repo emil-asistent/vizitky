@@ -264,41 +264,100 @@
     $('[data-sms-back]').addEventListener('click', () => { sms.hidden = true; lead.hidden = false; lead.elements.telefon.focus(); });
   }
 
-  /* ---------- recenze: posun, filtr, rozbalení ---------- */
+  /* ---------- recenze: pomalý samovolný posun dokola, šipky, filtr, rozbalení ---------- */
+  // Karty se za railem zopakují (kopie jsou skryté pro čtečky), takže pás jede pořád dokola.
+  // Najetí myší posun zastaví, šipky a tažení přepnou na ruční ovládání, po chvíli klidu se zase rozjede.
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
   $$('.rv').forEach((sec) => {
     const rail = $('.rv-rail', sec), bar = $('.rv-bar span', sec);
     const prev = $('.rv-arr[data-dir="-1"]', sec), next = $('.rv-arr[data-dir="1"]', sec);
-    const cards = () => $$('.rv-card:not([hidden])', rail);
-    const sync = () => {
-      const max = rail.scrollWidth - rail.clientWidth;
-      const vis = Math.min(1, rail.clientWidth / Math.max(rail.scrollWidth, 1));
-      const w = Math.max(vis * 100, 8);
-      bar.style.width = w + '%';
-      bar.style.transform = `translateX(${max > 0 ? (rail.scrollLeft / max) * (100 / w - 1) * 100 : 0}%)`;
-      prev.disabled = rail.scrollLeft < 4; next.disabled = rail.scrollLeft > max - 4;
+    $$('.rv-card', rail).forEach((c) => {
+      const k = c.cloneNode(true);
+      k.classList.add('rv-clone'); k.setAttribute('aria-hidden', 'true'); k.inert = true;
+      rail.appendChild(k);
+    });
+    const real = () => $$('.rv-card:not([hidden]):not(.rv-clone)', rail);
+    let loopW = 0, loop = false;
+    const measure = () => {
+      rail.classList.remove('rv-noloop');
+      const a = real()[0], b = $('.rv-clone:not([hidden])', rail);
+      loopW = a && b ? b.offsetLeft - a.offsetLeft : 0;
+      loop = loopW > rail.clientWidth + 40;
+      rail.classList.toggle('rv-noloop', !loop);
     };
-    const step = () => { const c = cards()[0]; return c ? c.offsetWidth + 18 : 300; };
-    // „Celý příběh“ jen u karet, kde se text nevejde.
-    const clampCheck = () => cards().forEach((c) => {
+    const wrap = () => {
+      if (!loop) return;
+      if (rail.scrollLeft >= loopW) rail.scrollLeft -= loopW;
+    };
+    const sync = () => {
+      const span = loop ? loopW : rail.scrollWidth - rail.clientWidth + 0.001;
+      const w = Math.max(Math.min(1, rail.clientWidth / (span + rail.clientWidth)) * 100, 8);
+      const f = loop ? (rail.scrollLeft % loopW) / loopW : rail.scrollLeft / span;
+      bar.style.width = w + '%';
+      bar.style.transform = `translateX(${Math.min(1, f) * (100 / w - 1) * 100}%)`;
+      prev.disabled = !loop && rail.scrollLeft < 4;
+      next.disabled = !loop && rail.scrollLeft > span - 4;
+    };
+    const step = () => { const c = real()[0]; return c ? c.offsetWidth + parseFloat(getComputedStyle(rail).columnGap || 18) : 300; };
+    const clampCheck = () => $$('.rv-card:not([hidden])', rail).forEach((c) => {
       if (c.classList.contains('open')) return;
       const p = $('blockquote p', c), b = $('.rv-more', c);
       b.hidden = p.scrollHeight <= p.clientHeight + 2;
     });
-    $$('.rv-arr', sec).forEach((b) => b.addEventListener('click', () => rail.scrollBy({ left: step() * b.dataset.dir, behavior: 'smooth' })));
-    rail.addEventListener('scroll', sync, { passive: true });
-    addEventListener('resize', () => { clampCheck(); sync(); });
+
+    // ----- samovolný posun -----
+    const SPEED = 28;                                  // px za sekundu
+    let hover = false, seen = false, manualUntil = 0, pos = 0, last = 0, raf = 0;
+    const canRun = () => loop && !still && seen && !hover && !document.hidden && Date.now() > manualUntil && !$('.rv-card.open', rail);
+    const tick = (t) => {
+      raf = requestAnimationFrame(tick);
+      const dt = last ? Math.min(t - last, 64) : 0; last = t;
+      const run = canRun();
+      rail.classList.toggle('rv-auto', run || hover);
+      if (!run) { pos = rail.scrollLeft; return; }
+      pos += (SPEED * dt) / 1000;
+      if (pos >= loopW) pos -= loopW;
+      rail.scrollLeft = pos;
+      sync();
+    };
+    const manual = (ms = 5000) => { manualUntil = Date.now() + ms; rail.classList.remove('rv-auto'); };
+    if (!still) {
+      new IntersectionObserver(([e]) => { seen = e.isIntersecting; }, { threshold: 0.2 }).observe(rail);
+      rail.addEventListener('mouseenter', () => { hover = true; });
+      rail.addEventListener('mouseleave', () => { hover = false; last = 0; });
+      rail.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') manual(); });
+      rail.addEventListener('touchstart', () => manual(), { passive: true });
+      rail.addEventListener('wheel', (e) => { if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) manual(); }, { passive: true });
+      rail.addEventListener('focusin', () => manual(8000));
+      raf = requestAnimationFrame(tick);
+    }
+
+    $$('.rv-arr', sec).forEach((b) => b.addEventListener('click', () => {
+      manual(6000);
+      const d = +b.dataset.dir, s = step();
+      if (loop && d < 0 && rail.scrollLeft - s < 0) rail.scrollLeft += loopW;
+      if (loop && d > 0 && rail.scrollLeft + s >= loopW) rail.scrollLeft -= loopW;
+      // Bez přichycení by šipka skončila mezi kartami, tak dojedeme na nejbližší kartu.
+      const cards = $$('.rv-card:not([hidden])', rail), x = rail.scrollLeft;
+      const target = cards.map((c) => c.offsetLeft - cards[0].offsetLeft).find((o) => d > 0 ? o > x + 8 : false)
+        ?? cards.map((c) => c.offsetLeft - cards[0].offsetLeft).filter((o) => o < x - 8).pop() ?? 0;
+      rail.scrollTo({ left: target, behavior: still ? 'auto' : 'smooth' });
+    }));
+    let endT = 0;
+    rail.addEventListener('scroll', () => { sync(); clearTimeout(endT); endT = setTimeout(() => { if (Date.now() <= manualUntil) wrap(); sync(); }, 160); }, { passive: true });
+    addEventListener('resize', () => { measure(); clampCheck(); sync(); });
     $$('.rv-more', sec).forEach((b) => b.addEventListener('click', () => {
       const c = b.closest('.rv-card'), open = c.classList.toggle('open');
       b.textContent = open ? 'Sbalit' : 'Celý příběh'; b.setAttribute('aria-expanded', open);
-      sync();
+      manual(4000); sync();
     }));
     $$('.rv-filter button', sec).forEach((b) => b.addEventListener('click', () => {
       $$('.rv-filter button', sec).forEach((x) => x.setAttribute('aria-pressed', x === b));
       $$('.rv-card', rail).forEach((c) => { c.hidden = !!b.dataset.f && c.dataset.cat !== b.dataset.f; });
-      rail.scrollTo({ left: 0 }); clampCheck(); sync();
+      rail.scrollTo({ left: 0 }); pos = 0; manual(2500); measure(); clampCheck(); sync();
     }));
-    clampCheck(); sync();
-    if (document.fonts) document.fonts.ready.then(() => { clampCheck(); sync(); });
+    measure(); clampCheck(); sync();
+    if (document.fonts) document.fonts.ready.then(() => { measure(); clampCheck(); sync(); });
   });
 
   /* ---------- otočné karty „Na co to bude“ ---------- */

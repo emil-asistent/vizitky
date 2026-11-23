@@ -411,6 +411,8 @@ fieldset.invalid span { border-color: #C9533B; }
 .rv-filter button[aria-pressed="true"] small { opacity: .8; color: var(--teal); }
 .rv-rail { --pad: max(var(--gut), calc((100vw - var(--wrap)) / 2 + var(--gut))); display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--pad); padding: 40px var(--pad) 8px; scrollbar-width: none; align-items: flex-start; outline: none; }
 .rv-rail::-webkit-scrollbar { display: none; }
+.rv-rail.rv-auto { scroll-snap-type: none; }
+.rv-rail.rv-noloop .rv-clone { display: none; }
 .rv-card { position: relative; flex: 0 0 clamp(290px, 29vw, 372px); scroll-snap-align: start; background: #fff; border-radius: 24px; padding: 26px 26px 24px; display: flex; flex-direction: column; box-shadow: 0 30px 60px -40px rgba(13, 31, 58, .45); }
 .rv-card[hidden] { display: none; }
 .rv-card::after { content: '“'; position: absolute; top: 6px; right: 22px; font-family: var(--f-num); font-weight: 900; font-size: 84px; line-height: 1; color: var(--teal-2); pointer-events: none; }
