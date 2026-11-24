@@ -134,6 +134,7 @@ const footer = () => `
 
 const scripts = () => `
 <script>window.FS_RATES=${JSON.stringify(RATES)};</script>
+<script src="/lenis.min.js?v=1.1.20" defer></script>
 <script src="/app.js?v=${V}" defer></script>
 </body>
 </html>`;

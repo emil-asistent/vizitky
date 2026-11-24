@@ -11,6 +11,13 @@
   const pmt = (P, rate, n) => { const r = rate / 100 / 12; if (!P || !n) return 0; return r ? P * r / (1 - (1 + r) ** -n) : P / n; };
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* Jemné rolování kolečkem myši (touchpad a dotyk zůstávají přirozené). */
+  if (!still && window.Lenis && matchMedia('(pointer: fine)').matches) {
+    const lenis = new Lenis({ lerp: 0.11, wheelMultiplier: 1, smoothWheel: true, anchors: { offset: -88 } });
+    const raf = (t) => { lenis.raf(t); requestAnimationFrame(raf); };
+    requestAnimationFrame(raf);
+    window.lenis = lenis;
+  }
 
   /* ---------- přetáčení číslic u velké splátky v hero ---------- */
   const COL = '<span class="rd-c">' + [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((d) => `<span>${d}</span>`).join('') + '</span>';
