@@ -82,3 +82,8 @@ Zdroj fotky má jen 1672 px (AI, GPT), na retině je lehce měkká; zvětšení 
 - Výpočet rozložení je v `styles.css`, blok „ÚVOD — fotka přes celou první obrazovku“. Kalkulačka má tři výšky podle okna (294 / 262 / 238 px), z výšky kalkulačky se počítá nejmenší výška fotky, při které zůstane brada holčičky nad záložkami. Na vysokých monitorech kalkulačka vyjede výš za obličeji.
 - Zkontrolováno skriptem na 28 velikostech od 1200×700 po 3440×1340 (obličeje nad kalkulačkou, text mimo obrys rodiny, tlačítko vidět) a v jádru Safari. Pod 650 px výšky okna je tlačítko kalkulačky pod okrajem, stejně jako dřív.
 - Návrat k předchozí podobě: git tag `hero-v2-2026-11-24`.
+
+## 24. 11. 2026 večer: první náhled odeslán Denise
+- Vojta poslal Denise mail s odkazem na náhled. Je to první verze, chceme upřímný dojem jen k počítačové verzi (mobil zatím neřešený). Ptá se i na recenze Petry V. a Jana P. (pojištění auta). Zpětnou vazbu může poslat i hlasovkou.
+- Hlasovku Vojta přepošle na emil.asistent@gomatela.cz. Přepis jen lokálně (Whisper na Studiu), nikdy do cloudu.
+- Téhož dne ještě nasazeno: kompaktní patička s tenkým podpisem Gomatela, průhledná hlavička s velkým logem na podstránkách, jemné rolování kolečkem myši (Lenis).
