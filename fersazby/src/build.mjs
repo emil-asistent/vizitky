@@ -107,29 +107,26 @@ ${logoSprite()}
 
 const footer = () => `
 <footer class="site-foot">
-  <div class="wrap foot-grid">
+  <div class="wrap foot-top">
     <div class="foot-brand">
       ${logo('logo-light')}
-      <p>Srovnání úvěrů, konsolidací a hypoték. Za webem stojí ${SITE.person}, ${SITE.personRole}.</p>
+      <p>Srovnání úvěrů, konsolidací a&nbsp;hypoték. Za webem stojí ${SITE.person}, ${SITE.personRole}.</p>
     </div>
-    <div class="foot-col">
-      <h3>Spočítat</h3>
+    <nav class="foot-nav" aria-label="Spočítat">
       ${ACTIVE.map((c) => `<a href="/${c.slug}">${c.name}</a>`).join('')}
-    </div>
-    <div class="foot-col">
-      <h3>Kontakt</h3>
-      <a href="/kontakt">Napsat zprávu</a>
+    </nav>
+    <div class="foot-con">
+      <a class="foot-tel" href="${SITE.phoneHref}">${SITE.phone}</a>
       <a href="mailto:${SITE.email}">${SITE.email}</a>
-      <a href="${SITE.phoneHref}">${SITE.phone}</a>
+      <a class="foot-msg" href="/kontakt">Napsat zprávu</a>
     </div>
   </div>
   <div class="wrap foot-legal">
     <p>${SITE.person}, IČ ${SITE.ico}, vázaná zástupkyně společnosti ${SITE.represented} (IČ ${SITE.representedIco}), zapsaná v registru České národní banky. Uvedené sazby a splátky jsou orientační, konečné podmínky stanoví banka podle vaší situace.</p>
-    <p><a href="/ochrana-osobnich-udaju">Ochrana osobních údajů</a></p>
   </div>
   <div class="foot-sig">
     <div class="wrap foot-sig-in">
-      <span>© ${new Date().getFullYear()} FérSazby.cz</span>
+      <span>© ${new Date().getFullYear()}<span class="foot-nm"> FérSazby.cz</span><i>·</i><a class="foot-gdpr" href="/ochrana-osobnich-udaju">Ochrana osobních údajů</a></span>
       <a href="https://gomatela.cz" target="_blank" rel="noopener">Web od <b>Gomatela</b><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2 10.2 3.6v4.8L6 10.8 1.8 8.4V3.6z"/></svg></a>
     </div>
   </div>
