@@ -656,7 +656,7 @@ ${scripts()}`);
 // ---------- stránka kategorie ----------
 const catPage = (c) => typo(`${head({ title: c.title, desc: c.desc, path: '/' + c.slug })}
 <body class="pg-cat pg-${c.key}">
-${header(c.key, true)}
+${header(c.key)}
 <main id="obsah">
   <section class="phero">
     <div class="phero-bg" style="--img:url(/assets/${c.photo}-1200.webp)" aria-hidden="true"></div>
