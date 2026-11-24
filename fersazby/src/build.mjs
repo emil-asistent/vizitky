@@ -277,7 +277,7 @@ const heroV2 = () => `
   <div class="hv-bg">
     <picture class="hv-pic">
       <source media="(max-width: 860px)" srcset="/assets/hero-m-900.webp">
-      <img src="/assets/hero-rodina-1672.webp" alt="Spokojená rodina doma na gauči" width="1672" height="941" fetchpriority="high">
+      <img src="/assets/hero-rodina-vys-1672.webp" alt="Spokojená rodina doma na gauči" width="1672" height="1121" fetchpriority="high">
     </picture>
   </div>
   <div class="wrap hv-in">
@@ -641,7 +641,7 @@ const ld = () => `<script type="application/ld+json">${JSON.stringify({
   ],
 })}</script>`;
 
-const home = () => typo(`${head({ title: 'FérSazby.cz | Úvěr, konsolidace a hypotéka za fér sazbu', desc: 'Spočítejte si úvěr, konsolidaci nebo hypotéku a podívejte se, kolik byste platili u jednotlivých bank. Fér sazba od 3,99 %. Denisa Holazová.', path: '/', extraHead: ld() + '\n<link rel="preload" as="image" href="/assets/hero-rodina-1672.webp" media="(min-width: 861px)">\n<link rel="preload" as="image" href="/assets/hero-m-900.webp" media="(max-width: 860px)">' })}
+const home = () => typo(`${head({ title: 'FérSazby.cz | Úvěr, konsolidace a hypotéka za fér sazbu', desc: 'Spočítejte si úvěr, konsolidaci nebo hypotéku a podívejte se, kolik byste platili u jednotlivých bank. Fér sazba od 3,99 %. Denisa Holazová.', path: '/', extraHead: ld() + '\n<link rel="preload" as="image" href="/assets/hero-rodina-vys-1672.webp" media="(min-width: 861px)">\n<link rel="preload" as="image" href="/assets/hero-m-900.webp" media="(max-width: 860px)">' })}
 <body class="pg-home">
 ${header()}
 <main id="obsah">

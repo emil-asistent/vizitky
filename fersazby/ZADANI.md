@@ -74,3 +74,11 @@ Nová stavba (`heroV2` v build.mjs, styly `.hv-*` na konci styles.css):
 - Karta má ve všech třech záložkách stejnou výšku.
 Ověřeno: Chrome 1280–2560 px, tablet 1024, mobil 390 a 360, jádro Safari (WebKit), všechny stránky bez chyb, odeslání kalkulačky přenese čísla na podstránku.
 Zdroj fotky má jen 1672 px (AI, GPT), na retině je lehce měkká; zvětšení přes SeedVR2 by bylo placené (haléře), neděláno.
+
+## 24. 11. 2026: fotka přes celou první obrazovku (Vojta: „hero v2 se mi líbí mnohem víc, jen fotku roztáhnout, ať je nahoře full page“)
+- Vojta 24. 11. schválil hero v2 jako směr („na to bych klidně přešel“), výslovně chválil kalkulačku nahoře a Denisin citát s portrétem. Jediná připomínka: fotka má na počítači vyplnit celou první obrazovku.
+- Hotovo jen na úvodu, počítače od 1200 px. Hero je vysoké jako okno, fotka ho vyplní odshora dolů, kalkulačka leží dole přímo na fotce. Tablet (861–1199 px) a mobil beze změny.
+- Fotka má nahoře dopočítaných 180 px stěny a stropu (`public/assets/hero-rodina-vys-1672.webp`, 1672×1121; rodina a zbytek jsou původní pixely). Díky tomu může být rodina stejně velká jako dřív a nadpis zůstal velký. Generátor obrázků (`obrazek`) v tu chvíli neodpovídal, pás je spočítaný z horních řádků fotky.
+- Výpočet rozložení je v `styles.css`, blok „ÚVOD — fotka přes celou první obrazovku“. Kalkulačka má tři výšky podle okna (294 / 262 / 238 px), z výšky kalkulačky se počítá nejmenší výška fotky, při které zůstane brada holčičky nad záložkami. Na vysokých monitorech kalkulačka vyjede výš za obličeji.
+- Zkontrolováno skriptem na 28 velikostech od 1200×700 po 3440×1340 (obličeje nad kalkulačkou, text mimo obrys rodiny, tlačítko vidět) a v jádru Safari. Pod 650 px výšky okna je tlačítko kalkulačky pod okrajem, stejně jako dřív.
+- Návrat k předchozí podobě: git tag `hero-v2-2026-11-24`.

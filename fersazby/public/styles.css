@@ -746,7 +746,7 @@ textarea.txt { resize: vertical; min-height: 92px; line-height: 1.5; font-weight
 .hv-pic img { display: block; width: 100%; height: 100%; object-fit: cover; }
 /* Vlevo fotka přechází do modré (stěna za rodinou), nahoře lehký stín pod hlavičku. Obličeje zůstávají čisté. */
 .hv-pic::after { content: ''; position: absolute; inset: 0; pointer-events: none; background:
-  linear-gradient(90deg, var(--navy) 0%, var(--navy) 5%, rgba(13, 31, 58, .975) 9%, rgba(13, 31, 58, .93) 13%, rgba(13, 31, 58, .86) 17.5%, rgba(13, 31, 58, .76) 22%, rgba(13, 31, 58, .63) 26.5%, rgba(13, 31, 58, .48) 31%, rgba(13, 31, 58, .33) 35%, rgba(13, 31, 58, .19) 39%, rgba(13, 31, 58, .08) 43%, rgba(13, 31, 58, .02) 46%, rgba(13, 31, 58, 0) 48%); }
+  linear-gradient(90deg, var(--navy) 0%, var(--navy) 5%, rgba(13, 31, 58, .975) 9%, rgba(13, 31, 58, .935) 13%, rgba(13, 31, 58, .875) 17.5%, rgba(13, 31, 58, .79) 22%, rgba(13, 31, 58, .68) 26.5%, rgba(13, 31, 58, .55) 31%, rgba(13, 31, 58, .4) 35%, rgba(13, 31, 58, .24) 39%, rgba(13, 31, 58, .1) 43%, rgba(13, 31, 58, .025) 46.5%, rgba(13, 31, 58, 0) 49%); }
 
 .hv-in { position: relative; }
 .hv-txt { height: var(--Y); display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: clamp(22px, 4vh, 36px); }
@@ -921,4 +921,91 @@ textarea.txt { resize: vertical; min-height: 92px; line-height: 1.5; font-weight
 @media (min-width: 1101px) and (max-width: 1279px) {
   .hv-tl { display: none; }
   .hv-ts { display: inline; }
+}
+
+/* =========================================================
+   ÚVOD — fotka přes celou první obrazovku (24. 11. 2026, Vojta)
+   Počítače od 1200 px: hero je vysoké přesně jako okno, fotka ho vyplní odshora dolů a kalkulačka leží dole přímo na ní.
+   --C je výška kalkulačky i se záložkami, --m mezera pod ní. Z nich se počítá nejmenší výška fotky (--K), při které
+   zůstane brada holčičky nad záložkami. Fotka má nahoře přidaný kus stěny a stropu, takže může začínat níž než okno.
+   ========================================================= */
+.hv-pic { top: calc(var(--imgH) * -0.1913); height: calc(var(--imgH) * 1.1913); aspect-ratio: 1672 / 1121; }
+@media (min-width: 1200px) {
+  .hv { --C: 262px; --m0: 20px; --hh: clamp(88px, 13vh, 116px); --fmax: 78px;
+    --K: calc((var(--C) + var(--m0) + 6px) * 2.68);
+    --ihW: calc((100vw - var(--left) - 408px) * .912);
+    --ih: max(var(--K), min(88vh, var(--ihW)));
+    --H: clamp(662px, 100vh, calc(var(--ih) * 1.17));
+    /* Na vysokých oknech je fotka větší a obličeje výš: kalkulačka vyjede za nimi, ať text nesjede vedle rukávů. */
+    --m: max(var(--m0), calc(var(--ih) * .373 - var(--C) - 6px));
+    --T: calc(var(--H) - var(--m) - var(--C));
+    --col: calc(100vw - var(--ih) * 1.096 - var(--left) - 28px);
+    --col1: calc(100vw - var(--ih) * .96 - var(--left) - 28px);
+    --imgH: var(--ih);
+    min-height: var(--H); padding-bottom: 0; background: var(--navy); overflow: hidden; overflow: clip; }
+  .hv-bg { inset: 0; height: auto; }
+  .hv-pic { top: auto; bottom: 0; }
+  .hv-in { min-height: var(--H); display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: var(--m); }
+  .hv-txt { height: auto; display: block; padding-top: calc(var(--hh) + 20px); padding-bottom: clamp(20px, 3.4vh, 32px); }
+  /* Písmo nadpisu: podle výšky nad kalkulačkou (u úzkého sloupce má citát tři řádky, proto rezerva) a podle místa vedle rodiny. */
+  .hv h1 { max-width: none; font-size: clamp(40px, min(calc((var(--T) - var(--hh) - 150px - clamp(0px, (440px - var(--col)) * .5, 24px)) / 2.97), calc(var(--col) / 4.75), calc(var(--col1) / 5.7)), var(--fmax)); }
+  .hv-say { max-width: min(480px, var(--col)); }
+  /* měkký stín pod písmem: na modré není vidět, na světlejší stěně drží čitelnost */
+  .hv h1 { text-shadow: 0 2px 36px rgba(13, 31, 58, .5); }
+  .hv-say blockquote, .hv-say figcaption { text-shadow: 0 1px 14px rgba(13, 31, 58, .6); }
+
+  /* kalkulačka o něco nižší, ať se nad ni vejdou obličeje */
+  .hv-tabs button { height: 50px; }
+  .hv-tabs button[aria-selected="true"] { height: 56px; }
+  .hv-body { padding: 12px 12px 12px 28px; }
+  .hv-main { gap: 12px; padding: 4px 0 2px; }
+  .hv-f { gap: 6px; }
+  .hv-l { line-height: 20px; }
+  .hv-box { height: 54px; }
+  .hv-box .money-btn { height: 44px; }
+  .hv-fix .seg { height: 54px; }
+  .hv-res { min-height: 182px; padding: 16px 20px 16px; }
+  .hv-n { font-size: 42px; }
+  .hv-big { margin-top: 6px; }
+  .hv-diff { margin-top: 8px; }
+  .hv-res .btn-go { min-height: 52px; padding: 8px 20px; }
+}
+/* velké monitory: kalkulačka v plné velikosti */
+@media (min-width: 1700px) and (min-height: 870px) {
+  .hv { --C: 294px; --m0: 28px; --fmax: 88px; }
+  .hv-tabs button { height: 54px; }
+  .hv-tabs button[aria-selected="true"] { height: 62px; }
+  .hv-body { padding: 14px 14px 14px 30px; }
+  .hv-main { gap: 14px; padding: 10px 0 8px; }
+  .hv-f { gap: 8px; }
+  .hv-box { height: 58px; }
+  .hv-box .money-btn { height: 46px; }
+  .hv-fix .seg { height: 58px; }
+  .hv-res { min-height: 204px; padding: 20px 22px 22px; }
+  .hv-n { font-size: 46px; }
+  .hv-big { margin-top: 7px; }
+  .hv-diff { margin-top: 10px; }
+  .hv-res .btn-go { min-height: 58px; padding: 10px 22px; }
+}
+/* nízká nebo užší okna (běžné notebooky s Windows): kalkulačka nejúspornější */
+@media (min-width: 1200px) and (max-width: 1347.98px), (min-width: 1200px) and (max-height: 759.98px) {
+  .hv { --C: 238px; --m0: 12px; }
+  .hv-tabs button { height: 46px; font-size: 14px; }
+  .hv-tabs button[aria-selected="true"] { height: 52px; }
+  .hv-body { padding: 10px 10px 10px 24px; border-radius: 24px; }
+  .hv-main { gap: 9px; padding: 2px 0 0; }
+  .hv-f { gap: 5px; }
+  .hv-l { font-size: 13px; line-height: 18px; }
+  .hv-box { height: 50px; border-radius: 14px; }
+  .hv-box .money-in { font-size: 21px; }
+  .hv-box .money-btn { height: 40px; width: 38px; }
+  .hv-fix .seg { height: 50px; }
+  .hv-f .range { height: 24px; }
+  .hv-note { font-size: 12px; }
+  .hv-res { min-height: 166px; padding: 13px 18px 14px; border-radius: 17px; }
+  .hv-n { font-size: 38px; }
+  .hv-big { margin-top: 5px; }
+  .hv-rate b { margin-top: 5px; font-size: 19px; }
+  .hv-diff { margin-top: 6px; font-size: 13px; }
+  .hv-res .btn-go { min-height: 48px; padding: 6px 18px; font-size: 15px; }
 }
