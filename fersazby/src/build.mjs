@@ -327,6 +327,23 @@ const steps = () => `
   </div>
 </section>`;
 
+// Loga bank a spořitelen, se kterými tým spolupracuje (Denisa 27. 11., obrázek + Trinity, Zonky, Cofidis, RSTS, Buřinka).
+// [soubor, název, výška v px]: výšky vyrovnávají vizuální váhu log, ne jejich rámeček.
+const BANK_LOGOS = [
+  ['kb.svg', 'Komerční banka', 34], ['csob.svg', 'ČSOB', 42], ['raiffeisenbank.svg', 'Raiffeisenbank', 36],
+  ['ceska-sporitelna.webp', 'Česká spořitelna', 46], ['mbank.svg', 'mBank', 34], ['oberbank.svg', 'Oberbank', 30],
+  ['unicredit.svg', 'UniCredit Bank', 25], ['csob-hypotecni-banka.svg', 'ČSOB Hypoteční banka', 46],
+  ['trinity-bank.svg', 'Trinity Bank', 14], ['zonky.svg', 'Zonky', 28], ['cofidis.svg', 'Cofidis', 28],
+  ['raiffeisen-stavebni-sporitelna.svg', 'Raiffeisen stavební spořitelna', 34], ['burinka.svg', 'Stavební spořitelna České spořitelny – Buřinka', 46],
+];
+const bankLogos = () => `
+<section class="banky" aria-labelledby="banky-h">
+  <div class="wrap banky-in">
+    <h2 class="banky-h" id="banky-h">Spolupracujeme s&nbsp;${BANK_LOGOS.length} bankami a&nbsp;spořitelnami</h2>
+    <ul class="banky-list">${BANK_LOGOS.map(([f, n, h]) => `<li><img src="/assets/banky/${f}" alt="${n}" title="${n}" style="height:${h}px" loading="lazy" decoding="async"></li>`).join('')}</ul>
+  </div>
+</section>`;
+
 // Kdo za tím stojí: místo Denisiny fotky tým po celé ČR (Denisa 27. 11.: mapa, místo fotek poradců logo FérSazby).
 const MAPA = JSON.parse(readFileSync(new URL('./mapa-cr.json', import.meta.url)));
 const mapSection = () => `
@@ -339,7 +356,7 @@ const mapSection = () => `
       <dl class="tm-stats">
         <div><dt>${SITE.clients.replace('+', '<small>+</small>')}</dt><dd>spokojených klientů</dd></div>
         <div><dt>${SITE.volume.replace('+', '<small>+</small>')}</dt><dd>Kč v&nbsp;úvěrech, konsolidacích a&nbsp;hypotékách</dd></div>
-        <div><dt>${HV_BANKS}</dt><dd>bank ve srovnání</dd></div>
+        <div><dt>${BANK_LOGOS.length}</dt><dd>bank a&nbsp;spořitelen</dd></div>
       </dl>
     </div>
     <figure class="tm-map">
@@ -670,6 +687,7 @@ const home = () => typo(`${head({ title: 'FérSazby.cz | Úvěr, konsolidace a h
 ${header('', false, true)}
 <main id="obsah">
   ${heroV2()}
+  ${bankLogos()}
   ${offers({ ...ACTIVE[0], home: true })}
   ${leadForm(null)}
   ${ACTIVE.map(catSection).join('')}
