@@ -87,3 +87,15 @@ Zdroj fotky má jen 1672 px (AI, GPT), na retině je lehce měkká; zvětšení 
 - Vojta poslal Denise mail s odkazem na náhled. Je to první verze, chceme upřímný dojem jen k počítačové verzi (mobil zatím neřešený). Ptá se i na recenze Petry V. a Jana P. (pojištění auta). Zpětnou vazbu může poslat i hlasovkou.
 - Hlasovku Vojta přepošle na emil.asistent@gomatela.cz. Přepis jen lokálně (Whisper na Studiu), nikdy do cloudu.
 - Téhož dne ještě nasazeno: kompaktní patička s tenkým podpisem Gomatela, průhledná hlavička s velkým logem na podstránkách, jemné rolování kolečkem myši (Lenis).
+
+## 27. 11. 2026: první zpětná vazba Denisy (podklady/denisa-2026-11-27/Poznamky.pdf) → jedna stránka za tým
+Záloha před úpravami: git tag `pred-denisou-2026-11-27` + zmrazená kopie na náhledu `/zaloha-2026-11-27` (podstránky pod `/zaloha-2026-11-27-soubory/…`, fotka s rodinou tam zůstala).
+Hotovo a nasazeno (commit de1aff9):
+- Web je za tým, Denisa z něj zmizela (fotky, jméno, podpisy, „já“ → „my“ ve všech textech, JSON-LD bez osoby). Jmenovitě zůstala jen na /ochrana-osobnich-udaju (správce údajů + nový odstavec Informace o zprostředkovateli, sem se přesunul právní text z patičky). V GDPR textu nově: poptávku vyřizuje poradce z týmu (Denisa chce leady předávat i jiným).
+- Jedna stránka: menu Úvěr/Konsolidace/Hypotéka/Recenze/Kontakt sjíždí na sekce (#uver, #konsolidace, #hypoteka, #recenze, #kontakt), zvýrazní sekci, ve které člověk je. Pořadí: hero s kalkulačkou → srovnání bank (živě podle záložky) → poptávka (výběr služby propojený se záložkami, SMS ověření beze změny) → tři služby (fotka, sazba, otočné karty) → Sami na pobočce, nebo s námi → recenze → kroky → tým po celé ČR (mapa krajů, znak loga ve 13 městech, src/mapa-cr.json) → FAQ → kontakt (krátký formulář) → patička.
+- Podstránky /uver-na-cokoliv, /konsolidace, /hypoteka zůstaly pro reklamy a Google, v menu nejsou; jejich odkazy vedou na úvod s kotvou. /kontakt žije dál (stejný formulář).
+- Čísla: úvěr i konsolidace od 3,97 %, 1000+ spokojených klientů, 1 mld.+ Kč (SITE.clients/volume v data.mjs). Pryč „15+ let praxe“.
+- Texty přesně podle Denisy: karty konsolidace (drahé karty, úvěry u více bank, nebankovní), stavba, konec fixace, tlačítko „Mám zájem o fér sazbu“, formulář (Nezávazně a zdarma / Bez zbytečných poplatků / Údaje chráníme podle zákona GDPR), hotovo „Poptávka je ověřená a máme ji u sebe. Ozveme se vám co nejdříve.“, FAQ zamítnutý úvěr (nahoře), Sami na pobočce, nebo s námi?, pruh bez telefonu, patička (věta + tři služby + tlačítko Kontakt).
+- Hero: obývák bez rodiny (GPT úprava původní fotky, foto-src/hero-pokoj.webp, public/assets/hero-pokoj-*.webp), místo portrétu znak FérSazby a „Tým FérSazby“. Návrat k rodině: v heroV2 vrátit hero-rodina-vys-1672.webp a hero-m-900.webp.
+- Ověřeno Playwrightem: 22 kontrol (menu, záložky, srovnání, karty, poptávka se SMS → mail s kategorií, kontakt, podstránky), počítač 1280–1920, mobil se nerozbil.
+Otevřené: telefon v hlavičce zůstal (Denisa ho smazala jen z pruhu a patička ho nemá), recenze a další FAQ Denisa ještě pošle, odpověď na Petru V. a Jana P. (pojištění auta) nedala.
