@@ -19,6 +19,15 @@
     window.lenis = lenis;
   }
 
+  // Plynulé dojetí na prvek (s Lenisem stejně jako kotvy v menu, odsazení pod hlavičku).
+  const goTo = (el, block) => {
+    if (!el) return;
+    if (window.lenis) {
+      const off = block === 'center' ? -Math.max(88, (innerHeight - el.offsetHeight) / 2) : -88;
+      window.lenis.scrollTo(el, { offset: off });
+    } else el.scrollIntoView({ behavior: still ? 'auto' : 'smooth', block: block || 'start' });
+  };
+
   /* ---------- přetáčení číslic u velké splátky v hero ---------- */
   const COL = '<span class="rd-c">' + [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((d) => `<span>${d}</span>`).join('') + '</span>';
   let digitW = null;   // šířky číslic v em, ať „1“ nezabírá tolik místa co „8“
@@ -96,7 +105,11 @@
       $('#' + t.getAttribute('aria-controls')).hidden = !on;
     });
     if (focus) btn.focus();
+    const f = $('#' + btn.getAttribute('aria-controls'));
+    if (f) calc(f);
+    setLeadCat(btn.dataset.tab);
   };
+  const tabFor = (cat) => tabs.find((t) => t.dataset.tab === cat);
   tabs.forEach((t, i) => {
     t.addEventListener('click', () => selectTab(t));
     t.addEventListener('keydown', (e) => {
@@ -176,17 +189,21 @@
       out('rozdil', kc(Math.max(0, worst - s.pay)));
     }
     const sv = $('[data-hv="uspora"]', form);
-    if (sv) { const save = s.splatka - s.pay; sv.innerHTML = save > 0 ? `Ušetříte až <b>${kc(save)}</b> měsíčně` : 'Úsporu vám spočítám osobně'; }
-    if (form.dataset.mode === 'page') renderOffers(s);
+    if (sv) { const save = s.splatka - s.pay; sv.innerHTML = save > 0 ? `Ušetříte až <b>${kc(save)}</b> měsíčně` : 'Úsporu vám spočítáme osobně'; }
+    if (form.dataset.mode === 'page' || (form.dataset.mode === 'home' && !form.hidden)) renderOffers(s);
     return s;
   }
 
   /* ---------- srovnání bank ---------- */
   const list = $('[data-o="list"]');
   $('[data-o="more"]')?.addEventListener('click', (e) => { list.classList.remove('short'); list.dataset.all = '1'; e.currentTarget.hidden = true; });
+  const CAT_NAME = { uver: 'Úvěr na cokoliv', konsolidace: 'Konsolidace', hypoteka: 'Hypotéka' };
   function renderOffers(s) {
     if (!list || !RATES[s.cat]) return;
     $('[data-o="our-pay"]').textContent = kc(s.pay);
+    const rateEl = $('[data-o="our-rate"]'); if (rateEl) rateEl.textContent = pct(s.rate);
+    const tag = $('.offers-home [data-o="tag"]'); if (tag) tag.textContent = CAT_NAME[s.cat];
+    if (list.dataset.cat !== s.cat) { list.dataset.cat = s.cat; delete list.dataset.all; }
     const rows = RATES[s.cat].banks.map(([bank, rate]) => ({ bank, rate, pay: pmt(s.castka, rate, s.n) }));
     const worst = rows.reduce((m, r) => Math.max(m, r.pay), 0);
     $('[data-o="our-save"]').textContent = worst > s.pay ? `Až o ${kc(worst - s.pay)} měsíčně méně než u nejdražší banky` : '';
@@ -200,7 +217,7 @@
     const forEl = $('[data-offers-for]');
     if (forEl) {
       const term = s.cat === 'hypoteka' ? `${s.roky} let, fixace ${s.fixace} let` : `${s.n} měsíců`;
-      forEl.innerHTML = `Pro <b>${kc(s.castka)}</b> na <b>${term}</b>`;
+      forEl.innerHTML = `${$('.offers-home') ? CAT_NAME[s.cat] + ' ' : 'Pro '}<b>${kc(s.castka)}</b> na <b>${term}</b>`;
     }
     summary(s);
   }
@@ -218,7 +235,10 @@
   const PARAMS = { castka: 'castka', splatka: 'splatka', mesice: 'mesice', cena: 'cena', roky: 'roky', fixace: 'fixace' };
   function go(form) {
     const s = calc(form);
-    if (form.dataset.mode === 'home') {
+    if (form.dataset.mode === 'home' && $('#nabidky')) {
+      // Jedna stránka: výsledek kalkulačky se rozepíše hned pod ní ve srovnání bank.
+      summary(s); goTo($('#nabidky'));
+    } else if (form.dataset.mode === 'home') {
       const q = new URLSearchParams();
       for (const k of Object.keys(PARAMS)) { const el = form.elements[k]; if (el && el.value) q.set(k, el.classList?.contains('money-in') ? num(el.value) : el.value); }
       location.href = `/${form.dataset.slug}?${q}#nabidky`;
@@ -229,10 +249,27 @@
     }
   }
 
+  // Kalkulačka, ze které se právě počítá (podstránka, nebo otevřená záložka na úvodu).
+  const activeCalc = () => $('form.calc[data-mode="page"]') || $$('form.calc[data-mode="home"]').find((f) => !f.hidden);
+
+  /* ---------- poptávka na úvodu: výběr služby (propojený se záložkami kalkulačky) ---------- */
+  function setLeadCat(cat) {
+    const lf = $('.lead-form'); if (!lf || !$('.lead-cat', lf)) return;
+    const r = $(`.lead-cat input[value="${cat}"]`, lf); if (!r) return;
+    r.checked = true; lf.dataset.cat = cat; lf.elements.kategorie.value = r.dataset.name;
+    $$('.lead-extra', lf).forEach((g) => { const on = g.dataset.forCat === cat; g.hidden = !on; $('fieldset', g).disabled = !on; });
+  }
+  $$('.lead-cat input').forEach((r) => r.addEventListener('change', () => {
+    setLeadCat(r.value);
+    const t = tabFor(r.value);
+    if (t && t.getAttribute('aria-selected') !== 'true') selectTab(t);
+  }));
+
   $$('form.calc').forEach((f) => calc(f));
 
   // Podstránka: předvyplnit z URL a hned spočítat.
   const pageForm = $('form.calc[data-mode="page"]');
+  window.FS_PAGE = pageForm;
   if (pageForm) {
     const q = new URLSearchParams(location.search);
     for (const k of Object.keys(PARAMS)) {
@@ -259,7 +296,7 @@
     const validate = () => {
       let first = null;
       const mark = (el, bad) => { const host = el.closest('fieldset') || el.closest('.money') || el; host.classList.toggle('invalid', bad); if (bad && !first) first = el; };
-      $$('input[required], select[required]', lead).forEach((el) => {
+      $$('input[required], select[required]', lead).filter((el) => !el.matches(':disabled')).forEach((el) => {
         if (el.type === 'radio') { const any = $$(`input[name="${el.name}"]`, lead).some((r) => r.checked); mark(el, !any); }
         else if (el.type === 'checkbox') mark(el, !el.checked);
         else if (el.name === 'email') mark(el, !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim()));
@@ -283,7 +320,9 @@
       e.preventDefault(); err(lead);
       if (!validate()) { err(lead, 'Zkontrolujte prosím zvýrazněná pole.'); return; }
       const data = Object.fromEntries(new FormData(lead));
-      const calcState = pageForm ? state(pageForm) : {};
+      const ac = activeCalc();
+      const calcState = ac ? state(ac) : {};
+      delete data.sluzba;
       data.kalkulace = $('[data-summary]')?.textContent || '';
       data.parametry = calcState;
       data.stranka = location.pathname;
@@ -439,21 +478,24 @@
     go.addEventListener('click', (e) => set(true, e.detail === 0));
     $('.flip-close', card).addEventListener('click', (e) => set(false, e.detail === 0));
     $('.flip-calc', card).addEventListener('click', () => {
-      if (!pageForm) return;
-      setVal(pageForm, 'castka', +card.dataset.castka);
-      if (card.dataset.mesice && pageForm.elements.mesice) setVal(pageForm, 'mesice', +card.dataset.mesice);
-      if (card.dataset.roky && pageForm.elements.roky) {
-        setVal(pageForm, 'roky', +card.dataset.roky);
+      const homeCat = !window.FS_PAGE && card.closest('[data-cat]')?.dataset.cat;
+      const pf = window.FS_PAGE || (homeCat && $(`#calc-h-${homeCat}`));
+      if (!pf) return;
+      if (homeCat) selectTab(tabFor(homeCat));
+      setVal(pf, 'castka', +card.dataset.castka);
+      if (card.dataset.mesice && pf.elements.mesice) setVal(pf, 'mesice', +card.dataset.mesice);
+      if (card.dataset.roky && pf.elements.roky) {
+        setVal(pf, 'roky', +card.dataset.roky);
         // Cena nemovitosti aspoň tak, aby hypotéka vycházela na 80 %.
-        const cena = num(pageForm.elements.cena.value);
-        if (cena < card.dataset.castka / 0.8) setVal(pageForm, 'cena', Math.ceil(card.dataset.castka / 0.8 / 100000) * 100000);
+        const cena = num(pf.elements.cena.value);
+        if (cena < card.dataset.castka / 0.8) setVal(pf, 'cena', Math.ceil(card.dataset.castka / 0.8 / 100000) * 100000);
       }
       // Konsolidace: dnešní splátku zná jen klient, pole vyprázdníme a necháme ho ji doplnit.
-      const sp = pageForm.elements.splatka;
+      const sp = pf.elements.splatka;
       if (sp) { sp.value = ''; setTimeout(() => sp.focus({ preventScroll: true }), 700); }
-      calc(pageForm);
-      const k = $('#kalkulacka');
-      k.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+      calc(pf);
+      const k = $('#kalkulacka') || $('#spocitat');
+      if (homeCat) goTo($('.hv-card'), 'center'); else k.scrollIntoView({ behavior: still ? 'auto' : 'smooth', block: 'center' });
       k.classList.add('pulse');
       setTimeout(() => k.classList.add('pulse-off'), 900);
       setTimeout(() => k.classList.remove('pulse', 'pulse-off'), 1700);
@@ -497,9 +539,30 @@
     });
   }
 
+  /* ---------- tlačítka u služeb: přepnou kalkulačku nahoře a dojedou k ní ---------- */
+  $$('[data-pick]').forEach((a) => a.addEventListener('click', (e) => {
+    const t = tabFor(a.dataset.pick); if (!t) return;
+    e.preventDefault(); selectTab(t); goTo($('.hv-card'), 'center');
+  }));
+
+  /* ---------- menu na úvodu: zvýraznit sekci, ve které právě jsem ---------- */
+  const spyLinks = $$('.head-nav [data-spy], .head-cta[data-spy]');
+  if (spyLinks.length && $('.pg-home')) {
+    const ids = [...new Set(spyLinks.map((a) => a.dataset.spy))];
+    const secs = ids.map((id) => document.getElementById(id)).filter(Boolean);
+    const spy = () => {
+      const y = innerHeight * 0.4; let cur = '';
+      secs.forEach((s) => { const r = s.getBoundingClientRect(); if (r.top <= y && r.bottom > y) cur = s.id; });
+      spyLinks.forEach((a) => a.classList.toggle('is-here', a.dataset.spy === cur));
+    };
+    let q = false;
+    addEventListener('scroll', () => { if (!q) { q = true; requestAnimationFrame(() => { q = false; spy(); }); } }, { passive: true });
+    spy();
+  }
+
   /* ---------- odhalení při scrollu ---------- */
   if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const els = $$('.cats-head, .cat, .sec-head, .road li, .about-photo, .about-txt, .faq-grid > *, .offers-head, .offer-ours, .offer-box, .lead-side, .lead-card, .flip, .vs-table, .rv-head');
+    const els = $$('.cats-head, .cat, .sec-head, .road li, .about-photo, .about-txt, .faq-grid > *, .offers-head, .offer-ours, .offer-box, .lead-side, .lead-card, .flip, .vs-table, .rv-head, .svc-img, .svc-txt, .svc-uses-h, .tm-txt, .tm-map, .kt-txt, .kt-card');
     const io = new IntersectionObserver((ents) => ents.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } }), { rootMargin: '0px 0px -8% 0px' });
     els.forEach((el, i) => { el.classList.add('reveal'); el.style.transitionDelay = (i % 4) * 60 + 'ms'; io.observe(el); });
   }

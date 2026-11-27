@@ -1049,3 +1049,119 @@ textarea.txt { resize: vertical; min-height: 92px; line-height: 1.5; font-weight
 html.lenis, html.lenis body { height: auto; }
 html.lenis { scroll-behavior: auto; }
 .lenis.lenis-stopped { overflow: clip; }
+
+/* =========================================================
+   JEDNA STRÁNKA ZA TÝM (27. 11. 2026, Denisovy poznámky)
+   Menu sjíždí na sekce, Denisa z webu zmizela, místo ní tým a mapa ČR.
+   ========================================================= */
+/* znak loga (procento s fajfkou) */
+#logo-mark .lm-t { stroke: var(--m-t, var(--teal)); }
+#logo-mark .lm-r { stroke: var(--m-r, #fff); }
+.mark-svg { display: block; width: 100%; height: 100%; overflow: visible; }
+
+/* menu: sekce, ve které právě jsem */
+.head-nav a.is-here { color: var(--teal); }
+.head-nav a.is-here::after { transform: scaleX(1); }
+.site-head.scrolled .head-nav a.is-here, .site-head.is-solid .head-nav a.is-here { color: var(--teal-dark); }
+
+/* hero: místo Denisina portrétu znak týmu */
+.hv-mark { grid-row: 1 / 3; width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; padding: 12px; background: var(--navy); box-shadow: 0 0 0 2px rgba(13, 31, 58, .4), 0 0 0 4px var(--teal); }
+@media (max-width: 860px) { .hv-mark { width: 44px; height: 44px; padding: 10px; } }
+
+/* srovnání bank na úvodu: hned pod kalkulačkou */
+.offers-home .offer-tag { text-transform: none; letter-spacing: 0; font-size: 13.5px; padding: 7px 14px; }
+
+/* poptávka na úvodu: výběr služby */
+.lead-cat > label { margin: 0 6px 6px 0; }
+.lead-cat span { display: inline-flex !important; align-items: center; gap: 8px; }
+.lead-cat span .ic { width: 17px; height: 17px; color: var(--teal-dark); }
+.lead-cat input:checked + span .ic { color: var(--teal); }
+.lead-extra[hidden] { display: none; }
+.lead-extra-in { border: 0; min-width: 0; display: grid; gap: 0; }
+
+/* ---------- služby (Úvěr, Konsolidace, Hypotéka) ---------- */
+.svc { position: relative; background: #fff; }
+.svc-konsolidace { background: var(--cream); }
+.svc-head { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); gap: clamp(40px, 6.5vw, 104px); align-items: center; }
+.svc-flip .svc-img { order: 2; }
+.svc-img { position: relative; margin: 0; }
+.svc-img picture, .svc-img img { display: block; border-radius: 28px; }
+.svc-img img { width: 100%; aspect-ratio: 5 / 4; object-fit: cover; }
+.svc-rate { position: absolute; left: clamp(-28px, -2vw, -12px); bottom: 28px; display: flex; flex-direction: column; gap: 2px; padding: 16px 22px 14px; border-radius: 20px; background: var(--navy); color: #fff; box-shadow: 0 30px 50px -28px rgba(13, 31, 58, .7); }
+.svc-flip .svc-rate { left: auto; right: clamp(-28px, -2vw, -12px); }
+.svc-rate span { font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: rgba(255, 255, 255, .6); }
+.svc-rate b { font: 900 clamp(34px, 3.4vw, 48px)/1 var(--f-num); letter-spacing: -.05em; color: var(--teal); }
+.svc-txt .eyebrow { gap: 14px; }
+.svc-txt .eyebrow::before { display: none; }
+.svc-n { font: 900 13px/1 var(--f-num); letter-spacing: 0; color: #fff; background: var(--teal-dark); border-radius: 999px; padding: 6px 9px 5px; }
+.svc-txt .h2 em { color: var(--teal-dark); }
+.svc-lead { margin-top: 22px; font-size: 18px; color: var(--muted); max-width: 46ch; }
+.svc-ex { margin-top: 16px; padding-left: 16px; border-left: 3px solid var(--teal); font-size: 15px; color: var(--muted); max-width: 46ch; }
+.svc-ex b { color: var(--navy); white-space: nowrap; }
+.svc-go { margin-top: 30px; }
+.svc-uses { margin-top: clamp(64px, 7vw, 104px); }
+.svc-uses-h { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px 60px; margin-bottom: 28px; padding-bottom: 22px; border-bottom: 1px solid var(--line); }
+.svc-uses-h h3 { font-size: clamp(22px, 2.1vw, 28px); letter-spacing: -.025em; line-height: 1.15; font-weight: 800; }
+.svc-uses-h p { max-width: 54ch; color: var(--muted); font-size: 15.5px; }
+.svc:not(.svc-konsolidace) .flip-front { background: var(--cream); border-color: transparent; }
+.svc .flip-front h3 { font-size: 22px; text-wrap: balance; }
+
+/* ---------- tým po celé ČR (místo Denisiny fotky) ---------- */
+.tm { background: var(--navy); color: #fff; position: relative; overflow: hidden; }
+.tm::before { content: ''; position: absolute; width: 1000px; height: 1000px; right: -280px; top: -420px; background: radial-gradient(closest-side, rgba(153, 198, 195, .14), transparent); }
+.tm-grid { position: relative; display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); gap: clamp(40px, 5vw, 80px); align-items: center; }
+.tm-txt > p:not(.eyebrow) { margin-top: 22px; font-size: 17px; color: rgba(255, 255, 255, .76); max-width: 48ch; }
+.tm-stats { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 28px clamp(24px, 3.4vw, 48px); margin-top: 40px; }
+.tm-stats dt { font: 900 clamp(36px, 3.6vw, 52px)/1 var(--f-num); letter-spacing: -.05em; color: var(--teal); white-space: nowrap; }
+.tm-stats dt small { font-size: .62em; margin-left: 1px; }
+.tm-stats dd { margin-top: 8px; font-size: 12px; line-height: 1.45; letter-spacing: .1em; text-transform: uppercase; color: rgba(255, 255, 255, .58); max-width: 17ch; }
+.tm-map { margin: 0; position: relative; }
+.tm-map svg { display: block; width: 100%; height: auto; overflow: visible; }
+.tm-kraje path { fill: rgba(255, 255, 255, .045); stroke: rgba(153, 198, 195, .42); stroke-width: 1.3; stroke-linejoin: round; vector-effect: non-scaling-stroke; transition: fill .3s; }
+.tm-kraje path:hover { fill: rgba(153, 198, 195, .1); }
+.tm-pin { --m-r: var(--navy); --m-t: var(--teal-dark); }
+.tm-dot { fill: #fff; stroke: var(--teal); stroke-width: 3; filter: drop-shadow(0 8px 14px rgba(0, 0, 0, .35)); }
+.tm-pulse { fill: var(--teal); opacity: 0; transform-box: fill-box; transform-origin: center; }
+.tm-map figcaption { margin-top: 18px; text-align: right; font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: rgba(255, 255, 255, .5); }
+@media (prefers-reduced-motion: no-preference) {
+  .tm-pin { opacity: 0; transform-box: fill-box; }
+  .tm-map.in .tm-pin { animation: pinin .7s var(--ease) both; animation-delay: var(--d); }
+  .tm-map.in .tm-pulse { animation: pinpulse 3.2s ease-out infinite; animation-delay: calc(var(--d) + 1s); }
+  @keyframes pinin { from { opacity: 0; translate: 0 -14px; } to { opacity: 1; translate: 0 0; } }
+  @keyframes pinpulse { 0% { opacity: .45; transform: scale(1); } 70%, 100% { opacity: 0; transform: scale(2.3); } }
+}
+
+/* ---------- kontakt jako sekce na úvodu ---------- */
+.pg-home .kt { padding: clamp(80px, 10vw, 136px) 0; }
+.kt-h { font-size: clamp(36px, 4.6vw, 60px); line-height: 1.03; letter-spacing: -.04em; font-weight: 800; }
+.kt-ticks { margin-top: 32px; display: grid; gap: 14px; font-size: 16px; color: rgba(255, 255, 255, .82); }
+.kt-ticks li { display: flex; align-items: center; gap: 12px; }
+.kt-ticks .ic { width: 20px; height: 20px; color: var(--teal); flex: none; }
+.kt-ticks a { color: var(--teal); font-weight: 700; text-decoration: none; }
+.kt-ticks a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.pg-home .kt + .site-foot, .pg-kontakt .kt + .site-foot { border-top: 1px solid rgba(255, 255, 255, .07); }
+
+/* ---------- patička podle Denisy: značka a věta vlevo, služby a tlačítko vpravo ---------- */
+.foot-top { grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 28px 56px; }
+.foot-nav { flex-direction: row; gap: 8px 28px; padding-top: 0; flex-wrap: wrap; }
+.foot-nav a { font-weight: 600; }
+.foot-btn { background: var(--teal); color: var(--navy); padding: 14px 22px; font-size: 15px; white-space: nowrap; }
+.foot-btn:hover { background: #fff; }
+.foot-btn .ic { width: 18px; height: 18px; }
+
+@media (max-width: 1100px) {
+  .tm-grid { grid-template-columns: 1fr; }
+  .tm-map { max-width: 760px; }
+}
+@media (max-width: 960px) {
+  .foot-top { grid-template-columns: 1fr; align-items: start; }
+}
+@media (max-width: 860px) {
+  .svc-head { grid-template-columns: 1fr; gap: 28px; }
+  .svc-flip .svc-img { order: 0; }
+  .svc-rate, .svc-flip .svc-rate { left: 14px; right: auto; bottom: 14px; padding: 12px 16px 10px; }
+  .svc-uses-h { display: block; }
+  .svc-uses-h p { margin-top: 10px; }
+  .tm-stats { grid-template-columns: 1fr 1fr; }
+  .foot-nav { flex-direction: column; }
+}

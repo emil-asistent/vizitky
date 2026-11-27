@@ -1,13 +1,14 @@
-// Obsah sekcí podstránek. Texty vycházejí z nejsazby.cz, z FAQ webu a z recenzí od Denisy (nic nového netvrdí).
+// Obsah sekcí. Texty vycházejí z nejsazby.cz, z FAQ webu a z recenzí od Denisy (nic nového netvrdí).
+// Od 27. 11. 2026 v množném čísle (web za tým) a s Denisinými úpravami karet (Poznámky.pdf).
 
 // Sami v bance × s FérSazby (výchozí pro všechny kategorie, %RATE% = sazba kategorie).
 export const CONTENT = {
   versus: [
     ['Srovnání', 'Jedna banka, jedna nabídka', 'Nabídky bank vedle sebe'],
     ['Sazba', 'Ceníková, bez vyjednávání', 'Vyjednaná, od %RATE%'],
-    ['Papírování', 'Všechno na vás', 'Podklady i žádost připravím já'],
-    ['Když banka řekne ne', 'Začínáte znovu jinde', 'Vím, kam žádost nasměrovat'],
-    ['Po podpisu', 'Každý si jde po svém', 'Hlídám, jestli nepřijde lepší nabídka'],
+    ['Papírování', 'Všechno na vás', 'Podklady i žádost připravíme my'],
+    ['Když banka řekne ne', 'Začínáte znovu jinde', 'Víme, kam žádost nasměrovat'],
+    ['Po podpisu', 'Každý si jde po svém', 'Hlídáme, jestli nepřijde lepší nabídka'],
   ],
 
   uver: {
@@ -17,11 +18,11 @@ export const CONTENT = {
     uses: {
       kicker: 'Na co to bude?',
       h: 'Půjčte si na to,<br>co zrovna řešíte',
-      p: 'Úvěr na cokoliv znamená opravdu cokoliv. Když mi ale řeknete, na co peníze jsou, můžu sáhnout po účelovém úvěru. Ten bývá levnější.',
+      p: 'Úvěr na cokoliv znamená opravdu cokoliv. Když nám ale řeknete, na co peníze jsou, můžeme sáhnout po účelovém úvěru. Ten bývá levnější.',
       items: [
         { name: 'Auto', icon: 'car', castka: 350000, mesice: 84,
           front: 'Nové i ojeté, z autosalonu i od souseda.',
-          back: 'Nabídku financování z autosalonu si vezměte s sebou, porovnám ji s bankami.' },
+          back: 'Nabídku financování z autosalonu si vezměte s sebou, porovnáme ji s bankami.' },
         { name: 'Rekonstrukce', icon: 'tools', castka: 600000, mesice: 144,
           front: 'Koupelna, kuchyň, okna nebo střecha.',
           back: 'Bez ručení nemovitostí. Stačí rozpočet od řemeslníka a probereme, jak ho rozložit.' },
@@ -30,12 +31,13 @@ export const CONTENT = {
           back: 'Místo několika splátek z obchodů jeden úvěr s fér sazbou.' },
         { name: 'Cokoliv dalšího', icon: 'spark', castka: 100000, mesice: 60,
           front: 'Svatba, studium, dovolená nebo nečekaný výdaj.',
-          back: 'Řekněte částku a já najdu, kde vás vyjde nejlevněji.' },
+          back: 'Řekněte částku a my najdeme, kde vás vyjde nejlevněji.' },
       ],
     },
   },
 
   konsolidace: {
+    flipCta: 'Chci nižší splátku',
     reviewsH: 'Jedna splátka<br>a <span class="u">klidné spaní</span>',
     // Úryvek z recenze Tomáše K. (doslova).
     heroQuote: { name: 'Tomáš K.', text: 'Všechno jsme sloučili do jedné rozumné splátky, hrozně se nám ulevilo a konečně zase v klidu spíme.' },
@@ -44,18 +46,19 @@ export const CONTENT = {
       h: 'Všechno, co vás<br>měsíčně tahá z účtu',
       p: 'Spotřebitelské úvěry, kreditní karty, kontokorenty i půjčky od nebankovních společností. Výsledkem je jedna splátka u jedné banky.',
       items: [
-        { name: 'Kreditní karty', icon: 'card', castka: 80000, mesice: 60,
-          front: 'Zůstatky, které se pořád nechtějí zmenšit.',
-          back: 'Kartu splatíme z nového úvěru a vy ji pak můžete zrušit, nebo nechat bez dluhu.' },
+        // Denisa 27. 11.: nadpis, text a tlačítko přesně podle ní.
+        { name: 'Ulevte rozpočtu od drahých karet', icon: 'card', castka: 80000, mesice: 60,
+          front: 'Sloučíme zůstatky do jedné přehledné splátky s férovou sazbou.',
+          back: 'Kartu vám doplatíme z nového úvěru – bez vysokých úroků a zbytečných poplatků. Pak ji můžete zrušit, nebo nechat bez dluhu.' },
         { name: 'Kontokorent', icon: 'minus', castka: 50000, mesice: 48,
           front: 'Věčné minus na běžném účtu.',
           back: 'Z minusu, který nikdy nekončí, se stane splátka s jasným koncem.' },
         { name: 'Úvěry u více bank', icon: 'layers', castka: 400000, mesice: 120,
-          front: 'Několik splátek v různé dny měsíce.',
-          back: 'Místo hlídání několika termínů jedna splátka, jeden den, jedna banka.' },
+          front: 'Několik vysokých měsíčních splátek, na každém úvěru jiný úrok.',
+          back: 'Jedna splátka, výhodný úrok na všechny úvěry, jedna banka, jedna měsíční splátka v jeden den.' },
         { name: 'Nebankovní půjčky', icon: 'wallet', castka: 150000, mesice: 72,
           front: 'Půjčky od nebankovních společností.',
-          back: 'I ty se dají převést k bance s fér sazbou. Probereme, co a kdy jde.' },
+          back: 'I ty se dají k bance s fér sazbou převést. Probereme, co a jak jde.' },
       ],
     },
   },
@@ -67,20 +70,20 @@ export const CONTENT = {
     uses: {
       kicker: 'Na co hypotéku?',
       h: 'Hypotéka na to,<br>co právě řešíte',
-      p: 'Koupě, stavba, rekonstrukce nebo konec fixace. Řekněte mi, o co jde, a já vím, na které banky se zaměřit.',
+      p: 'Koupě, stavba, rekonstrukce nebo konec fixace. Řekněte nám, o co jde, a my víme, na které banky se zaměřit.',
       items: [
         { name: 'Koupě', icon: 'home', castka: 4000000, roky: 30,
           front: 'Byt nebo dům, nový i starší.',
           back: 'Banky obvykle půjčí do 80 % hodnoty nemovitosti, mladším 36 let do 90 %.' },
         { name: 'Stavba', icon: 'tools', castka: 6000000, roky: 30,
-          front: 'Vlastní dům na vlastním pozemku.',
+          front: 'Chcete si postavit vlastní dům?',
           back: 'Peníze banka uvolňuje postupně, jak stavba roste. Rozpočet projdeme spolu dopředu.' },
         { name: 'Rekonstrukce', icon: 'spark', castka: 1500000, roky: 20,
           front: 'Nová střecha, okna, topení nebo celý byt.',
-          back: 'U větší rekonstrukce dává smysl i hypotéka. Porovnám ji se spotřebitelským úvěrem.' },
+          back: 'U větší rekonstrukce dává smysl i hypotéka. Porovnáme ji se spotřebitelským úvěrem.' },
         { name: 'Konec fixace', icon: 'percent', castka: 3000000, roky: 25,
           front: 'Banka vám poslala novou sazbu?',
-          back: 'Nemusíte ji brát. Vyjednám lepší u vaší banky, nebo vás převedu jinam.' },
+          back: 'Nemusíte ji brát. Vyjednáme vám lepší sazbu.' },
       ],
     },
   },

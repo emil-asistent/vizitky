@@ -14,11 +14,14 @@ export const SITE = {
   // TODO potvrdit s klientkou: koho zastupuje + odkaz do registru ČNB
   represented: 'money2u s.r.o.',
   representedIco: '29357365',
+  // Denisa 27. 11. 2026: web za tým, ne za ni; čísla celé sítě.
+  clients: '1000+',
+  volume: '1 mld.+',
 };
 
 export const RATES = {
   uver: {
-    our: 4.00,
+    our: 3.97,
     banks: [
       ['Komerční banka', 4.70], ['Raiffeisenbank', 4.80], ['MONETA Money Bank', 4.87],
       ['Česká spořitelna', 4.97], ['mBank', 4.99], ['ČSOB', 6.21], ['UniCredit Bank', 6.49],
@@ -26,7 +29,7 @@ export const RATES = {
     ],
   },
   konsolidace: {
-    our: 4.00,
+    our: 3.97,
     banks: [
       ['Komerční banka', 4.70], ['Raiffeisenbank', 4.80], ['Česká spořitelna', 4.97],
       ['mBank', 4.99], ['MONETA Money Bank', 6.33], ['UniCredit Bank', 6.49], ['ESSOX', 7.00],
@@ -50,10 +53,10 @@ export const CATS = [
     cta: 'Chci nový úvěr s fér sazbou', icon: 'wallet',
     tagline: 'Spotřebitelský úvěr na míru vám',
     title: 'Úvěr na cokoliv | FérSazby',
-    desc: 'Spočítejte si úvěr na auto, rekonstrukci nebo cokoliv dalšího. Srovnáme nabídky bank a vyjednáme pro vás fér sazbu od 4,00 %.',
+    desc: 'Spočítejte si úvěr na auto, rekonstrukci nebo cokoliv dalšího. Srovnáme nabídky bank a vyjednáme pro vás fér sazbu od 3,97 %.',
     h1: 'Úvěr na cokoliv,<br><em>s fér sazbou</em>',
-    lead: 'Hledáte výhodný spotřebitelský úvěr? Nemusíte sami srovnávat banky. Řekněte, kolik potřebujete, a já vám ukážu, kde je sazba opravdu fér.',
-    photo: 'uver',
+    lead: 'Hledáte výhodný spotřebitelský úvěr? Nemusíte sami srovnávat banky. Řekněte, kolik potřebujete, a my vám ukážeme, kde je sazba opravdu fér.',
+    photo: 'uver', anchor: 'uver',
   },
   {
     key: 'konsolidace', slug: 'konsolidace', short: 'Konsolidace', name: 'Konsolidace',
@@ -63,7 +66,7 @@ export const CATS = [
     desc: 'Spojte půjčky, karty a kontokorenty do jedné nižší splátky. Spočítejte si, kolik měsíčně ušetříte.',
     h1: 'Všechny půjčky<br>v jedné <em>nižší splátce</em>',
     lead: 'Přeplácíte zbytečně na úrocích? Sloučíme vaše půjčky, kreditní karty i kontokorenty do jedné splátky s fér sazbou.',
-    photo: 'konso',
+    photo: 'konso', anchor: 'konsolidace',
   },
   {
     key: 'hypoteka', slug: 'hypoteka', short: 'Hypotéka', name: 'Hypotéka',
@@ -72,8 +75,8 @@ export const CATS = [
     title: 'Hypoteční kalkulačka | FérSazby',
     desc: 'Spočítejte si hypotéku na koupi, stavbu, rekonstrukci i refinancování. Srovnáme banky a vyjednáme sazbu od 3,99 %.',
     h1: 'Hypotéka<br><em>s fér sazbou</em>',
-    lead: 'Koupě, stavba, rekonstrukce nebo refinancování. Srovnám nabídky všech bank a vyjednám sazbu, kterou sami na pobočce nedostanete.',
-    photo: 'hypo',
+    lead: 'Koupě, stavba, rekonstrukce nebo refinancování. Srovnáme nabídky všech bank a vyjednáme sazbu, kterou sami na pobočce nedostanete.',
+    photo: 'hypo', anchor: 'hypoteka',
   },
   {
     // Pojištění vozidla zatím NE (Denisa 22. 11. 2026: „nechala bych to zatím na nové úvěry, konsolidace, hypotéky“).
@@ -81,9 +84,9 @@ export const CATS = [
     cta: 'Chci fér pojistné pro své auto', icon: 'car',
     tagline: 'Povinné ručení i havarijní pojištění',
     title: 'Pojištění auta | FérSazby',
-    desc: 'Povinné ručení a havarijní pojištění za fér cenu. Porovnám pojišťovny a pošlu vám nejvýhodnější nabídku.',
+    desc: 'Povinné ručení a havarijní pojištění za fér cenu. Porovnáme pojišťovny a pošleme vám nejvýhodnější nabídku.',
     h1: 'Pojištění auta <em>za fér cenu</em>',
-    lead: 'Povinné ručení i havarijní pojištění. Porovnám pojišťovny, ohlídám limity krytí i asistenci a pošlu vám nabídku, která dává smysl.',
+    lead: 'Povinné ručení i havarijní pojištění. Porovnáme pojišťovny, ohlídáme limity krytí i asistenci a pošleme vám nabídku, která dává smysl.',
     photo: 'auto',
   },
 ];

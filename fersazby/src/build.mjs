@@ -47,7 +47,10 @@ const ICONS = {
 const icon = (n, cls = '') => `<svg class="ic ${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]}</svg>`;
 
 // Logo A1 („FérSazby.cz“): jedna definice na stránku (<symbol>), barvy přes CSS proměnné.
-const logoSprite = () => `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="logo-a1" viewBox="${LOGO.viewBox}">${LOGO.inner}</symbol></svg>`;
+// Samotný znak (procento s fajfkou) pro hero, mapu a další drobnosti.
+const MARK_INNER = '<circle cx="24" cy="23" r="12.5" fill="none" class="lm-r" stroke-width="9.7"/><circle cx="77" cy="78" r="12.5" fill="none" class="lm-r" stroke-width="9.7"/><path d="M12 56 L33 77 L84 13" fill="none" class="lm-t" stroke-width="13.5" stroke-linecap="round" stroke-linejoin="round"/>';
+const logoSprite = () => `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="logo-a1" viewBox="${LOGO.viewBox}">${LOGO.inner}</symbol><symbol id="logo-mark" viewBox="2 2 96 96">${MARK_INNER}</symbol></svg>`;
+const markSvg = (cls = '') => `<svg class="mark-svg ${cls}" viewBox="0 0 96 96" aria-hidden="true"><use href="#logo-mark"/></svg>`;
 // Vnější viewBox začíná v 0 0: <use> kreslí symbol do výřezu od počátku.
 const LOGO_WH = LOGO.viewBox.split(' ').slice(2).join(' ');
 const logoSvg = (cls = '') => `<svg class="logo-svg ${cls}" viewBox="0 0 ${LOGO_WH}" role="img" aria-label="FérSazby.cz"><use href="#logo-a1"/></svg>`;
@@ -80,49 +83,51 @@ ${noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" hr
 ${extraHead}
 </head>`;
 
-const header = (active = '', solid = false) => `
+// Jednostránkový web (Denisa 27. 11. 2026): menu na úvodu sjíždí na sekce, z podstránek vede na úvod s kotvou.
+// home = true → odkazy jen „#kotva“ (Lenis je odroluje plynule), jinak „/#kotva“.
+const header = (active = '', solid = false, home = false) => {
+  const b = home ? '' : '/';
+  return `
 ${logoSprite()}
 <a class="skip" href="#obsah">Přeskočit na obsah</a>
 <header class="site-head${solid ? ' is-solid' : ''}" id="hlavicka">
   <div class="head-in">
     ${logo()}
     <nav class="head-nav" aria-label="Hlavní nabídka">
-      ${ACTIVE.map((c) => `<a href="/${c.slug}"${active === c.key ? ' aria-current="page"' : ''}>${c.short}</a>`).join('')}
-      <a href="/#recenze">Recenze</a>
+      ${ACTIVE.map((c) => `<a href="${b}#${c.anchor}" data-spy="${c.anchor}"${active === c.key ? ' aria-current="page"' : ''}>${c.short}</a>`).join('')}
+      <a href="${b}#recenze" data-spy="recenze">Recenze</a>
     </nav>
     <div class="head-act">
       <a class="head-tel" href="${SITE.phoneHref}" aria-label="Zavolat ${SITE.phone}">${icon('phone')}<span>${SITE.phone}</span></a>
-      <a class="head-cta" href="/kontakt"${active === 'kontakt' ? ' aria-current="page"' : ''}>${icon('chat')}<span>Kontakt</span></a>
+      <a class="head-cta" href="${b}#kontakt" data-spy="kontakt">${icon('chat')}<span>Kontakt</span></a>
     </div>
     <button class="head-burger" type="button" aria-expanded="false" aria-controls="mobmenu" aria-label="Menu"><span></span><span></span></button>
   </div>
   <div class="mobmenu" id="mobmenu" hidden>
-    ${ACTIVE.map((c) => `<a href="/${c.slug}">${icon(c.icon)}<span>${c.name}</span>${icon('arrow', 'ic-go')}</a>`).join('')}
-    <a href="/#recenze">${icon('chat')}<span>Recenze klientů</span>${icon('arrow', 'ic-go')}</a>
-    <a class="mobmenu-cta" href="/kontakt">${icon('send')} Napsat přes Kontakt</a>
+    ${ACTIVE.map((c) => `<a href="${b}#${c.anchor}">${icon(c.icon)}<span>${c.name}</span>${icon('arrow', 'ic-go')}</a>`).join('')}
+    <a href="${b}#recenze">${icon('chat')}<span>Recenze klientů</span>${icon('arrow', 'ic-go')}</a>
+    <a class="mobmenu-cta" href="${b}#kontakt">${icon('send')} Napsat přes Kontakt</a>
     <a class="mobmenu-tel" href="${SITE.phoneHref}">${icon('phone')} Zavolat ${SITE.phone}</a>
     <a class="mobmenu-mail" href="mailto:${SITE.email}">${SITE.email}</a>
   </div>
 </header>`;
+};
 
-const footer = () => `
+// Patička podle Denisy 27. 11.: vlevo jen značka a jedna věta, vpravo tři služby a tlačítko na Kontakt.
+// Údaje o zprostředkovateli jsou na stránce Ochrana osobních údajů (odkaz dole).
+const footer = (home = false) => {
+  const b = home ? '' : '/';
+  return `
 <footer class="site-foot">
   <div class="wrap foot-top">
     <div class="foot-brand">
       ${logo('logo-light')}
-      <p>Srovnání úvěrů, konsolidací a&nbsp;hypoték. Za webem stojí ${SITE.person}, ${SITE.personRole}.</p>
+      <p>Srovnání nových úvěrů, konsolidací a&nbsp;hypoték.</p>
     </div>
-    <nav class="foot-nav" aria-label="Spočítat">
-      ${ACTIVE.map((c) => `<a href="/${c.slug}">${c.name}</a>`).join('')}
+    <nav class="foot-nav" aria-label="Služby">
+      ${ACTIVE.map((c) => `<a href="${b}#${c.anchor}">${c.name}</a>`).join('')}
     </nav>
-    <div class="foot-con">
-      <a class="foot-tel" href="${SITE.phoneHref}">${SITE.phone}</a>
-      <a href="mailto:${SITE.email}">${SITE.email}</a>
-      <a class="foot-msg" href="/kontakt">Napsat zprávu</a>
-    </div>
-  </div>
-  <div class="wrap foot-legal">
-    <p>${SITE.person}, IČ ${SITE.ico}, vázaná zástupkyně společnosti ${SITE.represented} (IČ ${SITE.representedIco}), zapsaná v registru České národní banky. Uvedené sazby a splátky jsou orientační, konečné podmínky stanoví banka podle vaší situace.</p>
+    <a class="btn foot-btn" href="${b}#kontakt">${icon('send')}<span>Napsat přes Kontakt</span></a>
   </div>
   <div class="foot-sig">
     <div class="wrap foot-sig-in">
@@ -131,6 +136,7 @@ const footer = () => `
     </div>
   </div>
 </footer>`;
+};
 
 const scripts = () => `
 <script>window.FS_RATES=${JSON.stringify(RATES)};</script>
@@ -241,6 +247,7 @@ const HV = {
 </div>`,
 };
 const HV_INIT = { uver: [300000, 240], konsolidace: [500000, 240], hypoteka: [4000000, 360] };
+const MIN_RATE = Math.min(...ACTIVE.map((c) => RATES[c.key].our));
 const HV_BANKS = new Set(ACTIVE.flatMap((c) => RATES[c.key].banks.map((b) => b[0]))).size;
 const hvRes = (c) => {
   const k = c.key, r = RATES[k], [P, n] = HV_INIT[k];
@@ -274,18 +281,18 @@ const heroV2 = () => `
 <section class="hv">
   <div class="hv-bg">
     <picture class="hv-pic">
-      <source media="(max-width: 860px)" srcset="/assets/hero-m-900.webp">
-      <img src="/assets/hero-rodina-vys-1672.webp" alt="Spokojená rodina doma na gauči" width="1672" height="1121" fetchpriority="high">
+      <source media="(max-width: 860px)" srcset="/assets/hero-pokoj-m-900.webp">
+      <img src="/assets/hero-pokoj-1536.webp" alt="" width="1536" height="1024" fetchpriority="high">
     </picture>
   </div>
   <div class="wrap hv-in">
     <div class="hv-txt">
       <p class="hv-brand">${logoSvg('logo-hero')}</p>
       <h1>Sazba, která<br class="hv-br"> je k&nbsp;vám<br class="hv-br"> <em>prostě&nbsp;fér.</em></h1>
-      <figure class="hv-say">
-        <img src="/assets/denisa-avatar-192.webp" alt="" width="192" height="192">
-        <blockquote>Řekněte, kolik potřebujete. Srovnám banky, vyjednám sazbu a&nbsp;vy jen podepíšete.</blockquote>
-        <figcaption><b>${SITE.person}</b>, ${SITE.personRole}</figcaption>
+      <figure class="hv-say hv-say-team">
+        <span class="hv-mark" aria-hidden="true">${markSvg()}</span>
+        <blockquote>Řekněte, kolik potřebujete. Srovnáme banky, vyjednáme sazbu a&nbsp;vy jen podepíšete.</blockquote>
+        <figcaption><b>Tým FérSazby</b>, ${SITE.clients} spokojených klientů po celé ČR</figcaption>
       </figure>
     </div>
     <div class="hv-card" id="spocitat">
@@ -302,10 +309,10 @@ const heroV2 = () => `
 // ---------- sdílené sekce ----------
 const STEPS = [
   ['Spočítejte si to', 'Kalkulačka hned ukáže, jak vychází splátka u jednotlivých bank.'],
-  ['Vyplňte pár údajů', 'Stačí základní informace, abych věděla, s čím vám můžu pomoct.'],
-  ['Ozvu se vám', 'Probereme vaši situaci a vyjednám u bank tu nejlepší sazbu.'],
-  ['Vyřídím to za vás', 'Podklady, žádost i komunikace s bankou. Provedu vás celým procesem.'],
-  ['Hlídám to dál', 'Až se objeví výhodnější nabídka nebo končí fixace, ozvu se sama.'],
+  ['Vyplňte pár údajů', 'Stačí základní informace, abychom věděli, s čím vám můžeme pomoct.'],
+  ['Ozveme se vám', 'Probereme vaši situaci a vyjednáme u bank tu nejlepší sazbu.'],
+  ['Vyřídíme to za vás', 'Podklady, žádost i komunikace s bankou. Provedeme vás celým procesem.'],
+  ['Hlídáme to dál', 'Až se objeví výhodnější nabídka nebo končí fixace, ozveme se sami.'],
 ];
 const steps = () => `
 <section class="sec steps" id="jak-to-funguje">
@@ -320,59 +327,66 @@ const steps = () => `
   </div>
 </section>`;
 
-const about = () => `
-<section class="sec about" id="kdo-za-tim-stoji">
-  <div class="wrap about-grid">
-    <figure class="about-photo">
-      <img src="/assets/denisa-holazova-portret-800.webp" srcset="/assets/denisa-holazova-portret-500.webp 500w, /assets/denisa-holazova-portret-800.webp 800w, /assets/denisa-holazova-portret-1400.webp 1400w" sizes="(max-width: 860px) 90vw, 440px" alt="Denisa Holazová, finanční poradkyně" loading="lazy" width="800" height="1000">
-      <figcaption><b>${SITE.person}</b><span>${SITE.personRole}</span></figcaption>
-    </figure>
-    <div class="about-txt">
+// Kdo za tím stojí: místo Denisiny fotky tým po celé ČR (Denisa 27. 11.: mapa, místo fotek poradců logo FérSazby).
+const MAPA = JSON.parse(readFileSync(new URL('./mapa-cr.json', import.meta.url)));
+const mapSection = () => `
+<section class="sec tm" id="kdo-za-tim-stoji">
+  <div class="wrap tm-grid">
+    <div class="tm-txt">
       <p class="eyebrow eyebrow-light">Kdo za tím stojí</p>
-      <h2 class="h2">Za každou sazbou<br>je skutečný člověk</h2>
-      <p>Jmenuji se Denisa Holazová a finančnímu poradenství se věnuji od roku 2013. Pomohla jsem stovkám klientů s&nbsp;prvním bydlením, s&nbsp;nevýhodnými úvěry i&nbsp;se zajištěním rodiny.</p>
-      <p>FérSazby jsem založila, abyste nemuseli obíhat pobočky a číst stostránkové podmínky. Srovnám nabídky bank, vyjednám sazbu a papírování beru na sebe.</p>
-      <dl class="about-stats">
-        <div><dt>15+</dt><dd>let praxe</dd></div>
-        <div><dt>850+</dt><dd>spokojených klientů</dd></div>
-        <div><dt>10</dt><dd>bank ve srovnání</dd></div>
+      <h2 class="h2">Tým poradců<br>po celé <em>republice</em></h2>
+      <p>Za FérSazby stojí tým finančních poradců, kteří srovnávají nabídky bank za vás. Je jedno, jestli bydlíte v&nbsp;Praze, nebo na malé vesnici. Ozveme se vám, probereme vaši situaci a celou žádost vyřídíme za vás.</p>
+      <dl class="tm-stats">
+        <div><dt>${SITE.clients.replace('+', '<small>+</small>')}</dt><dd>spokojených klientů</dd></div>
+        <div><dt>${SITE.volume.replace('+', '<small>+</small>')}</dt><dd>Kč v&nbsp;úvěrech, konsolidacích a&nbsp;hypotékách</dd></div>
+        <div><dt>${HV_BANKS}</dt><dd>bank ve srovnání</dd></div>
       </dl>
-      <a class="btn btn-ghost-light" href="/kontakt">${icon('send')}<span>Napište mi</span></a>
     </div>
+    <figure class="tm-map">
+      <svg viewBox="0 0 ${MAPA.w} ${MAPA.h}" role="img" aria-label="Mapa České republiky s poradci FérSazby ve všech krajích">
+        <g class="tm-kraje">${MAPA.paths.map((p) => `<path d="${p.d}"/>`).join('')}</g>
+        <g class="tm-pins">${MAPA.cities.map((c, i) => `<g class="tm-pin" style="--d:${(i * 0.21).toFixed(2)}s" transform="translate(${c.x} ${c.y})"><circle class="tm-pulse" r="22"/><circle class="tm-dot" r="22"/><use href="#logo-mark" x="-12" y="-12" width="24" height="24"/></g>`).join('')}</g>
+      </svg>
+      <figcaption>Působíme po celé České republice</figcaption>
+    </figure>
   </div>
 </section>`;
 
 const faqData = {
+  // Denisa 27. 11. (další otázky ještě pošle), vždy nahoře.
+  top: [['Co když mi v bance zamítli úvěr, půjde to u vás řešit?', 'Ano, u nás zamítnutý úvěr ve vaší bance není žádným problémem.']],
   common: [
-    ['Kolik mě srovnání a poradenství stojí?', 'Nic. Srovnání nabídek i poradenství je pro vás zdarma a nezávazné. Odměnu mi platí banka, se kterou smlouvu nakonec uzavřete.'],
-    ['Proč po mně chcete ověřovací SMS?', 'Kód ověří, že telefon je opravdu váš a že poptávku posíláte vy. Díky tomu se vám ozvu já, ne nikdo cizí, a nikdo jiný nemůže vaším jménem nic poslat.'],
+    ['Kolik mě srovnání a poradenství stojí?', 'Nic. Srovnání nabídek i poradenství je pro vás zdarma a nezávazné. Odměnu nám platí banka, se kterou smlouvu nakonec uzavřete.'],
+    ['Proč po mně chcete ověřovací SMS?', 'Kód ověří, že telefon je opravdu váš a že poptávku posíláte vy. Díky tomu se vám ozveme my, ne nikdo cizí, a nikdo jiný nemůže vaším jménem nic poslat.'],
     ['Zavazuje mě vyplnění formuláře k něčemu?', 'Ne. Formulář je jen žádost o nezávaznou konzultaci. Rozhodnutí je vždy na vás.'],
-    ['Jsou sazby v kalkulačce konečné?', 'Jsou orientační. Konečnou sazbu stanoví banka podle vašich příjmů, výdajů a dalších okolností. Mým úkolem je vyjednat co nejlepší podmínky.'],
+    ['Jsou sazby v kalkulačce konečné?', 'Jsou orientační. Konečnou sazbu stanoví banka podle vašich příjmů, výdajů a dalších okolností. Naším úkolem je vyjednat co nejlepší podmínky.'],
   ],
   konsolidace: [['Co všechno můžu sloučit?', 'Spotřebitelské úvěry, kreditní karty, kontokorenty i půjčky od nebankovních společností. Výsledkem je jedna splátka u jedné banky.']],
-  hypoteka: [['Kolik si můžu na hypotéku půjčit?', 'Banky obvykle půjčí do 80 % hodnoty nemovitosti, mladším 36 let do 90 %. Rozhoduje i výše vašich příjmů, proto vždy počítám s vaší konkrétní situací.']],
-  uver: [['Na co si můžu úvěr vzít?', 'Na cokoliv: auto, vybavení domácnosti, rekonstrukci, dovolenou. U účelových úvěrů bývá sazba nižší, proto se vždy zeptám, na co peníze potřebujete.']],
+  hypoteka: [['Kolik si můžu na hypotéku půjčit?', 'Banky obvykle půjčí do 80 % hodnoty nemovitosti, mladším 36 let do 90 %. Rozhoduje i výše vašich příjmů, proto vždy počítáme s vaší konkrétní situací.']],
+  uver: [['Na co si můžu úvěr vzít?', 'Na cokoliv: auto, vybavení domácnosti, rekonstrukci, dovolenou. U účelových úvěrů bývá sazba nižší, proto se vždy zeptáme, na co peníze potřebujete.']],
 };
+// Na úvodu (jedna stránka) otázky ze všech tří služeb.
+faqData.home = [...faqData.uver, ...faqData.konsolidace, ...faqData.hypoteka];
 
 const faq = (key) => `
 <section class="sec faq" id="caste-dotazy">
   <div class="wrap faq-grid">
-    <div><p class="eyebrow">Časté dotazy</p><h2 class="h2">Na co se lidé ptají</h2><p class="faq-side">Nenašli jste odpověď? <a href="/kontakt">Napište mi</a> a ozvu se.</p></div>
+    <div><p class="eyebrow">Časté dotazy</p><h2 class="h2">Na co se lidé ptají</h2><p class="faq-side">Nenašli jste odpověď? <a href="${key === 'home' ? '' : '/'}#kontakt">Napište nám</a> a ozveme se.</p></div>
     <div class="faq-list">
-      ${[...(faqData[key] || []), ...faqData.common].map(([q, a]) => `<details><summary>${q}<span aria-hidden="true"></span></summary><p>${a}</p></details>`).join('')}
+      ${[...faqData.top, ...(faqData[key] || []), ...faqData.common].map(([q, a]) => `<details><summary>${q}<span aria-hidden="true"></span></summary><p>${a}</p></details>`).join('')}
     </div>
   </div>
 </section>`;
 
-// Pruh na konci stránky: místo telefonu cesta na krátký formulář (Denisa 22. 11.).
+// Pruh na konci podstránek: jen cesta na krátký formulář, bez telefonu (Denisa 27. 11.).
 const contactBand = (tema = '') => `
 <section class="cband">
   <div class="wrap cband-in">
     <div>
       <p class="cband-h">Raději se nejdřív na něco zeptat?</p>
-      <p class="cband-p">Napište pár slov, nebo zavolejte na <a href="${SITE.phoneHref}">${SITE.phone}</a>.</p>
+      <p class="cband-p">Napište pár slov a&nbsp;ozveme se vám.</p>
     </div>
-    <a class="btn cband-btn" href="/kontakt${tema ? '?tema=' + tema : ''}">${icon('send')}<span>Napsat přes Kontakt</span></a>
+    <a class="btn cband-btn" href="/${tema ? '?tema=' + tema : ''}#kontakt">${icon('send')}<span>Napsat přes Kontakt</span></a>
   </div>
 </section>`;
 
@@ -435,22 +449,31 @@ const leadExtra = {
   hypoteka: () => `${pick('nemovitost', 'Typ nemovitosti', ['Byt', 'Rodinný dům', 'Pozemek'])}${pick('ucel', 'Účel hypotéky', ['Koupě', 'Stavba', 'Rekonstrukce', 'Refinancování', 'Americká hypotéka', 'Vypořádání'])}${yesno('exekuce', 'Měl/a jste v posledních 5 letech exekuci nebo insolvenci?')}`,
 };
 
-const leadForm = (c) => `
+// c = kategorie podstránky; na úvodu (c = null) si klient službu vybere a doplňující otázky se přepnou.
+const leadForm = (c) => {
+  const multi = !c, first = c || ACTIVE[0];
+  const extra = multi
+    ? ACTIVE.map((x) => `<div class="lead-extra" data-for-cat="${x.key}"${x.key === first.key ? '' : ' hidden'}><fieldset class="lead-extra-in"${x.key === first.key ? '' : ' disabled'}>${leadExtra[x.key]()}</fieldset></div>`).join('')
+    : leadExtra[c.key]();
+  return `
 <section class="sec lead" id="formular">
   <div class="wrap lead-grid">
     <div class="lead-side">
       <p class="eyebrow">Poslední krok</p>
-      <h2 class="h2">Vyjednám vám<br>tu nejlepší sazbu</h2>
-      <p>S těmito údaji lépe pochopím vaši situaci a můžu rovnou začít srovnávat nabídky.</p>
+      <h2 class="h2">Vyjednáme vám<br>tu nejlepší sazbu</h2>
+      <p>S těmito údaji lépe pochopíme vaši situaci a můžeme rovnou začít srovnávat nabídky.</p>
       <ul class="ticks">
-        <li>${icon('check')} Nezávazné a zdarma</li>
-        <li>${icon('check')} Ozvu se vám osobně</li>
-        <li>${icon('check')} Údaje chráním podle GDPR</li>
+        <li>${icon('check')} Nezávazně a zdarma</li>
+        <li>${icon('check')} Bez zbytečných poplatků</li>
+        <li>${icon('check')} Údaje chráníme podle zákona GDPR</li>
       </ul>
     </div>
     <div class="lead-card">
-      <form class="lead-form" data-cat="${c.key}" novalidate>
-        <input type="hidden" name="kategorie" value="${c.name}">
+      <form class="lead-form" data-cat="${first.key}" novalidate>
+        <input type="hidden" name="kategorie" value="${first.name}">
+        ${multi ? `<fieldset class="pick lead-cat"><legend>Co řešíte?</legend>
+          ${ACTIVE.map((x) => `<label><input type="radio" name="sluzba" value="${x.key}" data-name="${x.name}"${x.key === first.key ? ' checked' : ''}><span>${icon(x.icon)}${x.name}</span></label>`).join('')}
+        </fieldset>` : ''}
         <div class="lead-summary" data-summary hidden></div>
         <div class="fld-2">
           <div class="fld"><label class="fld-l" for="jmeno">Jméno</label><input class="txt" id="jmeno" name="jmeno" autocomplete="given-name" required></div>
@@ -462,13 +485,13 @@ const leadForm = (c) => `
         </div>
         <div class="fld"><label class="fld-l" for="prijem">Čistý měsíční příjem</label><div class="money money-plain"><input class="money-in" id="prijem" name="prijem" type="text" inputmode="numeric" required placeholder="35 000"><span class="money-u">Kč</span></div></div>
         ${pick('zdroj', 'Zdroj příjmů', ['Zaměstnání', 'OSVČ', 'Jiné'])}
-        ${leadExtra[c.key]()}
+        ${extra}
         ${pick('bydleni', 'Současné bydlení', ['Vlastní', 'Nájem', 'Jiné'])}
         <input type="text" name="firma" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
         <label class="consent"><input type="checkbox" name="souhlas" required><span>Souhlasím se <a href="/ochrana-osobnich-udaju" target="_blank">zpracováním osobních údajů</a> za účelem nezávazné nabídky.</span></label>
         <p class="form-err" role="alert" hidden></p>
         <button class="btn btn-go btn-wide" type="submit"><span>Chci nejlepší sazbu</span>${icon('arrow')}</button>
-        <p class="form-fine">Na mobil vám pošlu ověřovací kód. Poptávka odejde až po jeho zadání.</p>
+        <p class="form-fine">Na mobil vám pošleme ověřovací kód. Poptávka odejde až po jeho zadání.</p>
       </form>
 
       <form class="sms-form" hidden novalidate>
@@ -486,17 +509,18 @@ const leadForm = (c) => `
 
       <div class="done" hidden tabindex="-1">
         <div class="done-ic">${icon('check')}</div>
-        <h3>Hotovo, děkuji!</h3>
-        <p>Poptávka je ověřená a mám ji u sebe. Ozvu se vám co nejdřív na číslo <b data-done-phone></b>.</p>
-        <p class="done-sign">${SITE.person}</p>
+        <h3>Hotovo, děkujeme!</h3>
+        <p>Poptávka je ověřená a máme ji u sebe. Ozveme se vám co nejdříve.</p>
+        <p class="done-sign">Tým FérSazby</p>
       </div>
     </div>
   </div>
 </section>`;
+};
 
 // ---------- srovnání nabídek ----------
 const offers = (c) => `
-<section class="sec offers" id="nabidky">
+<section class="sec offers${c.home ? ' offers-home' : ''}" id="nabidky">
   <div class="wrap">
     <div class="offers-head">
       <div>
@@ -507,11 +531,11 @@ const offers = (c) => `
     </div>
     <div class="offers-grid">
       <article class="offer-ours">
-        <p class="offer-tag">Fér sazba</p>
+        <p class="offer-tag" data-o="tag">${c.home ? c.name : 'Fér sazba'}</p>
         <p class="offer-rate"><span data-o="our-rate">${pct(RATES[c.key].our)}</span><small>úroková sazba od</small></p>
         <p class="offer-pay"><span>Měsíční splátka od</span><b data-o="our-pay">—</b></p>
         <p class="offer-diff" data-o="our-save"></p>
-        <a class="btn btn-go" href="#formular"><span>Mám zájem</span>${icon('arrow')}</a>
+        <a class="btn btn-go" href="#formular"><span>Mám zájem o fér sazbu</span>${icon('arrow')}</a>
       </article>
       <div class="offer-box">
         <div class="offer-legend" aria-hidden="true"><span class="lg-base">Splátka s fér sazbou</span><span class="lg-over">Co byste u banky platili navíc</span></div>
@@ -529,24 +553,12 @@ const statBand = (c) => `
   <div class="wrap stats-in">
     <div><b>${pct(RATES[c.key].our).replace(' %', '<small>%</small>')}</b><span>sazba od</span></div>
     <div><b>${RATES[c.key].banks.length}</b><span>bank ve srovnání</span></div>
-    <div><b>15<small>+</small></b><span>let praxe</span></div>
-    <div><b>850<small>+</small></b><span>spokojených klientů</span></div>
+    <div><b>${SITE.clients.replace('+', '<small>+</small>')}</b><span>spokojených klientů</span></div>
+    <div><b>${SITE.volume.replace('+', '<small>+</small>')}</b><span>Kč v&nbsp;úvěrech a&nbsp;hypotékách</span></div>
   </div>
 </section>`;
 
-// ---------- na co to bude (otočné karty, prvek šablony money2u) ----------
-const uses = (c) => {
-  const u = CONTENT[c.key]?.uses; if (!u) return '';
-  return `
-<section class="sec uses" id="na-co">
-  <div class="wrap">
-    <div class="sec-head sec-head-split">
-      <div>
-        <p class="eyebrow">${u.kicker}</p>
-        <h2 class="h2">${u.h}</h2>
-      </div>
-      <p class="sec-lead">${u.p}</p>
-    </div>
+const usesGrid = (c, u) => `
     <div class="uses-grid">
       ${u.items.map((it, i) => {
         const n = it.roky ? it.roky * 12 : it.mesice;
@@ -565,14 +577,29 @@ const uses = (c) => {
             <p class="flip-pay"><span>splátka od</span>${kc(pmt(it.castka, RATES[c.key].our, n))}</p>
             <p class="flip-txt">${it.back}</p>
             <div class="flip-act">
-              <button type="button" class="flip-calc">Spočítat moje číslo${icon('arrow')}</button>
+              <button type="button" class="flip-calc">${CONTENT[c.key]?.flipCta || 'Spočítat moje číslo'}${icon('arrow')}</button>
               <button type="button" class="flip-close" aria-label="Otočit zpět">${icon('x')}</button>
             </div>
           </div>
         </div>
       </article>`;
       }).join('')}
+    </div>`;
+
+// ---------- na co to bude (otočné karty, prvek šablony money2u) ----------
+const uses = (c) => {
+  const u = CONTENT[c.key]?.uses; if (!u) return '';
+  return `
+<section class="sec uses" id="na-co">
+  <div class="wrap">
+    <div class="sec-head sec-head-split">
+      <div>
+        <p class="eyebrow">${u.kicker}</p>
+        <h2 class="h2">${u.h}</h2>
+      </div>
+      <p class="sec-lead">${u.p}</p>
     </div>
+    ${usesGrid(c, u)}
   </div>
 </section>`;
 };
@@ -583,11 +610,11 @@ const versus = (c) => `
   <div class="wrap">
     <div class="sec-head">
       <p class="eyebrow eyebrow-light">Proč přes FérSazby</p>
-      <h2 class="h2">Sami na pobočce,<br>nebo <em>se mnou</em>?</h2>
+      <h2 class="h2">Sami na pobočce,<br>nebo <em>s námi</em>?</h2>
     </div>
     <div class="vs-table" role="table" aria-label="Srovnání: sami v bance a s FérSazby">
       <div class="vs-row vs-top" role="row"><span role="columnheader" class="vs-k"><span class="sr">Co</span></span><span role="columnheader" class="vs-a">Sami v bance</span><span role="columnheader" class="vs-b">S FérSazby</span></div>
-      ${(CONTENT[c.key]?.versus || CONTENT.versus).map(([k, a, b]) => `<div class="vs-row" role="row"><span role="rowheader" class="vs-k">${k}</span><span role="cell" class="vs-a">${icon('x')}<span>${a}</span></span><span role="cell" class="vs-b">${icon('check')}<span>${b.replace('%RATE%', pct(RATES[c.key].our))}</span></span></div>`).join('')}
+      ${(CONTENT[c.key]?.versus || CONTENT.versus).map(([k, a, b]) => `<div class="vs-row" role="row"><span role="rowheader" class="vs-k">${k}</span><span role="cell" class="vs-a">${icon('x')}<span>${a}</span></span><span role="cell" class="vs-b">${icon('check')}<span>${b.replace('%RATE%', pct(c.home ? MIN_RATE : RATES[c.key].our))}</span></span></div>`).join('')}
     </div>
   </div>
 </section>`;
@@ -598,34 +625,33 @@ const heroQuote = (c) => {
   return `<figure class="hq"><span class="rv-av" aria-hidden="true">${initials(q.name)}</span><div><blockquote><p>${q.text}</p></blockquote><figcaption>${q.name} · <a href="#recenze">další recenze</a></figcaption></div></figure>`;
 };
 
-// ---------- úvodní stránka ----------
-const homeCats = () => {
-  const ex = {
-    uver: `Úvěr 300&nbsp;000&nbsp;Kč na 10 let: splátka od <b>${kc(pmt(300000, RATES.uver.our, 120))}</b>`,
-    konsolidace: `Dluh 500&nbsp;000&nbsp;Kč, dnes splácíte 9&nbsp;500&nbsp;Kč: nově od <b>${kc(pmt(500000, RATES.konsolidace.our, 120))}</b>`,
-    hypoteka: `Hypotéka 4&nbsp;mil.&nbsp;Kč na 30 let: splátka od <b>${kc(pmt(4000000, RATES.hypoteka.our, 360))}</b>`,
-  };
+// ---------- úvodní stránka: sekce služeb (jedna stránka, menu sjíždí sem) ----------
+const EX = {
+  uver: () => `Úvěr 300&nbsp;000&nbsp;Kč na 10 let: splátka od <b>${kc(pmt(300000, RATES.uver.our, 120))}</b>`,
+  konsolidace: () => `Dluh 500&nbsp;000&nbsp;Kč, dnes splácíte 9&nbsp;500&nbsp;Kč: nově od <b>${kc(pmt(500000, RATES.konsolidace.our, 120))}</b>`,
+  hypoteka: () => `Hypotéka 4&nbsp;mil.&nbsp;Kč na 30 let: splátka od <b>${kc(pmt(4000000, RATES.hypoteka.our, 360))}</b>`,
+};
+const catSection = (c, i) => {
+  const u = CONTENT[c.key]?.uses;
   return `
-<section class="sec cats" id="co-resite">
+<section class="sec svc svc-${c.key}${i % 2 ? ' svc-flip' : ''}" id="${c.anchor}" data-cat="${c.key}">
   <div class="wrap">
-    <div class="cats-head">
-      <p class="eyebrow">Co řešíte?</p>
-      <h2 class="h2">Tři věci, ve kterých<br>se dá hodně ušetřit</h2>
+    <div class="svc-head">
+      <figure class="svc-img"><picture><source media="(max-width: 700px)" srcset="/assets/${c.photo}-700.webp"><img src="/assets/${c.photo}-1200.webp" alt="" loading="lazy" width="1200" height="900"></picture>
+        <figcaption class="svc-rate"><span>sazba od</span><b>${pct(RATES[c.key].our)}</b></figcaption>
+      </figure>
+      <div class="svc-txt">
+        <p class="eyebrow"><span class="svc-n">0${i + 1}</span>${c.name}</p>
+        <h2 class="h2">${c.h1}</h2>
+        <p class="svc-lead">${c.lead}</p>
+        <p class="svc-ex">${EX[c.key]()}</p>
+        <a class="btn btn-go svc-go" href="#spocitat" data-pick="${c.key}"><span>${c.cta}</span>${icon('arrow')}</a>
+      </div>
     </div>
-    <div class="cats-grid">
-      ${ACTIVE.map((c, i) => `
-      <a class="cat cat-${c.key}" href="/${c.slug}">
-        <div class="cat-img"><picture><source media="(max-width: 700px)" srcset="/assets/${c.photo}-700.webp"><img src="/assets/${c.photo}-1200.webp" alt="" loading="lazy" width="1200" height="900"></picture></div>
-        <div class="cat-body">
-          <span class="cat-n">0${i + 1}</span>
-          <h3>${c.name}</h3>
-          <p class="cat-tag">${c.tagline}</p>
-          <p class="cat-big">od ${pct(RATES[c.key].our)}</p>
-          <p class="cat-ex">${ex[c.key]}</p>
-          <span class="cat-go">${c.cta} ${icon('arrow')}</span>
-        </div>
-      </a>`).join('')}
-    </div>
+    ${u ? `<div class="svc-uses">
+      <div class="svc-uses-h"><h3>${u.h.replace(/<br>/g, ' ')}</h3><p>${u.p}</p></div>
+      ${usesGrid(c, u)}
+    </div>` : ''}
   </div>
 </section>`;
 };
@@ -634,24 +660,27 @@ const ld = () => `<script type="application/ld+json">${JSON.stringify({
   '@context': 'https://schema.org',
   '@graph': [
     { '@type': 'FinancialService', '@id': SITE.url + '/#sluzba', name: SITE.name, url: SITE.url, email: SITE.email, telephone: SITE.phone, areaServed: 'CZ',
-      founder: { '@id': SITE.url + '/#denisa' }, description: 'Srovnání úvěrů, konsolidací a hypoték.' },
-    { '@type': 'Person', '@id': SITE.url + '/#denisa', name: SITE.person, jobTitle: 'Finanční poradkyně', url: 'https://holazova.cz', sameAs: ['https://holazova.cz'] },
+      description: 'Srovnání nových úvěrů, konsolidací a hypoték.' },
   ],
 })}</script>`;
 
-const home = () => typo(`${head({ title: 'FérSazby.cz | Úvěr, konsolidace a hypotéka za fér sazbu', desc: 'Spočítejte si úvěr, konsolidaci nebo hypotéku a podívejte se, kolik byste platili u jednotlivých bank. Fér sazba od 3,99 %. Denisa Holazová.', path: '/', extraHead: ld() + '\n<link rel="preload" as="image" href="/assets/hero-rodina-vys-1672.webp" media="(min-width: 861px)">\n<link rel="preload" as="image" href="/assets/hero-m-900.webp" media="(max-width: 860px)">' })}
+// Jedna stránka (Denisa 27. 11.): kalkulačka → srovnání bank → poptávka, pak služby, recenze, tým, dotazy a kontakt.
+const home = () => typo(`${head({ title: 'FérSazby.cz | Úvěr, konsolidace a hypotéka za fér sazbu', desc: `Spočítejte si úvěr, konsolidaci nebo hypotéku a podívejte se, kolik byste platili u jednotlivých bank. Fér sazba od ${pct(MIN_RATE)}.`, path: '/', extraHead: ld() + '\n<link rel="preload" as="image" href="/assets/hero-pokoj-1536.webp" media="(min-width: 861px)">\n<link rel="preload" as="image" href="/assets/hero-pokoj-m-900.webp" media="(max-width: 860px)">' })}
 <body class="pg-home">
-${header()}
+${header('', false, true)}
 <main id="obsah">
   ${heroV2()}
-  ${homeCats()}
+  ${offers({ ...ACTIVE[0], home: true })}
+  ${leadForm(null)}
+  ${ACTIVE.map(catSection).join('')}
+  ${versus({ key: 'home', home: true })}
   ${reviews()}
   ${steps()}
-  ${about()}
+  ${mapSection()}
   ${faq('home')}
-  ${contactBand()}
+  ${contactSection(true)}
 </main>
-${footer()}
+${footer(true)}
 ${scripts()}`);
 
 // ---------- stránka kategorie ----------
@@ -668,8 +697,8 @@ ${header(c.key)}
         <p class="hero-lead">${c.lead}</p>
         <ul class="ticks ticks-light">
           <li>${icon('check')} Srovnání bank zdarma</li>
-          <li>${icon('check')} Vyjednám lepší podmínky</li>
-          <li>${icon('check')} Vyřídím to za vás</li>
+          <li>${icon('check')} Vyjednáme lepší podmínky</li>
+          <li>${icon('check')} Vyřídíme to za vás</li>
         </ul>
         ${heroQuote(c)}
       </div>
@@ -692,22 +721,20 @@ ${header(c.key)}
 ${footer()}
 ${scripts()}`);
 
-// ---------- kontakt ----------
+// ---------- kontakt (sekce na úvodu, stejná i na /kontakt) ----------
 const TEMATA = [['uver', 'Nový úvěr', 'wallet'], ['konsolidace', 'Konsolidace', 'layers'], ['hypoteka', 'Hypotéka', 'home'], ['jine', 'Něco jiného', 'chat']];
-const contactPage = () => typo(`${head({ title: 'Kontakt | FérSazby.cz', desc: 'Napište Denise Holazové, s čím potřebujete pomoct. Krátký formulář, zpráva přijde rovnou na info@fersazby.cz.', path: '/kontakt' })}
-<body class="pg-kontakt">
-${header('kontakt', true)}
-<main id="obsah">
-  <section class="kt">
+const contactSection = (home) => `
+  <section class="kt" id="kontakt">
     <div class="wrap kt-grid">
       <div class="kt-txt">
         <p class="eyebrow eyebrow-light">Kontakt</p>
-        <h1>Napište, s čím<br><em>potřebujete pomoct</em></h1>
-        <p class="kt-lead">Čtyři políčka a jedno tlačítko. Zpráva mi přijde rovnou do mailu a ozvu se vám. Žádný e-mail si psát nemusíte. Když spěcháte, zavolejte.</p>
-        <figure class="kt-who">
-          <img src="/assets/denisa-holazova-portret-500.webp" alt="" width="500" height="625" loading="lazy">
-          <figcaption><b>${SITE.person}</b><span>${SITE.personRole}</span><a href="${SITE.phoneHref}">${icon('phone')}${SITE.phone}</a><a href="mailto:${SITE.email}">${icon('mail')}${SITE.email}</a></figcaption>
-        </figure>
+        ${home ? '<h2 class="kt-h">' : '<h1>'}Napište, s čím<br><em>potřebujete pomoct</em>${home ? '</h2>' : '</h1>'}
+        <p class="kt-lead">Čtyři políčka a jedno tlačítko. Zpráva nám přijde rovnou do mailu a ozveme se vám. Žádný e-mail si psát nemusíte.</p>
+        <ul class="kt-ticks">
+          <li>${icon('check')} Ozveme se vám co nejdříve</li>
+          <li>${icon('check')} Nezávazně a zdarma</li>
+          <li>${icon('mail')} Raději e-mailem? <a href="mailto:${SITE.email}">${SITE.email}</a></li>
+        </ul>
       </div>
       <div class="kt-card">
         <form class="kt-form" novalidate>
@@ -723,38 +750,46 @@ ${header('kontakt', true)}
           <input type="text" name="firma" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
           <p class="form-err" role="alert" hidden></p>
           <button class="btn btn-go btn-wide" type="submit"><span>Odeslat</span>${icon('send')}</button>
-          <p class="form-fine">Odesláním souhlasíte, že vás kvůli zprávě kontaktuji. <a href="/ochrana-osobnich-udaju">Jak nakládám s osobními údaji</a></p>
+          <p class="form-fine">Odesláním souhlasíte, že vás kvůli zprávě kontaktujeme. <a href="/ochrana-osobnich-udaju">Jak nakládáme s osobními údaji</a></p>
         </form>
         <div class="done kt-done" hidden tabindex="-1">
           <div class="done-ic">${icon('check')}</div>
-          <h2>Děkuji, zprávu mám</h2>
-          <p>Ozvu se vám co nejdřív na <b data-kt-mail></b> nebo na telefon.</p>
-          <p class="done-sign">${SITE.person}</p>
-          <a class="link" href="/">Zpět na kalkulačky</a>
+          <h2>Děkujeme, zprávu máme</h2>
+          <p>Ozveme se vám co nejdříve na <b data-kt-mail></b> nebo na telefon.</p>
+          <p class="done-sign">Tým FérSazby</p>
+          <a class="link" href="${home ? '' : '/'}#spocitat">Zpět na kalkulačky</a>
         </div>
       </div>
     </div>
-  </section>
+  </section>`;
+const contactPage = () => typo(`${head({ title: 'Kontakt | FérSazby.cz', desc: 'Napište nám, s čím potřebujete pomoct. Krátký formulář, zpráva přijde rovnou na info@fersazby.cz.', path: '/kontakt' })}
+<body class="pg-kontakt">
+${header('kontakt', true)}
+<main id="obsah">
+${contactSection(false)}
 </main>
 ${footer()}
 ${scripts()}`);
 
-const privacy = () => typo(`${head({ title: 'Ochrana osobních údajů | FérSazby.cz', desc: 'Jak zpracováváme osobní údaje z formulářů na webu FérSazby.', path: '/ochrana-osobnich-udaju' })}
+// Údaje o zprostředkovateli sem přesunuté z patičky (Denisa 27. 11.). Správce musí být jmenovitě uvedený (GDPR).
+const privacy = () => typo(`${head({ title: 'Ochrana osobních údajů | FérSazby.cz', desc: 'Jak zpracováváme osobní údaje z formulářů na webu FérSazby a kdo službu zprostředkovává.', path: '/ochrana-osobnich-udaju' })}
 <body class="pg-text">
 ${header('', true)}
 <main id="obsah" class="sec text-page"><div class="wrap narrow">
 <h1 class="h2">Ochrana osobních údajů</h1>
-<p>Správcem osobních údajů je ${SITE.person}, IČ ${SITE.ico}, e-mail <a href="mailto:${SITE.email}">${SITE.email}</a>, telefon ${SITE.phone}.</p>
+<p>Správcem osobních údajů je ${SITE.person}, IČ ${SITE.ico}, provozovatelka webu FérSazby.cz, e-mail <a href="mailto:${SITE.email}">${SITE.email}</a>.</p>
 <h2>Jaké údaje a proč</h2>
-<p>Z formulářů na tomto webu zpracovávám jméno, příjmení, e-mail, telefon a údaje, které sami vyplníte (výše úvěru, příjem, informace o bydlení nebo text zprávy). Používám je jen k tomu, abych vás kontaktovala a připravila nezávaznou nabídku. Právním základem je opatření před uzavřením smlouvy na vaši žádost a váš souhlas.</p>
+<p>Z formulářů na tomto webu zpracováváme jméno, příjmení, e-mail, telefon a údaje, které sami vyplníte (výše úvěru, příjem, informace o bydlení nebo text zprávy). Používáme je jen k tomu, abychom vás kontaktovali a připravili nezávaznou nabídku. Právním základem je opatření před uzavřením smlouvy na vaši žádost a váš souhlas.</p>
 <h2>Ověření telefonu</h2>
 <p>U poptávky z kalkulačky odešleme na zadané číslo jednorázový kód v SMS. Kód slouží jen k ověření, že poptávku posíláte vy.</p>
 <h2>Jak dlouho</h2>
-<p>Pokud spolupráce nevznikne, údaje smažu nejpozději do 12 měsíců. Pokud vznikne, řídí se uchování zákonnými lhůtami pro finanční zprostředkování.</p>
-<h2>Komu je předávám</h2>
-<p>Údaje předávám jen bance, u které o nabídku požádáte, a společnosti ${SITE.represented}, kterou jako vázaná zástupkyně zastupuji. Technicky je zpracovává poskytovatel hostingu, e-mailu a SMS brány.</p>
+<p>Pokud spolupráce nevznikne, údaje smažeme nejpozději do 12 měsíců. Pokud vznikne, řídí se uchování zákonnými lhůtami pro finanční zprostředkování.</p>
+<h2>Komu je předáváme</h2>
+<p>Vaši poptávku vyřizuje finanční poradce z našeho týmu. Údaje dále předáváme jen bance, u které o nabídku požádáte, a společnosti ${SITE.represented}, jejímž jménem zprostředkování probíhá. Technicky je zpracovává poskytovatel hostingu, e-mailu a SMS brány.</p>
 <h2>Vaše práva</h2>
 <p>Máte právo na přístup k údajům, opravu, výmaz, omezení zpracování, přenositelnost a odvolání souhlasu. Stačí napsat na <a href="mailto:${SITE.email}">${SITE.email}</a>. Stížnost můžete podat u Úřadu pro ochranu osobních údajů (uoou.gov.cz).</p>
+<h2 id="zprostredkovatel">Informace o zprostředkovateli</h2>
+<p>${SITE.person}, IČ ${SITE.ico}, vázaná zástupkyně společnosti ${SITE.represented} (IČ ${SITE.representedIco}), zapsaná v registru České národní banky. Uvedené sazby a splátky jsou orientační, konečné podmínky stanoví banka podle vaší situace.</p>
 </div></main>
 ${footer()}
 ${scripts()}`);
@@ -767,7 +802,7 @@ writeFileSync(new URL('ochrana-osobnich-udaju.html', OUT), privacy());
 writeFileSync(new URL('404.html', OUT), typo(`${head({ title: 'Stránka nenalezena | FérSazby.cz', desc: 'Tahle stránka neexistuje.', path: '/404', noindex: true })}
 <body class="pg-text">
 ${header('', true)}
-<main id="obsah" class="sec text-page"><div class="wrap narrow"><p class="eyebrow">Chyba 404</p><h1 class="h2">Tahle stránka tu není</h1><p>Zkuste začít kalkulačkou na <a href="/">úvodní stránce</a> nebo nám <a href="/kontakt">napište</a>.</p></div></main>
+<main id="obsah" class="sec text-page"><div class="wrap narrow"><p class="eyebrow">Chyba 404</p><h1 class="h2">Tahle stránka tu není</h1><p>Zkuste začít kalkulačkou na <a href="/">úvodní stránce</a> nebo nám <a href="/#kontakt">napište</a>.</p></div></main>
 ${footer()}
 ${scripts()}`));
 writeFileSync(new URL('sitemap.xml', OUT), `<?xml version="1.0" encoding="UTF-8"?>
