@@ -99,3 +99,6 @@ Hotovo a nasazeno (commit de1aff9):
 - Hero: obývák bez rodiny (GPT úprava původní fotky, foto-src/hero-pokoj.webp, public/assets/hero-pokoj-*.webp), místo portrétu znak FérSazby a „Tým FérSazby“. Návrat k rodině: v heroV2 vrátit hero-rodina-vys-1672.webp a hero-m-900.webp.
 - Ověřeno Playwrightem: 22 kontrol (menu, záložky, srovnání, karty, poptávka se SMS → mail s kategorií, kontakt, podstránky), počítač 1280–1920, mobil se nerozbil.
 Otevřené: telefon v hlavičce zůstal (Denisa ho smazala jen z pruhu a patička ho nemá), recenze a další FAQ Denisa ještě pošle, odpověď na Petru V. a Jana P. (pojištění auta) nedala.
+
+### 27. 11. večer: loga bank
+Denisa poslala obrázek log (KB, ČSOB, RB, ČS, mBank, Oberbank, ČSOB HB, UniCredit) + Trinity, Zonky, Cofidis, RSTS, Buřinka. Pás `bankLogos()` hned pod kalkulačkou, soubory v `public/assets/banky/` (oficiální weby bank a Wikimedia). Statistika v sekci tým teď „13 bank a spořitelen“. Pozor: srovnání sazeb dál ukazuje i MONETA a ESSOX, které v jejím seznamu nejsou.
