@@ -1,6 +1,6 @@
 // Sestaví statické stránky do public/. Spuštění: node src/build.mjs
 import { writeFileSync, readFileSync, existsSync, unlinkSync } from 'node:fs';
-import { SITE, RATES, CATS, ACTIVE } from './data.mjs';
+import { SITE, RATES, CATS, ACTIVE, HYPO_FIX_DEFAULT } from './data.mjs';
 import { REVIEWS } from './recenze.mjs';
 import { CONTENT } from './obsah.mjs';
 
@@ -42,6 +42,9 @@ const ICONS = {
   sofa: '<path d="M4 11V8a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v3"/><path d="M2 13a2 2 0 0 1 4 0v2h12v-2a2 2 0 0 1 4 0v5H2z"/><path d="M5 18v2M19 18v2"/>',
   card: '<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/>',
   percent: '<path d="M19 5 5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/>',
+  coins: '<path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17"/><path d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"/><path d="m2 16 6 6"/><circle cx="16" cy="9" r="2.9"/><circle cx="6" cy="5" r="3"/>',
+  handshake: '<path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/>',
+  gauge: '<path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/>',
   spark: '<path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/>',
 };
 const icon = (n, cls = '') => `<svg class="ic ${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]}</svg>`;
@@ -185,7 +188,7 @@ const calcFields = {
     <div class="fld fld-fix">
       <span class="fld-l" id="fix-%ID%">Fixace</span>
       <div class="seg" role="radiogroup" aria-labelledby="fix-%ID%">
-        ${[3, 5, 7, 10].map((y) => `<label><input type="radio" name="fixace" value="${y}"${y === 5 ? ' checked' : ''}><span>${y} let</span></label>`).join('')}
+        ${[3, 5, 7, 10].map((y) => `<label><input type="radio" name="fixace" value="${y}"${y === HYPO_FIX_DEFAULT ? ' checked' : ''}><span>${y} ${y === 3 ? 'roky' : 'let'}</span></label>`).join('')}
       </div>
     </div>`,
 };
@@ -241,7 +244,7 @@ const HV = {
 <div class="hv-f hv-fix">
   <span class="hv-l" id="fix-${id}">Fixace <small>v letech</small></span>
   <div class="seg" role="radiogroup" aria-labelledby="fix-${id}">
-    ${[3, 5, 7, 10].map((y) => `<label><input type="radio" name="fixace" value="${y}"${y === 5 ? ' checked' : ''}><span>${y}</span></label>`).join('')}
+    ${[3, 5, 7, 10].map((y) => `<label><input type="radio" name="fixace" value="${y}"${y === HYPO_FIX_DEFAULT ? ' checked' : ''}><span>${y}</span></label>`).join('')}
   </div>
   <span class="hv-fix-n">Jak dlouho vám banka sazbu podrží.</span>
 </div>`,
@@ -260,7 +263,7 @@ const hvRes = (c) => {
   <div class="hv-res">
     <div class="hv-res-top">
       <div class="hv-pay"><span class="hv-k">${k === 'konsolidace' ? 'Nová splátka od' : 'Splátka od'}</span><span class="hv-big"><b class="hv-n" data-roll="splatka">${fmt(pay)}</b><i>Kč</i></span></div>
-      <div class="hv-rate"><span class="hv-k">Sazba od</span><b>${pct(r.our)}</b></div>
+      <div class="hv-rate"><span class="hv-k">Sazba od</span><b data-out="sazba">${pct(r.our)}</b></div>
     </div>
     ${second}
     <button class="btn btn-go" type="submit"><span>${c.cta}</span>${icon('arrow')}</button>
@@ -289,11 +292,10 @@ const heroV2 = () => `
     <div class="hv-txt">
       <p class="hv-brand">${logoSvg('logo-hero')}</p>
       <h1>Sazba, která<br class="hv-br"> je k&nbsp;vám<br class="hv-br"> <em>prostě&nbsp;fér.</em></h1>
-      <figure class="hv-say hv-say-team">
-        <span class="hv-mark" aria-hidden="true">${markSvg()}</span>
-        <blockquote>Řekněte, kolik potřebujete. Srovnáme banky, vyjednáme sazbu a&nbsp;vy jen podepíšete.</blockquote>
-        <figcaption><b>Tým FérSazby</b>, ${SITE.clients} spokojených klientů po celé ČR</figcaption>
-      </figure>
+      <div class="hv-perks">
+        <ul>${[['coins', 'Bez poplatků'], ['handshake', 'Nezávazně'], ['gauge', 'Rychlá odezva']].map(([i, t]) => `<li>${icon(i)}<span>${t}</span></li>`).join('')}</ul>
+        <p><b>Tým FérSazby</b>, ${SITE.clients} spokojených klientů po celé ČR</p>
+      </div>
     </div>
     <div class="hv-card" id="spocitat">
       <div class="hv-tabs tabs" role="tablist" aria-label="Co chcete spočítat">
@@ -369,28 +371,28 @@ const mapSection = () => `
   </div>
 </section>`;
 
-const faqData = {
-  // Denisa 27. 11. (další otázky ještě pošle), vždy nahoře.
-  top: [['Co když mi v bance zamítli úvěr, půjde to u vás řešit?', 'Ano, u nás zamítnutý úvěr ve vaší bance není žádným problémem.']],
-  common: [
-    ['Kolik mě srovnání a poradenství stojí?', 'Nic. Srovnání nabídek i poradenství je pro vás zdarma a nezávazné. Odměnu nám platí banka, se kterou smlouvu nakonec uzavřete.'],
-    ['Proč po mně chcete ověřovací SMS?', 'Kód ověří, že telefon je opravdu váš a že poptávku posíláte vy. Díky tomu se vám ozveme my, ne nikdo cizí, a nikdo jiný nemůže vaším jménem nic poslat.'],
-    ['Zavazuje mě vyplnění formuláře k něčemu?', 'Ne. Formulář je jen žádost o nezávaznou konzultaci. Rozhodnutí je vždy na vás.'],
-    ['Jsou sazby v kalkulačce konečné?', 'Jsou orientační. Konečnou sazbu stanoví banka podle vašich příjmů, výdajů a dalších okolností. Naším úkolem je vyjednat co nejlepší podmínky.'],
-  ],
-  konsolidace: [['Co všechno můžu sloučit?', 'Spotřebitelské úvěry, kreditní karty, kontokorenty i půjčky od nebankovních společností. Výsledkem je jedna splátka u jedné banky.']],
-  hypoteka: [['Kolik si můžu na hypotéku půjčit?', 'Banky obvykle půjčí do 80 % hodnoty nemovitosti, mladším 36 let do 90 %. Rozhoduje i výše vašich příjmů, proto vždy počítáme s vaší konkrétní situací.']],
-  uver: [['Na co si můžu úvěr vzít?', 'Na cokoliv: auto, vybavení domácnosti, rekonstrukci, dovolenou. U účelových úvěrů bývá sazba nižší, proto se vždy zeptáme, na co peníze potřebujete.']],
-};
-// Na úvodu (jedna stránka) otázky ze všech tří služeb.
-faqData.home = [...faqData.uver, ...faqData.konsolidace, ...faqData.hypoteka];
+// Otázky a pořadí přesně podle Denisy (WhatsApp 27. 11. 2026), stejné na úvodu i podstránkách.
+const FAQ = [
+  ['Kolik mě srovnání a poradenství stojí?', 'Nic. Srovnání nabídek i poradenství je pro vás zdarma a nezávazné. Odměnu nám platí banka, se kterou smlouvu nakonec uzavřete.'],
+  ['Zavazuje mě vyplnění formuláře k něčemu?', 'Ne, je zcela nezávazné. Poslouží jen k orientačnímu porovnání možností podle vaší situace.'],
+  ['Proč po mně chcete ověřovací SMS?', 'Kód ověří, že telefon je opravdu váš a že poptávku posíláte vy. Díky tomu se vám ozveme my, ne nikdo cizí, a nikdo jiný nemůže vaším jménem nic poslat.'],
+  ['Jsou sazby v kalkulačce konečné?', 'Jsou orientační. Konečnou sazbu stanoví banka podle vašich příjmů, výdajů a dalších okolností. Naším úkolem je vyjednat co nejlepší podmínky.'],
+  ['Jak rychle se mi ozvete a jak to celé probíhá?', 'Obvykle do 24 hodin v pracovní dny. Krátce probereme situaci, porovnáme nabídky a při zájmu pomůžeme s vyřízením.'],
+  ['Musím někam jezdit podepisovat do banky?', 'Nemusíte, většinu zvládneme pohodlně online.'],
+  ['Co se děje po sjednání úvěru nebo hypotéky?', 'Jsme k dispozici i dál, třeba při dotazech ke splátkám, pojištění nebo při budoucím refinancování.'],
+  ['Na co si můžu úvěr vzít?', 'Spotřebitelský úvěr typicky na cokoliv: neúčelově pro vaši potřebu, na rekonstrukci, auto, vybavení nebo cesty. Hypotéku na bydlení, tedy na nemovitost.'],
+  ['Co všechno můžu sloučit?', 'Spotřebitelské úvěry, kreditní karty, kontokorenty i půjčky od nebankovních společností. Výsledkem je jedna splátka u jedné banky.'],
+  ['Co když mi v bance zamítli úvěr, půjde to u vás řešit?', 'Ano, u nás již zamítnutý úvěr v bance není žádným problémem.'],
+  ['Co když vím, že nemám dostatečný příjem?', 'I s tímto si poradíme. Známe metodiky jednotlivých bank, které příjmy i výdaje započítávají různě, a prověříme, kde to lze nastavit tak, aby žádost dávala smysl.'],
+  ['Je možná delší splatnost u spotřebitelského úvěru více než 10 let?', 'Ano, ve většině případů to je možné, ale posoudíme možnosti podle vaší situace.'],
+];
 
 const faq = (key) => `
 <section class="sec faq" id="caste-dotazy">
   <div class="wrap faq-grid">
     <div><p class="eyebrow">Časté dotazy</p><h2 class="h2">Na co se lidé ptají</h2><p class="faq-side">Nenašli jste odpověď? <a href="${key === 'home' ? '' : '/'}#kontakt">Napište nám</a> a ozveme se.</p></div>
     <div class="faq-list">
-      ${[...faqData.top, ...(faqData[key] || []), ...faqData.common].map(([q, a]) => `<details><summary>${q}<span aria-hidden="true"></span></summary><p>${a}</p></details>`).join('')}
+      ${FAQ.map(([q, a]) => `<details><summary>${q}<span aria-hidden="true"></span></summary><p>${a}</p></details>`).join('')}
     </div>
   </div>
 </section>`;

@@ -4,11 +4,14 @@
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
   const RATES = window.FS_RATES || {};
+  // Sazby kategorie; u hypotéky podle zvolené fixace (Denisa 27. 11.).
+  const rateSet = (cat, fix) => (RATES[cat]?.fix && RATES[cat].fix[fix]) || RATES[cat];
   const num = (v) => Number(String(v ?? '').replace(/[^\d]/g, '')) || 0;
   const fmt = (x) => Math.round(x).toLocaleString('cs-CZ');
   const kc = (x) => fmt(x) + ' Kč';
   const pct = (x) => x.toFixed(2).replace('.', ',') + ' %';
   const pmt = (P, rate, n) => { const r = rate / 100 / 12; if (!P || !n) return 0; return r ? P * r / (1 - (1 + r) ** -n) : P / n; };
+  const let_ = (y) => `${y} ${+y >= 2 && +y <= 4 ? 'roky' : 'let'}`;
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
   /* Jemné rolování kolečkem myši (touchpad a dotyk zůstávají přirozené). */
@@ -169,7 +172,7 @@
     s.castka = num(el.castka.value); s.n = months(form);
     if (cat === 'konsolidace') s.splatka = num(el.splatka.value);
     if (cat === 'hypoteka') { s.cena = num(el.cena.value); s.fixace = el.fixace.value; s.roky = num(el.roky.value); }
-    s.rate = RATES[cat].our; s.pay = pmt(s.castka, s.rate, s.n);
+    s.rates = rateSet(cat, s.fixace); s.rate = s.rates.our; s.pay = pmt(s.castka, s.rate, s.n);
     return s;
   };
 
@@ -177,6 +180,7 @@
     const s = state(form);
     const out = (k, v) => { const o = $(`[data-out="${k}"]`, form); if (o) o.textContent = v; };
     out('splatka', s.n ? kc(s.pay) : '—');
+    out('sazba', pct(s.rate));
     if (s.cat === 'konsolidace') {
       const save = s.splatka - s.pay;
       out('uspora', save > 0 ? kc(save) + '/měs.' : 'spočítáme');
@@ -185,7 +189,7 @@
     const big = $('[data-roll="splatka"]', form);
     if (big) roll(big, s.n ? fmt(s.pay) : '0');
     if ($('[data-out="rozdil"]', form) && RATES[s.cat]) {
-      const worst = Math.max(...RATES[s.cat].banks.map(([, r]) => pmt(s.castka, r, s.n)));
+      const worst = Math.max(...s.rates.banks.map(([, r]) => pmt(s.castka, r, s.n)));
       out('rozdil', kc(Math.max(0, worst - s.pay)));
     }
     const sv = $('[data-hv="uspora"]', form);
@@ -204,7 +208,7 @@
     const rateEl = $('[data-o="our-rate"]'); if (rateEl) rateEl.textContent = pct(s.rate);
     const tag = $('.offers-home [data-o="tag"]'); if (tag) tag.textContent = CAT_NAME[s.cat];
     if (list.dataset.cat !== s.cat) { list.dataset.cat = s.cat; delete list.dataset.all; }
-    const rows = RATES[s.cat].banks.map(([bank, rate]) => ({ bank, rate, pay: pmt(s.castka, rate, s.n) }));
+    const rows = s.rates.banks.map(([bank, rate]) => ({ bank, rate, pay: pmt(s.castka, rate, s.n) }));
     const worst = rows.reduce((m, r) => Math.max(m, r.pay), 0);
     $('[data-o="our-save"]').textContent = worst > s.pay ? `Až o ${kc(worst - s.pay)} měsíčně méně než u nejdražší banky` : '';
     // Pruh: tyrkysová část = splátka s fér sazbou, šrafovaná = kolik byste u banky platili navíc.
@@ -216,7 +220,7 @@
     if (more && !list.dataset.all) { list.classList.add('short'); more.hidden = rows.length <= 5; more.textContent = `Ukázat všech ${rows.length} bank`; }
     const forEl = $('[data-offers-for]');
     if (forEl) {
-      const term = s.cat === 'hypoteka' ? `${s.roky} let, fixace ${s.fixace} let` : `${s.n} měsíců`;
+      const term = s.cat === 'hypoteka' ? `${s.roky} let, fixace ${let_(s.fixace)}` : `${s.n} měsíců`;
       forEl.innerHTML = `${$('.offers-home') ? CAT_NAME[s.cat] + ' ' : 'Pro '}<b>${kc(s.castka)}</b> na <b>${term}</b>`;
     }
     summary(s);
@@ -225,7 +229,7 @@
   function summary(s) {
     const box = $('[data-summary]'); if (!box) return;
     let t = '';
-    if (s.cat === 'hypoteka') t = `Hypotéka <b>${kc(s.castka)}</b> na nemovitost za ${kc(s.cena)}, ${s.roky} let, fixace ${s.fixace} let, splátka od <b>${kc(s.pay)}</b>`;
+    if (s.cat === 'hypoteka') t = `Hypotéka <b>${kc(s.castka)}</b> na nemovitost za ${kc(s.cena)}, ${s.roky} let, fixace ${let_(s.fixace)}, splátka od <b>${kc(s.pay)}</b>`;
     else if (s.cat === 'konsolidace') t = `Konsolidace <b>${kc(s.castka)}</b>, dnes splácíte ${kc(s.splatka)}, nově od <b>${kc(s.pay)}</b> na ${s.n} měsíců`;
     else t = `Úvěr <b>${kc(s.castka)}</b> na ${s.n} měsíců, splátka od <b>${kc(s.pay)}</b>`;
     box.innerHTML = t; box.hidden = !t;

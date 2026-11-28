@@ -102,3 +102,8 @@ Otevřené: telefon v hlavičce zůstal (Denisa ho smazala jen z pruhu a patičk
 
 ### 27. 11. večer: loga bank
 Denisa poslala obrázek log (KB, ČSOB, RB, ČS, mBank, Oberbank, ČSOB HB, UniCredit) + Trinity, Zonky, Cofidis, RSTS, Buřinka. Pás `bankLogos()` hned pod kalkulačkou, soubory v `public/assets/banky/` (oficiální weby bank a Wikimedia). Statistika v sekci tým teď „13 bank a spořitelen“. Pozor: srovnání sazeb dál ukazuje i MONETA a ESSOX, které v jejím seznamu nejsou.
+
+### 28. 11.: úpravy z WhatsAppu (Denisa 27. 11. večer)
+Zpráva + 14 screenů v `podklady/denisa-2026-11-27-whatsapp/`. Hotovo: sazby úvěru a konsolidace jen bankami z jejího seznamu (MONETA, ESSOX pryč, přibyly Trinity a Zonky), hypotéka podle fixace 3/5/7/10 let (naše 5,19/5,39/5,49/5,59 
+### 28. 11.: úpravy z WhatsAppu (Denisa 27. 11. večer)
+Zpráva + 14 screenů v `podklady/denisa-2026-11-27-whatsapp/`. Hotovo: sazby úvěru a konsolidace jen bankami z jejího seznamu (MONETA, ESSOX pryč, přibyly Trinity a Zonky), hypotéka podle fixace 3/5/7/10 let (naše 5,19/5,39/5,49/5,59 %, výchozí 3 roky), FAQ přesně v jejím pořadí, hero se třemi výhodami (Bez poplatků, Nezávazně, Rychlá odezva) místo citátu, na mobilu logo v hlavičce místo velkého v hero, menší mezera mezi srovnáním a formulářem. Nejasné bez textu: zakroužkovaná splatnost „155 měs.“ a screeny hypotečních karet.

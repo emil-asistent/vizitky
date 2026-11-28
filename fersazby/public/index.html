@@ -20,7 +20,7 @@
 <link rel="manifest" href="/site.webmanifest">
 <link rel="preload" href="/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/poppins-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/styles.css?v=mwzenf2m">
+<link rel="stylesheet" href="/styles.css?v=mx0ahu2r">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"FinancialService","@id":"https://fersazby.cz/#sluzba","name":"FérSazby","url":"https://fersazby.cz","email":"info@fersazby.cz","telephone":"+420 737 202 797","areaServed":"CZ","description":"Srovnání nových úvěrů, konsolidací a hypoték."}]}</script>
 <link rel="preload" as="image" href="/assets/hero-pokoj-1536.webp" media="(min-width: 861px)">
 <link rel="preload" as="image" href="/assets/hero-pokoj-m-900.webp" media="(max-width: 860px)">
@@ -63,15 +63,14 @@
     <div class="hv-txt">
       <p class="hv-brand"><svg class="logo-svg logo-hero" viewBox="0 0 688 130" role="img" aria-label="FérSazby.cz"><use href="#logo-a1"/></svg></p>
       <h1>Sazba, která<br class="hv-br"> je k&nbsp;vám<br class="hv-br"> <em>prostě&nbsp;fér.</em></h1>
-      <figure class="hv-say hv-say-team">
-        <span class="hv-mark" aria-hidden="true"><svg class="mark-svg " viewBox="0 0 96 96" aria-hidden="true"><use href="#logo-mark"/></svg></span>
-        <blockquote>Řekněte, kolik potřebujete. Srovnáme banky, vyjednáme sazbu a&nbsp;vy jen podepíšete.</blockquote>
-        <figcaption><b>Tým FérSazby</b>, 1000+ spokojených klientů po celé ČR</figcaption>
-      </figure>
+      <div class="hv-perks">
+        <ul><li><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17"/><path d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"/><path d="m2 16 6 6"/><circle cx="16" cy="9" r="2.9"/><circle cx="6" cy="5" r="3"/></svg><span>Bez poplatků</span></li><li><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/></svg><span>Nezávazně</span></li><li><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg><span>Rychlá odezva</span></li></ul>
+        <p><b>Tým FérSazby</b>, 1000+ spokojených klientů po celé ČR</p>
+      </div>
     </div>
     <div class="hv-card" id="spocitat">
       <div class="hv-tabs tabs" role="tablist" aria-label="Co chcete spočítat">
-        <button type="button" role="tab" id="tab-uver" aria-controls="calc-h-uver" aria-selected="true" tabindex="0" data-tab="uver"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h14a2 2 0 0 1 2 2v3h-4a2 2 0 0 0 0 4h4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5"/></svg><span class="hv-tn"><span class="hv-tl">Úvěr na cokoliv</span><span class="hv-ts">Úvěr</span></span><span class="hv-tr">od 3,97 %</span></button><button type="button" role="tab" id="tab-konsolidace" aria-controls="calc-h-konsolidace" aria-selected="false" tabindex="-1" data-tab="konsolidace"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg><span class="hv-tn"><span class="hv-tl">Konsolidace</span><span class="hv-ts">Konsolidace</span></span><span class="hv-tr">od 3,97 %</span></button><button type="button" role="tab" id="tab-hypoteka" aria-controls="calc-h-hypoteka" aria-selected="false" tabindex="-1" data-tab="hypoteka"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span class="hv-tn"><span class="hv-tl">Hypotéka</span><span class="hv-ts">Hypotéka</span></span><span class="hv-tr">od 3,99 %</span></button>
+        <button type="button" role="tab" id="tab-uver" aria-controls="calc-h-uver" aria-selected="true" tabindex="0" data-tab="uver"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h14a2 2 0 0 1 2 2v3h-4a2 2 0 0 0 0 4h4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5"/></svg><span class="hv-tn"><span class="hv-tl">Úvěr na cokoliv</span><span class="hv-ts">Úvěr</span></span><span class="hv-tr">od 3,97 %</span></button><button type="button" role="tab" id="tab-konsolidace" aria-controls="calc-h-konsolidace" aria-selected="false" tabindex="-1" data-tab="konsolidace"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg><span class="hv-tn"><span class="hv-tl">Konsolidace</span><span class="hv-ts">Konsolidace</span></span><span class="hv-tr">od 3,97 %</span></button><button type="button" role="tab" id="tab-hypoteka" aria-controls="calc-h-hypoteka" aria-selected="false" tabindex="-1" data-tab="hypoteka"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span class="hv-tn"><span class="hv-tl">Hypotéka</span><span class="hv-ts">Hypotéka</span></span><span class="hv-tr">od 5,19 %</span></button>
       </div>
       <div class="hv-body">
         
@@ -100,15 +99,15 @@
   <input class="range" type="range" min="12" max="240" step="1" value="240" data-for="mesice" aria-label="Splatnost, posuvník" tabindex="-1">
   <div class="range-ends"><span>12 měs.</span><span>240 měs.</span></div>
 </div></div>
-    <p class="hv-note"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>Nezávazně a&nbsp;zdarma</span><span>Srovnání 10 bank</span><span>Údaje nikam neposíláme, dokud sami nechcete</span></p>
+    <p class="hv-note"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>Nezávazně a&nbsp;zdarma</span><span>Srovnání 9 bank</span><span>Údaje nikam neposíláme, dokud sami nechcete</span></p>
   </div>
   
   <div class="hv-res">
     <div class="hv-res-top">
       <div class="hv-pay"><span class="hv-k">Splátka od</span><span class="hv-big"><b class="hv-n" data-roll="splatka">1 813</b><i>Kč</i></span></div>
-      <div class="hv-rate"><span class="hv-k">Sazba od</span><b>3,97 %</b></div>
+      <div class="hv-rate"><span class="hv-k">Sazba od</span><b data-out="sazba">3,97 %</b></div>
     </div>
-    <p class="hv-diff">o&nbsp;<b data-out="rozdil">828 Kč</b> měsíčně méně než u&nbsp;nejdražší banky</p>
+    <p class="hv-diff">o&nbsp;<b data-out="rozdil">884 Kč</b> měsíčně méně než u&nbsp;nejdražší banky</p>
     <button class="btn btn-go" type="submit"><span>Chci nový úvěr s fér sazbou</span><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
   </div>
 </form>
@@ -148,13 +147,13 @@
   <input class="range" type="range" min="12" max="240" step="1" value="240" data-for="mesice" aria-label="Nová splatnost, posuvník" tabindex="-1">
   <div class="range-ends"><span>12 měs.</span><span>240 měs.</span></div>
 </div></div>
-    <p class="hv-note"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>Nezávazně a&nbsp;zdarma</span><span>Srovnání 10 bank</span><span>Údaje nikam neposíláme, dokud sami nechcete</span></p>
+    <p class="hv-note"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>Nezávazně a&nbsp;zdarma</span><span>Srovnání 9 bank</span><span>Údaje nikam neposíláme, dokud sami nechcete</span></p>
   </div>
   
   <div class="hv-res">
     <div class="hv-res-top">
       <div class="hv-pay"><span class="hv-k">Nová splátka od</span><span class="hv-big"><b class="hv-n" data-roll="splatka">3 022</b><i>Kč</i></span></div>
-      <div class="hv-rate"><span class="hv-k">Sazba od</span><b>3,97 %</b></div>
+      <div class="hv-rate"><span class="hv-k">Sazba od</span><b data-out="sazba">3,97 %</b></div>
     </div>
     <p class="hv-diff hv-save" data-hv="uspora">Ušetříte až <b>6 478 Kč</b> měsíčně</p>
     <button class="btn btn-go" type="submit"><span>Chci ušetřit na splátkách díky fér konsolidaci</span><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
@@ -199,19 +198,19 @@
 <div class="hv-f hv-fix">
   <span class="hv-l" id="fix-h-hypoteka">Fixace <small>v letech</small></span>
   <div class="seg" role="radiogroup" aria-labelledby="fix-h-hypoteka">
-    <label><input type="radio" name="fixace" value="3"><span>3</span></label><label><input type="radio" name="fixace" value="5" checked><span>5</span></label><label><input type="radio" name="fixace" value="7"><span>7</span></label><label><input type="radio" name="fixace" value="10"><span>10</span></label>
+    <label><input type="radio" name="fixace" value="3" checked><span>3</span></label><label><input type="radio" name="fixace" value="5"><span>5</span></label><label><input type="radio" name="fixace" value="7"><span>7</span></label><label><input type="radio" name="fixace" value="10"><span>10</span></label>
   </div>
   <span class="hv-fix-n">Jak dlouho vám banka sazbu podrží.</span>
 </div></div>
-    <p class="hv-note"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>Nezávazně a&nbsp;zdarma</span><span>Srovnání 10 bank</span><span>Údaje nikam neposíláme, dokud sami nechcete</span></p>
+    <p class="hv-note"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>Nezávazně a&nbsp;zdarma</span><span>Srovnání 9 bank</span><span>Údaje nikam neposíláme, dokud sami nechcete</span></p>
   </div>
   
   <div class="hv-res">
     <div class="hv-res-top">
-      <div class="hv-pay"><span class="hv-k">Splátka od</span><span class="hv-big"><b class="hv-n" data-roll="splatka">19 074</b><i>Kč</i></span></div>
-      <div class="hv-rate"><span class="hv-k">Sazba od</span><b>3,99 %</b></div>
+      <div class="hv-pay"><span class="hv-k">Splátka od</span><span class="hv-big"><b class="hv-n" data-roll="splatka">21 940</b><i>Kč</i></span></div>
+      <div class="hv-rate"><span class="hv-k">Sazba od</span><b data-out="sazba">5,19 %</b></div>
     </div>
-    <p class="hv-diff">o&nbsp;<b data-out="rozdil">4 883 Kč</b> měsíčně méně než u&nbsp;nejdražší banky</p>
+    <p class="hv-diff">o&nbsp;<b data-out="rozdil">2 404 Kč</b> měsíčně méně než u&nbsp;nejdražší banky</p>
     <button class="btn btn-go" type="submit"><span>Chci fér sazbu na hypotéku</span><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
   </div>
 </form>
@@ -565,13 +564,13 @@
   <div class="wrap">
     <div class="svc-head">
       <figure class="svc-img"><picture><source media="(max-width: 700px)" srcset="/assets/hypo-700.webp"><img src="/assets/hypo-1200.webp" alt="" loading="lazy" width="1200" height="900"></picture>
-        <figcaption class="svc-rate"><span>sazba od</span><b>3,99 %</b></figcaption>
+        <figcaption class="svc-rate"><span>sazba od</span><b>5,19 %</b></figcaption>
       </figure>
       <div class="svc-txt">
         <p class="eyebrow"><span class="svc-n">03</span>Hypotéka</p>
         <h2 class="h2">Hypotéka<br><em>s fér sazbou</em></h2>
         <p class="svc-lead">Koupě, stavba, rekonstrukce nebo refinancování. Srovnáme nabídky všech bank a vyjednáme sazbu, kterou sami na pobočce nedostanete.</p>
-        <p class="svc-ex">Hypotéka 4&nbsp;mil.&nbsp;Kč na 30 let: splátka od <b>19 074 Kč</b></p>
+        <p class="svc-ex">Hypotéka 4&nbsp;mil.&nbsp;Kč na 30 let: splátka od <b>21 940 Kč</b></p>
         <a class="btn btn-go svc-go" href="#spocitat" data-pick="hypoteka"><span>Chci fér sazbu na hypotéku</span><svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
       </div>
     </div>
@@ -591,7 +590,7 @@
           <div class="flip-back" aria-hidden="true" inert>
             <p class="flip-k">Třeba takhle</p>
             <p class="flip-sum">4 000 000&nbsp;Kč <span>na 30 let</span></p>
-            <p class="flip-pay"><span>splátka od</span>19 074 Kč</p>
+            <p class="flip-pay"><span>splátka od</span>21 940 Kč</p>
             <p class="flip-txt">Banky obvykle půjčí do 80 % hodnoty nemovitosti, mladším 36 let do 90 %.</p>
             <div class="flip-act">
               <button type="button" class="flip-calc">Spočítat moje číslo<svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
@@ -611,7 +610,7 @@
           <div class="flip-back" aria-hidden="true" inert>
             <p class="flip-k">Třeba takhle</p>
             <p class="flip-sum">6 000 000&nbsp;Kč <span>na 30 let</span></p>
-            <p class="flip-pay"><span>splátka od</span>28 610 Kč</p>
+            <p class="flip-pay"><span>splátka od</span>32 910 Kč</p>
             <p class="flip-txt">Peníze banka uvolňuje postupně, jak stavba roste. Rozpočet projdeme spolu dopředu.</p>
             <div class="flip-act">
               <button type="button" class="flip-calc">Spočítat moje číslo<svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
@@ -631,7 +630,7 @@
           <div class="flip-back" aria-hidden="true" inert>
             <p class="flip-k">Třeba takhle</p>
             <p class="flip-sum">1 500 000&nbsp;Kč <span>na 20 let</span></p>
-            <p class="flip-pay"><span>splátka od</span>9 082 Kč</p>
+            <p class="flip-pay"><span>splátka od</span>10 057 Kč</p>
             <p class="flip-txt">U větší rekonstrukce dává smysl i hypotéka. Porovnáme ji se spotřebitelským úvěrem.</p>
             <div class="flip-act">
               <button type="button" class="flip-calc">Spočítat moje číslo<svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
@@ -651,7 +650,7 @@
           <div class="flip-back" aria-hidden="true" inert>
             <p class="flip-k">Třeba takhle</p>
             <p class="flip-sum">3 000 000&nbsp;Kč <span>na 25 let</span></p>
-            <p class="flip-pay"><span>splátka od</span>15 819 Kč</p>
+            <p class="flip-pay"><span>splátka od</span>17 871 Kč</p>
             <p class="flip-txt">Nemusíte ji brát. Vyjednáme vám lepší sazbu.</p>
             <div class="flip-act">
               <button type="button" class="flip-calc">Spočítat moje číslo<svg class="ic " viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
@@ -921,7 +920,7 @@
   <div class="wrap faq-grid">
     <div><p class="eyebrow">Časté dotazy</p><h2 class="h2">Na co se lidé ptají</h2><p class="faq-side">Nenašli jste odpověď? <a href="#kontakt">Napište nám</a> a ozveme se.</p></div>
     <div class="faq-list">
-      <details><summary>Co když mi v bance zamítli úvěr, půjde to u vás řešit?<span aria-hidden="true"></span></summary><p>Ano, u nás zamítnutý úvěr ve vaší bance není žádným problémem.</p></details><details><summary>Na co si můžu úvěr vzít?<span aria-hidden="true"></span></summary><p>Na cokoliv: auto, vybavení domácnosti, rekonstrukci, dovolenou. U účelových úvěrů bývá sazba nižší, proto se vždy zeptáme, na co peníze potřebujete.</p></details><details><summary>Co všechno můžu sloučit?<span aria-hidden="true"></span></summary><p>Spotřebitelské úvěry, kreditní karty, kontokorenty i půjčky od nebankovních společností. Výsledkem je jedna splátka u jedné banky.</p></details><details><summary>Kolik si můžu na hypotéku půjčit?<span aria-hidden="true"></span></summary><p>Banky obvykle půjčí do 80 % hodnoty nemovitosti, mladším 36 let do 90 %. Rozhoduje i výše vašich příjmů, proto vždy počítáme s vaší konkrétní situací.</p></details><details><summary>Kolik mě srovnání a poradenství stojí?<span aria-hidden="true"></span></summary><p>Nic. Srovnání nabídek i poradenství je pro vás zdarma a nezávazné. Odměnu nám platí banka, se kterou smlouvu nakonec uzavřete.</p></details><details><summary>Proč po mně chcete ověřovací SMS?<span aria-hidden="true"></span></summary><p>Kód ověří, že telefon je opravdu váš a že poptávku posíláte vy. Díky tomu se vám ozveme my, ne nikdo cizí, a nikdo jiný nemůže vaším jménem nic poslat.</p></details><details><summary>Zavazuje mě vyplnění formuláře k něčemu?<span aria-hidden="true"></span></summary><p>Ne. Formulář je jen žádost o nezávaznou konzultaci. Rozhodnutí je vždy na vás.</p></details><details><summary>Jsou sazby v kalkulačce konečné?<span aria-hidden="true"></span></summary><p>Jsou orientační. Konečnou sazbu stanoví banka podle vašich příjmů, výdajů a dalších okolností. Naším úkolem je vyjednat co nejlepší podmínky.</p></details>
+      <details><summary>Kolik mě srovnání a poradenství stojí?<span aria-hidden="true"></span></summary><p>Nic. Srovnání nabídek i poradenství je pro vás zdarma a nezávazné. Odměnu nám platí banka, se kterou smlouvu nakonec uzavřete.</p></details><details><summary>Zavazuje mě vyplnění formuláře k něčemu?<span aria-hidden="true"></span></summary><p>Ne, je zcela nezávazné. Poslouží jen k orientačnímu porovnání možností podle vaší situace.</p></details><details><summary>Proč po mně chcete ověřovací SMS?<span aria-hidden="true"></span></summary><p>Kód ověří, že telefon je opravdu váš a že poptávku posíláte vy. Díky tomu se vám ozveme my, ne nikdo cizí, a nikdo jiný nemůže vaším jménem nic poslat.</p></details><details><summary>Jsou sazby v kalkulačce konečné?<span aria-hidden="true"></span></summary><p>Jsou orientační. Konečnou sazbu stanoví banka podle vašich příjmů, výdajů a dalších okolností. Naším úkolem je vyjednat co nejlepší podmínky.</p></details><details><summary>Jak rychle se mi ozvete a jak to celé probíhá?<span aria-hidden="true"></span></summary><p>Obvykle do 24 hodin v pracovní dny. Krátce probereme situaci, porovnáme nabídky a při zájmu pomůžeme s vyřízením.</p></details><details><summary>Musím někam jezdit podepisovat do banky?<span aria-hidden="true"></span></summary><p>Nemusíte, většinu zvládneme pohodlně online.</p></details><details><summary>Co se děje po sjednání úvěru nebo hypotéky?<span aria-hidden="true"></span></summary><p>Jsme k dispozici i dál, třeba při dotazech ke splátkám, pojištění nebo při budoucím refinancování.</p></details><details><summary>Na co si můžu úvěr vzít?<span aria-hidden="true"></span></summary><p>Spotřebitelský úvěr typicky na cokoliv: neúčelově pro vaši potřebu, na rekonstrukci, auto, vybavení nebo cesty. Hypotéku na bydlení, tedy na nemovitost.</p></details><details><summary>Co všechno můžu sloučit?<span aria-hidden="true"></span></summary><p>Spotřebitelské úvěry, kreditní karty, kontokorenty i půjčky od nebankovních společností. Výsledkem je jedna splátka u jedné banky.</p></details><details><summary>Co když mi v bance zamítli úvěr, půjde to u vás řešit?<span aria-hidden="true"></span></summary><p>Ano, u nás již zamítnutý úvěr v bance není žádným problémem.</p></details><details><summary>Co když vím, že nemám dostatečný příjem?<span aria-hidden="true"></span></summary><p>I s tímto si poradíme. Známe metodiky jednotlivých bank, které příjmy i výdaje započítávají různě, a prověříme, kde to lze nastavit tak, aby žádost dávala smysl.</p></details><details><summary>Je možná delší splatnost u spotřebitelského úvěru více než 10 let?<span aria-hidden="true"></span></summary><p>Ano, ve většině případů to je možné, ale posoudíme možnosti podle vaší situace.</p></details>
     </div>
   </div>
 </section>
@@ -985,8 +984,8 @@
   </div>
 </footer>
 
-<script>window.FS_RATES={"uver":{"our":3.97,"banks":[["Komerční banka",4.7],["Raiffeisenbank",4.8],["MONETA Money Bank",4.87],["Česká spořitelna",4.97],["mBank",4.99],["ČSOB",6.21],["UniCredit Bank",6.49],["ESSOX",7],["Cofidis",8.7]]},"konsolidace":{"our":3.97,"banks":[["Komerční banka",4.7],["Raiffeisenbank",4.8],["Česká spořitelna",4.97],["mBank",4.99],["MONETA Money Bank",6.33],["UniCredit Bank",6.49],["ESSOX",7],["ČSOB",8.01],["Cofidis",8.7]]},"hypoteka":{"our":3.99,"banks":[["Raiffeisenbank",4.79],["Česká spořitelna",4.89],["MONETA Money Bank",5.04],["UniCredit Bank",5.09],["mBank",5.29],["Komerční banka",5.49],["ČSOB Hypoteční banka",5.59],["ČSOB",5.99]]}};</script>
+<script>window.FS_RATES={"uver":{"our":3.97,"banks":[["mBank",4.49],["Raiffeisenbank",4.9],["Trinity Bank",4.97],["Zonky",4.99],["Komerční banka",5.19],["Česká spořitelna",5.29],["UniCredit Bank",5.49],["ČSOB",5.9],["Cofidis",8.99]]},"konsolidace":{"our":3.97,"banks":[["mBank",4.49],["Raiffeisenbank",4.9],["Trinity Bank",4.97],["Zonky",4.99],["Komerční banka",5.19],["Česká spořitelna",5.29],["UniCredit Bank",5.49],["ČSOB",5.9],["Cofidis",8.99]]},"hypoteka":{"our":5.19,"banks":[["UniCredit Bank",5.39],["Česká spořitelna",5.69],["Raiffeisenbank",5.69],["ČSOB",5.74],["mBank",5.89],["Komerční banka",6.14]],"fix":{"3":{"our":5.19,"banks":[["UniCredit Bank",5.39],["Česká spořitelna",5.69],["Raiffeisenbank",5.69],["ČSOB",5.74],["mBank",5.89],["Komerční banka",6.14]]},"5":{"our":5.39,"banks":[["Česká spořitelna",5.59],["UniCredit Bank",5.79],["Raiffeisenbank",5.89],["mBank",5.99],["ČSOB",6.14],["Komerční banka",6.49]]},"7":{"our":5.49,"banks":[["Česká spořitelna",5.69],["UniCredit Bank",5.79],["Raiffeisenbank",5.89],["mBank",5.99],["ČSOB",6.14],["Komerční banka",6.49]]},"10":{"our":5.59,"banks":[["Česká spořitelna",5.79],["UniCredit Bank",5.89],["Raiffeisenbank",5.99],["mBank",6.09],["ČSOB",6.24],["Komerční banka",6.59]]}}}};</script>
 <script src="/lenis.min.js?v=1.1.20" defer></script>
-<script src="/app.js?v=mwzenf2m" defer></script>
+<script src="/app.js?v=mx0ahu2r" defer></script>
 </body>
 </html>

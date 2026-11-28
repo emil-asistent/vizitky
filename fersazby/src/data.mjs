@@ -19,31 +19,25 @@ export const SITE = {
   volume: '1 mld.+',
 };
 
+// Sazby od Denisy (WhatsApp 27. 11. 2026): jen banky, které uvedla, ostatní pryč z výpočtů.
+const SPOTREBITELSKE = [
+      ['mBank', 4.49], ['Raiffeisenbank', 4.90], ['Trinity Bank', 4.97], ['Zonky', 4.99],
+      ['Komerční banka', 5.19], ['Česká spořitelna', 5.29], ['UniCredit Bank', 5.49], ['ČSOB', 5.90],
+      ['Cofidis', 8.99],
+    ];
+// Hypotéka: sazby podle fixace (3, 5, 7, 10 let). Výchozí je 3letá fixace, ta má nejnižší naši sazbu.
+const HYPO_FIX = {
+  3: { our: 5.19, banks: [['UniCredit Bank', 5.39], ['Česká spořitelna', 5.69], ['Raiffeisenbank', 5.69], ['ČSOB', 5.74], ['mBank', 5.89], ['Komerční banka', 6.14]] },
+  5: { our: 5.39, banks: [['Česká spořitelna', 5.59], ['UniCredit Bank', 5.79], ['Raiffeisenbank', 5.89], ['mBank', 5.99], ['ČSOB', 6.14], ['Komerční banka', 6.49]] },
+  7: { our: 5.49, banks: [['Česká spořitelna', 5.69], ['UniCredit Bank', 5.79], ['Raiffeisenbank', 5.89], ['mBank', 5.99], ['ČSOB', 6.14], ['Komerční banka', 6.49]] },
+  10: { our: 5.59, banks: [['Česká spořitelna', 5.79], ['UniCredit Bank', 5.89], ['Raiffeisenbank', 5.99], ['mBank', 6.09], ['ČSOB', 6.24], ['Komerční banka', 6.59]] },
+};
+export const HYPO_FIX_DEFAULT = 3;
+
 export const RATES = {
-  uver: {
-    our: 3.97,
-    banks: [
-      ['Komerční banka', 4.70], ['Raiffeisenbank', 4.80], ['MONETA Money Bank', 4.87],
-      ['Česká spořitelna', 4.97], ['mBank', 4.99], ['ČSOB', 6.21], ['UniCredit Bank', 6.49],
-      ['ESSOX', 7.00], ['Cofidis', 8.70],
-    ],
-  },
-  konsolidace: {
-    our: 3.97,
-    banks: [
-      ['Komerční banka', 4.70], ['Raiffeisenbank', 4.80], ['Česká spořitelna', 4.97],
-      ['mBank', 4.99], ['MONETA Money Bank', 6.33], ['UniCredit Bank', 6.49], ['ESSOX', 7.00],
-      ['ČSOB', 8.01], ['Cofidis', 8.70],
-    ],
-  },
-  hypoteka: {
-    our: 3.99,
-    banks: [
-      ['Raiffeisenbank', 4.79], ['Česká spořitelna', 4.89], ['MONETA Money Bank', 5.04],
-      ['UniCredit Bank', 5.09], ['mBank', 5.29], ['Komerční banka', 5.49],
-      ['ČSOB Hypoteční banka', 5.59], ['ČSOB', 5.99],
-    ],
-  },
+  uver: { our: 3.97, banks: SPOTREBITELSKE },
+  konsolidace: { our: 3.97, banks: SPOTREBITELSKE },
+  hypoteka: { ...HYPO_FIX[HYPO_FIX_DEFAULT], fix: HYPO_FIX },
 };
 
 // Pořadí a texty CTA podle zadání klientky (mail 19. 11. 2026).
@@ -73,7 +67,7 @@ export const CATS = [
     cta: 'Chci fér sazbu na hypotéku', icon: 'home',
     tagline: 'Dosáhněte na své vysněné bydlení',
     title: 'Hypoteční kalkulačka | FérSazby',
-    desc: 'Spočítejte si hypotéku na koupi, stavbu, rekonstrukci i refinancování. Srovnáme banky a vyjednáme sazbu od 3,99 %.',
+    desc: 'Spočítejte si hypotéku na koupi, stavbu, rekonstrukci i refinancování. Srovnáme banky a vyjednáme sazbu od 5,19 %.',
     h1: 'Hypotéka<br><em>s fér sazbou</em>',
     lead: 'Koupě, stavba, rekonstrukce nebo refinancování. Srovnáme nabídky všech bank a vyjednáme sazbu, kterou sami na pobočce nedostanete.',
     photo: 'hypo', anchor: 'hypoteka',
